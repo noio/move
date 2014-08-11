@@ -1,0 +1,9 @@
+ofxGui
+ofxNetwork
+ofxOpenCv
+ofxOsc
+ofxThreadedImageLoader
+ofxXmlSettings
+ofxCv
+ofxRemoteUI
+ofxUI
