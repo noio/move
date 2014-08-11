@@ -5,6 +5,13 @@
 
 #include "ofMain.h"
 
+#include <deque>
+
+typedef struct Trailshape {
+    double t;
+    ofPolyline shape;
+} Trailshape;
+
 class ofApp : public ofBaseApp{
 
 	public:
@@ -27,6 +34,9 @@ class ofApp : public ofBaseApp{
     FlowCam flowcam_there;
     MaskedImage screen;
     
+    deque<Trailshape> trailshapes;
+    
+    float delta_t;
 
     int capture_width = 1280;
     int capture_height = 720;

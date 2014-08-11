@@ -12,37 +12,74 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::update()
 {
+    delta_t = ofGetLastFrameTime();
+    
     flowcam_here.update();
     flowcam_there.update();
+    
+
+
+    
+    const vector<ofPolyline>& contours = flowcam_here.getContoursHigh();
+    for (int ic = 0; ic < contours.size(); ic++)
+    {
+        Trailshape shape = {0.0, contours[ic].getResampledBySpacing(5.0)};
+        trailshapes.push_back(shape);
+    }
+
+    for (int is = 0; is < trailshapes.size(); is ++) {
+        trailshapes[is].t += delta_t;
+        trailshapes[is].shape = trailshapes[is].shape.getSmoothed(4);
+    }
+    
+    while (trailshapes.size() && trailshapes[0].t > 2.0f) {
+        trailshapes.pop_front();
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw()
 {
  
-//    flowcam_here.draw(0,0, ofGetWidth(), ofGetHeight());
-//    
-//    glEnable(GL_BLEND);
-//    glColorMask(false, false, false, true);
-//    glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
-//    glColor4f(1,1,1,0.5f);
-//    
-//    float scale_flow_to_game = ofGetWidth() / (float)flowcam_here.getFlowSize().width;
+    ofClear(0);
+    
+//    ofSetColor(255, 0, 0, 0);
+    glColorMask(true, true, true, false);
+    flowcam_here.draw(0,0, ofGetWidth(), ofGetHeight());
+//    ofClearAlpha();
+//
+    glEnable(GL_BLEND);
+    glColorMask(false, false, false, true);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glColor4f(1,1,1,1.0f);
+    
+    float scale_flow_to_game = ofGetWidth() / (float)flowcam_here.getFlowSize().width;
+    ofPushMatrix();
+    ofScale(scale_flow_to_game, scale_flow_to_game);
+
+    for (int ic = 0; ic < trailshapes.size(); ic++) {
+        ofPolyline poly = trailshapes[ic].shape;
+        ofSetColor(255,255,255,255 * (1 - trailshapes[ic].t / 2.0f) * trailshapes[ic].t * 5);
+        ofBeginShape();
+        vector<ofPoint>& vertices = poly.getVertices();
+        for(int j = 0; j < vertices.size(); j++) {
+            ofVertex(vertices[j]);
+        }
+        ofEndShape();
+    }
+    
+    ofPopMatrix();
+    
+    
+//    glColorMask(true, true, true, false);
 //    ofPushMatrix();
 //    ofScale(scale_flow_to_game, scale_flow_to_game);
-//    const vector<ofPolyline>& contours = flowcam_here.getContoursHigh();
-//    
-//    for (int ic = 0; ic < contours.size(); ic++) {
-//        ofPolyline poly = contours[ic].getResampledBySpacing(5.0);
-//        ofBeginShape();
-//        vector<ofPoint>& vertices = poly.getVertices();
-//        for(int j = 0; j < vertices.size(); j++) {
-//            ofVertex(vertices[j]);
-//        }
-//        ofEndShape();
+//    for (int ic = 0; ic < trailshapes.size(); ic++) {
+//        ofPolyline poly = trailshapes[ic].shape;
+//        poly.draw();
 //    }
-//    
 //    ofPopMatrix();
+
 
     
 //    glColorMask(true,true,true,true);
@@ -59,8 +96,15 @@ void ofApp::draw()
 //    glColor4f(1,1,1,0.5f);
 //    ofRect(0, 0, ofGetWidth(), ofGetHeight());
     
-    flowcam_here.draw(0, 0, ofGetWidth(), ofGetHeight());
-    screen.draw(flowcam_there.getScreenTexture(), flowcam_here.getFlowHighTexture());
+    glColorMask(true, true, true, true);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
+    glBlendEquation(GL_FUNC_ADD);
+    flowcam_there.draw(0, 0, ofGetWidth(), ofGetHeight());
+//    screen.draw(flowcam_there.getScreenTexture(), flowcam_here.getFlowHighTexture());
+    
+    glDisable(GL_BLEND);
+
 }
 
 //--------------------------------------------------------------
