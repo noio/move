@@ -176,7 +176,7 @@ void FlowCam::updateFrame()
 //    frame_screen = toCv(frame_screen_im);
     cv::resize(frame, frame_screen, cv::Size(screen_width, screen_height), 0, 0, cv::INTER_NEAREST);
     toOf(frame_screen, frame_screen_im);
-    
+
     cv::cvtColor(frame, frame_gray, CV_BGR2GRAY);
 
     for (int i = 0; i < pyrdown_steps; i++)
