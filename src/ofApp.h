@@ -1,5 +1,8 @@
 #pragma once
 
+#include "flowcam.h"
+#include "maskedimage.h"
+
 #include "ofMain.h"
 
 class ofApp : public ofBaseApp{
@@ -18,5 +21,14 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+    
+    
+    FlowCam flowcam_here;
+    FlowCam flowcam_there;
+    MaskedImage screen;
+    
+
+    int capture_width = 1280;
+    int capture_height = 720;
 		
 };
