@@ -1,6 +1,28 @@
 #include "ofApp.h"
 #include "ofxCv.h"
 
+void maskBeginAlpha()
+{
+    glEnable(GL_BLEND);
+    glColorMask(false, false, false, true);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glColor4f(1, 1, 1, 1.0f);
+}
+
+void maskBeginContent()
+{
+    glColorMask(true, true, true, true);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
+    glBlendEquation(GL_FUNC_ADD);
+}
+
+void maskEnd()
+{
+    glDisable(GL_BLEND);
+}
+
+
 //--------------------------------------------------------------
 void ofApp::setup()
 {
@@ -34,10 +56,39 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-    rgb_there->draw(0, 0, ofGetWidth(), ofGetHeight());
+    ofClear(0);
+    glColorMask(true, true, true, false);
     rgb_here->draw(0, 0, ofGetWidth(), ofGetHeight());
-    flowcam_here.drawDebug();
+
+    //
+    maskBeginAlpha();
+    
+    float flow_width = flowcam_here.getFlowHigh().cols;
+    if (flow_width > 0)
+    {
+        float scale_flow_to_game = ofGetWidth() / flow_width;
+        ofPushMatrix();
+        ofScale(scale_flow_to_game, scale_flow_to_game);
+        vector<ofPolyline> contours = flowcam_here.getContoursHigh();
+        for (int i = 0; i < contours.size(); i ++){
+            ofBeginShape();
+            vector<ofPoint>& vertices = contours[i].getVertices();
+            for(int j = 0; j < vertices.size(); j++)
+            {
+                ofVertex(vertices[j]);
+            }
+            ofEndShape();
+        }
+        ofPopMatrix();
+    }
+//    ofSetColor(255, 255, 255, 255);
+//    ofCircle(ofGetWidth() / 2, ofGetHeight() / 2, 40);
+    //
+    maskBeginContent();
+    rgb_there->draw(0, 0, ofGetWidth(), ofGetHeight());
+    maskEnd();
 }
+
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
