@@ -57,10 +57,6 @@ public:
             frame = frame_mat(roi).clone();
         }
         frame_is_new = false;
-        if (frame.cols == 0)
-        {
-            ofLogError() << "WAT";
-        }
         return true;
     }
 

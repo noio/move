@@ -33,6 +33,7 @@ void VideoFeedWebcam::threadedFunction()
                 pixels = camera.getPixelsRef();
                 frame_is_new = true;
                 unlock();
+                ofSleepMillis(30);
             }
         }
     }
