@@ -27,21 +27,27 @@ public:
         flip = new_flip;
     }
 
-    bool getFrame(Mat& frame)
+    bool processFrame()
     {
-        Poco::ScopedLock<ofMutex> lock(mutex);
-        if (!frame_im.isAllocated())
+        if (!frame_is_new)
         {
-            frame = cv::Mat::zeros(width,height, CV_8UC3);
             return false;
         }
-        frame_mat = toCv(frame_im);
-        int capture_width = frame_mat.cols;
-        int capture_height = frame_mat.rows;
+        lock();
+        frame_im.setFromPixels(pixels);
+        unlock();
+        if (!frame_im.isAllocated())
+        {
+            frame = cv::Mat::zeros(width, height, CV_8UC3);
+            return false;
+        }
+        int capture_width = frame_im.getWidth();
+        int capture_height = frame_im.getHeight();
         float ratio = (float)width / height;
         int w = min(capture_width, static_cast<int>(round(capture_height * ratio)));
         int h = min(capture_height, static_cast<int>(round(capture_width / ratio)));
         roi = cv::Rect((capture_width - w) / 2, (capture_height - h) / 2, w, h);
+        frame_mat = toCv(frame_im);
         if (flip < 2)
         {
             cv::flip(frame_mat(roi), frame, flip);
@@ -50,17 +56,53 @@ public:
         {
             frame = frame_mat(roi).clone();
         }
-        bool frame_was_new = frame_is_new;
         frame_is_new = false;
-        return frame_was_new;
+        if (frame.cols == 0)
+        {
+            ofLogError() << "WAT";
+        }
+        return true;
+    }
+
+    bool getFrame(Mat& output_frame)
+    {
+        bool was_new = processFrame();
+        output_frame = frame;
+        return was_new;
+    }
+
+    void draw(float x, float y, float w, float h)
+    {
+        processFrame();
+        if (frame_im.isAllocated())
+        {
+            if (flip == 1)
+            {
+                frame_im.drawSubsection(w, 0, -w, h, roi.x, roi.y, roi.width, roi.height);
+            }
+            else if (flip == 0)
+            {
+                frame_im.drawSubsection(0, h, w, -h, roi.x, roi.y, roi.width, roi.height);
+            }
+            else if (flip == -1)
+            {
+                frame_im.drawSubsection(w, h, -w, -h, roi.x, roi.y, roi.width, roi.height);
+            }
+            else
+            {
+                frame_im.drawSubsection(0, 0, w, h, roi.x, roi.y, roi.width, roi.height);
+            }
+        }
     }
 
 protected:
     int width, height, flip = 1;
     bool frame_is_new = false;
-    cv::Rect roi;
     Mat frame_mat;
+    Mat frame;
     ofImage frame_im;
+    ofPixels pixels;
+    cv::Rect roi;
 };
 
 class VideoFeedStatic : public VideoFeed

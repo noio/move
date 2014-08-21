@@ -3,7 +3,8 @@
 void VideoFeedStatic::setup(string path)
 {
     frame_im.loadImage(path);
-    frame_mat = toCv(frame_im);
+    pixels = frame_im.getPixelsRef();
+    frame_is_new = true;
 }
 
 
@@ -16,8 +17,6 @@ void VideoFeedWebcam::setup(int device, int capture_width, int capture_height)
     }
     camera.setDeviceID(device);
     camera.initGrabber(capture_width, capture_height, false);
-    camera.setUseTexture(false);
-    frame_im.setUseTexture(false);
     startThread(true, false);
 }
 
@@ -31,7 +30,7 @@ void VideoFeedWebcam::threadedFunction()
             if (camera.isFrameNew())
             {
                 lock();
-                frame_im.setFromPixels(camera.getPixelsRef());
+                pixels = camera.getPixelsRef();
                 frame_is_new = true;
                 unlock();
             }

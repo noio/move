@@ -4,7 +4,7 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-//    flowcam_here.setup(capture_width, capture_height, ofGetWidth(), ofGetHeight(), 0, 1.0);
+//    flowcam_here.setup(250);
     //
     rgb_there = new VideoFeedStatic();
     ((VideoFeedStatic*) rgb_there)->setup("stockholm.jpg");
@@ -21,7 +21,7 @@ void ofApp::setup()
 void ofApp::update()
 {
     delta_t = ofGetLastFrameTime();
-    flowcam_here.update();
+//    flowcam_here.update();
 }
 
 //--------------------------------------------------------------
@@ -31,8 +31,8 @@ void ofApp::draw()
     cv::Mat frame;
     rgb_there->getFrame(frame);
     ofxCv::drawMat(frame, 0, 0, ofGetWidth(), ofGetHeight());
-    rgb_here->getFrame(frame);
-    ofxCv::drawMat(frame, 0, 0, ofGetWidth(), ofGetHeight());
+    rgb_here->draw(0, 0, ofGetWidth(), ofGetHeight());
+//    ofxCv::drawMat(frame, 0, 0, ofGetWidth(), ofGetHeight());
 }
 
 //--------------------------------------------------------------
