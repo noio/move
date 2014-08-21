@@ -1,5 +1,6 @@
 #pragma once
 
+#include "videofeed.h"
 #include "flowcam.h"
 #include "maskedimage.h"
 
@@ -7,11 +8,6 @@
 
 #include <deque>
 
-typedef struct Trailshape
-{
-    double t;
-    ofPolyline shape;
-} Trailshape;
 
 class ofApp : public ofBaseApp
 {
@@ -31,11 +27,9 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
+    VideoFeed* rgb_there;
+    VideoFeed* rgb_here;
     FlowCam flowcam_here;
-    FlowCam flowcam_there;
-    MaskedImage screen;
-
-    deque<Trailshape> trailshapes;
 
     float delta_t;
 
