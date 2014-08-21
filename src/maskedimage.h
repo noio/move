@@ -11,18 +11,18 @@
 class MaskedImage
 {
 public:
-    MaskedImage(){};
+    MaskedImage() {};
     MaskedImage(const MaskedImage&) = delete;            // no copy
     MaskedImage& operator=(const MaskedImage&) = delete; // no assign
-    
+
     void setup(ofImage texture, ofImage mask);
     void draw(ofImage in_texture, ofImage in_mask);
-    
+
 private:
     ofShader shader;
     ofImage texture;
     ofImage mask;
-    
+
 };
 
 

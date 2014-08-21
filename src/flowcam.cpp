@@ -65,12 +65,10 @@ void FlowCam::drawDebug()
     ofSetLineWidth(4.0);
     ofSetColor(ofColor::red);
     ofScale(ofGetWidth() / (float)flow_high.cols, ofGetHeight() / (float)flow_high.rows);
-
     for (int i = 0; i < contourfinder_high.size(); i ++)
     {
         contourfinder_high.getPolyline(i).draw();
     }
-
     ofPopMatrix();
     ofPopStyle();
 }
@@ -128,7 +126,6 @@ void FlowCam::initGrabber(int device_id)
         ofLogWarning("FlowCam") << "Camera already inited";
         camera.close();
     }
-
     if (camera.listDevices().size() > 1)
     {
         camera.setDeviceID(device_id);
@@ -151,7 +148,6 @@ void FlowCam::update()
     if (camera.isInitialized())
     {
         camera.update();
-
         if (camera.isFrameNew())
         {
             updateFrame();
@@ -172,18 +168,14 @@ void FlowCam::updateFrame()
     {
         frame = frame_full(capture_roi);
     }
-
 //    frame_screen = toCv(frame_screen_im);
     cv::resize(frame, frame_screen, cv::Size(screen_width, screen_height), 0, 0, cv::INTER_NEAREST);
     toOf(frame_screen, frame_screen_im);
-
     cv::cvtColor(frame, frame_gray, CV_BGR2GRAY);
-
     for (int i = 0; i < pyrdown_steps; i++)
     {
         cv::pyrDown(frame_gray, frame_gray);
     }
-
     assert(frame_gray.cols == flow_width && frame_gray.rows == flow_height);
     frame_screen_im.update();
 }
@@ -194,7 +186,6 @@ void FlowCam::updateFlow()
     opticalflow.calcOpticalFlow(frame_gray);
     flow = opticalflow.getFlow();
     std::swap(flow_high_prev, flow_high);
-
     // ofxCV wrapper returns a 1x1 flow image after the first optical flow computation.
     if (flow.cols == 1)
     {
@@ -202,7 +193,6 @@ void FlowCam::updateFlow()
         flow_high_prev = cv::Mat::zeros(flow.rows, flow.cols, CV_8U);
         flow_high_hist = cv::Mat::zeros(flow.rows, flow.cols, CV_8U);
     }
-
     std::vector<cv::Mat> xy(2);
     cv::split(flow, xy);
     cv::cartToPolar(xy[0], xy[1], magnitude, angle, true);

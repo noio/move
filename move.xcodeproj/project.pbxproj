@@ -91,6 +91,7 @@
 		DF0C851B244C4C867CEA8806 /* ofxUICircleSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2556100026B425E8370BCF75 /* ofxUICircleSlider.cpp */; };
 		E212C821D1064B92DD953A42 /* ofxCvHaarFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9A16CBF2E8CFE43AF54FE6F5 /* ofxCvHaarFinder.cpp */; };
 		E2564CF7DDB3713772BB682E /* ofxUDPManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 35BB9BB90DBABFD3B39F8DB6 /* ofxUDPManager.cpp */; };
+		E286BED419A604CF002CD07E /* videofeed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E286BED219A604CF002CD07E /* videofeed.cpp */; };
 		E28B43091998BAFB0059F698 /* flowcam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28B43071998BAFB0059F698 /* flowcam.cpp */; };
 		E28B430C1998DA6C0059F698 /* maskedimage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28B430A1998DA6C0059F698 /* maskedimage.cpp */; };
 		E28B43121998DC3E0059F698 /* ofxShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28B43101998DC360059F698 /* ofxShader.cpp */; };
@@ -427,6 +428,8 @@
 		E112B3AEBEA2C091BF2B40AE /* ofxPanel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxPanel.cpp; path = ../../../addons/ofxGui/src/ofxPanel.cpp; sourceTree = SOURCE_ROOT; };
 		E14D3EF03E140F5604900412 /* tracking.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = tracking.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/video/tracking.hpp; sourceTree = SOURCE_ROOT; };
 		E2813E36CEFD8D1C1B70E600 /* ofxUIRangeSlider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIRangeSlider.cpp; path = ../../../addons/ofxUI/src/ofxUIRangeSlider.cpp; sourceTree = SOURCE_ROOT; };
+		E286BED219A604CF002CD07E /* videofeed.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = videofeed.cpp; sourceTree = "<group>"; };
+		E286BED319A604CF002CD07E /* videofeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = videofeed.h; sourceTree = "<group>"; };
 		E28B43071998BAFB0059F698 /* flowcam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = flowcam.cpp; sourceTree = "<group>"; };
 		E28B43081998BAFB0059F698 /* flowcam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = flowcam.h; sourceTree = "<group>"; };
 		E28B430A1998DA6C0059F698 /* maskedimage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = maskedimage.cpp; sourceTree = "<group>"; };
@@ -1285,6 +1288,8 @@
 			isa = PBXGroup;
 			children = (
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
+				E286BED219A604CF002CD07E /* videofeed.cpp */,
+				E286BED319A604CF002CD07E /* videofeed.h */,
 				E28B43071998BAFB0059F698 /* flowcam.cpp */,
 				E28B43081998BAFB0059F698 /* flowcam.h */,
 				E28B430A1998DA6C0059F698 /* maskedimage.cpp */,
@@ -1461,6 +1466,7 @@
 				250A95BA26587BE85DB0A353 /* ofxCvColorImage.cpp in Sources */,
 				1D5F3298C2FA073628012944 /* ofxCvContourFinder.cpp in Sources */,
 				169D3C72FDE6C5590A1616F5 /* ofxCvFloatImage.cpp in Sources */,
+				E286BED419A604CF002CD07E /* videofeed.cpp in Sources */,
 				FB09C6B2A1DA0EA217240CB8 /* ofxCvGrayscaleImage.cpp in Sources */,
 				E212C821D1064B92DD953A42 /* ofxCvHaarFinder.cpp in Sources */,
 				63020F16C7E8DED980111241 /* ofxCvImage.cpp in Sources */,
