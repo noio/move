@@ -29,8 +29,8 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
-    VideoFeed* rgb_there;
-    VideoFeed* rgb_here;
+    ofPtr<VideoFeed> rgb_there;
+    ofPtr<VideoFeed> rgb_here;
     FlowCam flowcam_here;
 
     float delta_t;

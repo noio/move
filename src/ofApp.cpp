@@ -29,15 +29,16 @@ void ofApp::setup()
     ofSetLogLevel(OF_LOG_VERBOSE);
     flowcam_here.setup(160);
     //
-    rgb_there = new VideoFeedStatic();
-    ((VideoFeedStatic*) rgb_there)->setup("stockholm.jpg");
-    rgb_there->setAspectRatio(ofGetWidth(), ofGetHeight());
+    VideoFeedStatic* rgb_there_p = new VideoFeedStatic();
+    rgb_there_p->setup("stockholm.jpg");
+    rgb_there_p->setAspectRatio(ofGetWidth(), ofGetHeight());
+//    ((VideoFeedImageUrl*) rgb_there)->setup("http://192.168.1.18:1338/color");
+    rgb_there = ofPtr<VideoFeed>(rgb_there_p);
     //
-    rgb_here = new VideoFeedWebcam();
-    ((VideoFeedWebcam*) rgb_here)->setup(0, 1280, 720);
-    rgb_here->setAspectRatio(ofGetWidth(), ofGetHeight());
-    //
-    //    flowcam_there.setup(capture_width, capture_height, ofGetWidth(), ofGetHeight(), 1, 1.0);
+    VideoFeedWebcam* rgb_here_p = new VideoFeedWebcam();
+    rgb_here_p->setup(0, 1280, 720);
+    rgb_here_p->setAspectRatio(ofGetWidth(), ofGetHeight());
+    rgb_here = ofPtr<VideoFeed>(rgb_here_p);
 }
 
 //--------------------------------------------------------------
@@ -45,10 +46,8 @@ void ofApp::update()
 {
     delta_t = ofGetLastFrameTime();
     cv::Mat frame_here;
-    ofLogVerbose("ofApp") << "update";
     if (rgb_here->getFrame(frame_here))
     {
-        ofLogVerbose("ofApp") << "new frame <===";
         flowcam_here.update(frame_here, delta_t);
     }
 }
@@ -59,10 +58,8 @@ void ofApp::draw()
     ofClear(0);
     glColorMask(true, true, true, false);
     rgb_here->draw(0, 0, ofGetWidth(), ofGetHeight());
-
     //
     maskBeginAlpha();
-    
     float flow_width = flowcam_here.getFlowHigh().cols;
     if (flow_width > 0)
     {
@@ -70,7 +67,8 @@ void ofApp::draw()
         ofPushMatrix();
         ofScale(scale_flow_to_game, scale_flow_to_game);
         vector<ofPolyline> contours = flowcam_here.getContoursHigh();
-        for (int i = 0; i < contours.size(); i ++){
+        for (int i = 0; i < contours.size(); i ++)
+        {
             ofBeginShape();
             vector<ofPoint>& vertices = contours[i].getVertices();
             for(int j = 0; j < vertices.size(); j++)

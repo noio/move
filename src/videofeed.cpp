@@ -39,3 +39,21 @@ void VideoFeedWebcam::threadedFunction()
     }
 }
 
+void VideoFeedImageUrl::setup(string new_url)
+{
+    url = new_url;
+    loader.setUseTexture(false);
+    startThread(true, false);
+}
+
+void VideoFeedImageUrl::threadedFunction()
+{
+    while (isThreadRunning())
+    {
+        loader.loadImage(url);
+        lock();
+        pixels = loader.getPixelsRef();
+        unlock();
+        frame_is_new = true;
+    }
+}

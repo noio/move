@@ -116,6 +116,17 @@ private:
     ofVideoGrabber camera;
 };
 
+class VideoFeedImageUrl : public VideoFeed
+{
+public:
+    void setup(string new_url) ;
+    void threadedFunction() ;
+private:
+    string url;
+    ofImage loader;
+
+};
+
 
 
 #endif /* defined(SLOW_VIDEOFEED_H_) */
