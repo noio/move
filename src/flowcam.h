@@ -1,6 +1,6 @@
 
-#ifndef SLOW_FLOWCAM_H_
-#define SLOW_FLOWCAM_H_
+#ifndef MOVE_FLOWCAM_H_
+#define MOVE_FLOWCAM_H_
 
 #include "ofMain.h"
 #include "ofxCv.h"
@@ -23,8 +23,7 @@ public:
     void drawDebug();
 
     cv::Mat getFlowHigh() const { return flow_high; };
-    ofVec2f getFlowAt(float x, float y) { return ofxCv::toOf(flow.at<cv::Vec2f>(y, x)); };
-
+    ofVec2f getFlowAt(float x, float y) const { return ofxCv::toOf(flow.at<cv::Vec2f>(y, x)); };
     const vector<ofPolyline>&  getContoursHigh() const { return contourfinder_high.getPolylines(); };
 
     void setFlowThreshold(float threshold_high) { flow_threshold_high = threshold_high; };
@@ -53,4 +52,4 @@ private:
 };
 
 
-#endif /* defined(SLOW_FLOWCAM_H_) */
+#endif /* defined(MOVE_FLOWCAM_H_) */

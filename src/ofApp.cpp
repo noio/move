@@ -39,6 +39,10 @@ void ofApp::setup()
     rgb_here_p->setup(0, 1280, 720);
     rgb_here_p->setAspectRatio(ofGetWidth(), ofGetHeight());
     rgb_here = ofPtr<VideoFeed>(rgb_here_p);
+    //
+    Rift r;
+    r.setup();
+    rifts.push_back(r);
 }
 
 //--------------------------------------------------------------
@@ -49,6 +53,9 @@ void ofApp::update()
     if (rgb_here->getFrame(frame_here))
     {
         flowcam_here.update(frame_here, delta_t);
+        for (int i = 0; i < rifts.size(); i ++) {
+            rifts[i].update(delta_t, flowcam_here);
+        }
     }
 }
 
@@ -60,31 +67,33 @@ void ofApp::draw()
     rgb_here->draw(0, 0, ofGetWidth(), ofGetHeight());
     //
     maskBeginAlpha();
-    float flow_width = flowcam_here.getFlowHigh().cols;
-    if (flow_width > 0)
-    {
-        float scale_flow_to_game = ofGetWidth() / flow_width;
-        ofPushMatrix();
-        ofScale(scale_flow_to_game, scale_flow_to_game);
-        vector<ofPolyline> contours = flowcam_here.getContoursHigh();
-        for (int i = 0; i < contours.size(); i ++)
-        {
-            ofBeginShape();
-            vector<ofPoint>& vertices = contours[i].getVertices();
-            for(int j = 0; j < vertices.size(); j++)
-            {
-                ofVertex(vertices[j]);
-            }
-            ofEndShape();
-        }
-        ofPopMatrix();
+//    float flow_width = flowcam_here.getFlowHigh().cols;
+//    if (flow_width > 0)
+//    {
+//        float scale_flow_to_game = ofGetWidth() / flow_width;
+//        ofPushMatrix();
+//        ofScale(scale_flow_to_game, scale_flow_to_game);
+//        vector<ofPolyline> contours = flowcam_here.getContoursHigh();
+//        for (int i = 0; i < contours.size(); i ++)
+//        {
+//            ofBeginShape();
+//            vector<ofPoint>& vertices = contours[i].getVertices();
+//            for(int j = 0; j < vertices.size(); j++)
+//            {
+//                ofVertex(vertices[j]);
+//            }
+//            ofEndShape();
+//        }
+//        ofPopMatrix();
+    for (int i = 0; i < rifts.size(); i ++) {
+        rifts[i].draw();
     }
-//    ofSetColor(255, 255, 255, 255);
-//    ofCircle(ofGetWidth() / 2, ofGetHeight() / 2, 40);
+//    }
     //
     maskBeginContent();
     rgb_there->draw(0, 0, ofGetWidth(), ofGetHeight());
     maskEnd();
+    //
 }
 
 

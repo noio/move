@@ -3,12 +3,11 @@
 #include "videofeed.h"
 #include "flowcam.h"
 #include "maskedimage.h"
+#include "rift.h"
 
 #include "ofMain.h"
 
 #include <deque>
-
-
 
 
 class ofApp : public ofBaseApp
@@ -32,6 +31,8 @@ public:
     ofPtr<VideoFeed> rgb_there;
     ofPtr<VideoFeed> rgb_here;
     FlowCam flowcam_here;
+    
+    vector<Rift> rifts;
 
     float delta_t;
 

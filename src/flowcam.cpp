@@ -79,12 +79,10 @@ void FlowCam::update(cv::Mat frame, double delta_t)
     cv::split(flow, xy);
     cv::cartToPolar(xy[0], xy[1], magnitude, angle, true);
     //
-    // Compute the low speed mask
-    // Shadow these variables:
     float adj_flow_threshold_high = flow_threshold_high * delta_t * 30.0;
     //
     // Compute the high speed mask
-    flow_high = magnitude > adj_flow_threshold_high; // & flow_low_prev > 0;
+    flow_high = magnitude > adj_flow_threshold_high;
     cv::erode(flow_high, flow_high, open_kernel);
     cv::dilate(flow_high, flow_high, open_kernel);
     // Update history
