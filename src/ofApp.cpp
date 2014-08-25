@@ -94,6 +94,12 @@ void ofApp::draw()
     rgb_there->draw(0, 0, ofGetWidth(), ofGetHeight());
     maskEnd();
     //
+    for (int i = 0; i < rifts.size(); i ++) {
+        rifts[i].drawDebug();
+    }
+    //
+    ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate(),0) + "fps (r11)", ofPoint(3, 13));
+//    ofDrawBitmapStringHighlight("[d]ebug view \n[g]ui \n[h]elp \n[ ] crash \n[i] sound on \n[o] sound off \n[r]eset", ofPoint(3,33));
 }
 
 

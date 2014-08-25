@@ -19,11 +19,22 @@ public:
     void setup();
     void update(double delta_t, const FlowCam& flowcam);
     void draw();
+    void drawDebug();
+  
+    double resample_time = 5.0;
+    float max_dist = 40;
+    float grow_speed = 0.4;
+    int tear_frequency = 10;
+    float tear_heat = 5.0f;
     
-    float max_dist_squared = 2000;
-    float min_dist_squared = 100;
 private:
     ofPolyline points;
+    vector<float> heat;
+
+    
+    double resample_timer;
+    
+    void resample();
     
 };
 

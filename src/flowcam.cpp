@@ -23,6 +23,7 @@ void FlowCam::setup(int max_flow_width)
 
 void FlowCam::reset()
 {
+    flow_creep_counter = 0;
     opticalflow.resetFlow();
     has_data = false;
 }
@@ -93,7 +94,7 @@ void FlowCam::update(cv::Mat frame, double delta_t)
     if (global_flow > 0.2f)
     {
         flow_creep_counter ++;
-        if (flow_creep_counter > 1000)
+        if (flow_creep_counter > 100)
         {
             ofLogNotice("FlowCam") << "flow creep detected; resetting";
             reset();
