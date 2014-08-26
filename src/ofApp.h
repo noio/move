@@ -4,6 +4,7 @@
 #include "flowcam.h"
 #include "maskedimage.h"
 #include "rift.h"
+#include "light.h"
 
 #include "ofMain.h"
 
@@ -31,12 +32,14 @@ public:
     ofPtr<VideoFeed> rgb_there;
     ofPtr<VideoFeed> rgb_here;
     FlowCam flowcam_here;
-    
+
     vector<Rift> rifts;
+    vector<Light> lights;
 
     float delta_t;
 
     int capture_width = 1280;
     int capture_height = 720;
 
+    bool draw_debug = true;
 };

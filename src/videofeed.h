@@ -110,7 +110,7 @@ public:
 class VideoFeedWebcam : public VideoFeed
 {
 public:
-    ~VideoFeedWebcam(){ waitForThread(true); }
+    ~VideoFeedWebcam() { waitForThread(true); }
     void setup(int device, int capture_width, int capture_height) ;
     void threadedFunction() ;
 private:
@@ -120,6 +120,7 @@ private:
 class VideoFeedImageUrl : public VideoFeed
 {
 public:
+    ~VideoFeedImageUrl() { waitForThread(true); }
     void setup(string new_url) ;
     void threadedFunction() ;
 private:

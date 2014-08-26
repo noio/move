@@ -105,4 +105,5 @@ void FlowCam::update(cv::Mat frame, double delta_t)
         flow_creep_counter = MAX(0, flow_creep_counter - 1);
     }
     contourfinder_high.findContours(flow_high);
+    has_data = true;
 }
