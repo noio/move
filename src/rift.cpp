@@ -3,8 +3,9 @@
 
 void Rift::setup()
 {
-    points.addVertex(ofGetWidth() * .4, ofGetHeight() * .5);
-    points.addVertex(ofGetWidth() * .6, ofGetHeight() * .5);
+    float x = ofRandom(.1, .9);
+    points.addVertex(ofGetWidth() * (x - .1), ofGetHeight() * .5);
+    points.addVertex(ofGetWidth() * (x + .1), ofGetHeight() * .5);
     points.close();
     heat.push_back(tear_heat);
     heat.push_back(tear_heat);
@@ -55,7 +56,7 @@ void Rift::update(double delta_t, const FlowCam& flowcam)
         }
         else
         {
-            if (heat[i] < 1)
+            if (heat[i] <= 1)
             {
                 ofPoint moved = cur - shrink_speed * points.getNormalAtIndex(i);
                 if (points.inside(moved))
@@ -104,24 +105,42 @@ void Rift::drawLights(const vector<Light>& lights)
     ofEnableBlendMode(OF_BLENDMODE_ADD);
     for (int li = 0; li < lights.size(); li ++)
     {
+        ofMesh mesh;
         const Light& light = lights[li];
-        for(int pi = 0; pi < (int) points.size(); pi++ )
+        ofPoint p1, p2, p3;
+        int midx = 0;
+        for(int pidx = 0; pidx <= (int) points.size() - 1; pidx++ )
         {
-            const ofPoint& cur = points[pi];
-            int pj = (pi + 1) % points.size();
-            const ofPoint& next = points[pj];
-            ofPoint exc = cur + (cur - light.position) * light.ray_length;
-            ofPoint exn = next + (next - light.position) * light.ray_length;
-            int alpha = 10 * 255 * 255 / cur.squareDistance(light.position);
-            ofSetLineWidth(0);
-            ofSetColor(light.color, alpha);
-            ofBeginShape();
-            ofVertex(cur.x, cur.y);
-            ofVertex(next.x, next.y);
-            ofVertex(exn);
-            ofVertex(exc);
-            ofEndShape();
+            int pwrap = pidx % points.size();
+            ofPoint n1 = points[pwrap];
+            ofPoint ray = (n1 - light.position) * light.ray_length;
+            ofPoint n2 = n1 + ray * .5 + points.getNormalAtIndex(pwrap) * light.ray_rift_normal_bias;
+            ofPoint n3 = n1 + ray;
+            int alpha = 10 * 255 * 255 / n1.squareDistance(light.position);
+            mesh.addVertex(n1);
+            mesh.addColor(ofColor(light.color, alpha));
+            int n1idx = midx;
+            int p1idx = midx - 3;
+            mesh.addVertex(n2);
+            mesh.addColor(ofColor(light.color, alpha));
+            int n2idx = midx + 1;
+            int p2idx = midx - 2;
+            mesh.addVertex(n3);
+            mesh.addColor(ofColor(light.color, alpha));
+            int n3idx = midx + 2;
+            int p3idx = midx - 1;
+            midx += 3;
+            if (pidx > 0)
+            {
+                // Short ray
+                mesh.addTriangle(p1idx, n1idx, n2idx);
+                mesh.addTriangle(p1idx, n2idx, p2idx);
+                // Long ray
+                mesh.addTriangle(p1idx, n1idx, n3idx);
+                mesh.addTriangle(p1idx, n3idx, p3idx);
+            }
         }
+        mesh.draw();
     }
     ofDisableBlendMode();
     ofSetColor(255, 255, 255, 255);

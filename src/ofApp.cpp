@@ -44,9 +44,12 @@ void ofApp::setup()
     rgb_here_p->setAspectRatio(ofGetWidth(), ofGetHeight());
     rgb_here = ofPtr<VideoFeed>(rgb_here_p);
     //
-    Rift r;
-    r.setup();
-    rifts.push_back(r);
+    for (int i = 0; i < 2; i++)
+    {
+        Rift r;
+        r.setup();
+        rifts.push_back(r);
+    }
     for (int i = 0; i < 5; i ++)
     {
         Light l;
@@ -96,6 +99,11 @@ void ofApp::draw()
         rifts[i].drawOutline();
     }
     //
+    for (int i = 0; i < rifts.size(); i ++)
+    {
+        rifts[i].drawLights(lights);
+    }
+    //
     maskBeginAlpha();
 //    float flow_width = flowcam_here.getFlowHigh().cols;
 //    if (flow_width > 0)
@@ -124,11 +132,6 @@ void ofApp::draw()
     maskBeginContent();
     rgb_there->draw(0, 0, ofGetWidth(), ofGetHeight());
     maskEnd();
-    //
-    for (int i = 0; i < rifts.size(); i ++)
-    {
-        rifts[i].drawLights(lights);
-    }
     //
     if (draw_debug)
     {

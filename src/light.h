@@ -15,6 +15,7 @@ public:
     void drawDebug();
 
     static float ray_length;
+    static float ray_rift_normal_bias;
 
     ofColor color;
     ofPoint position;

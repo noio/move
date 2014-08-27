@@ -1,11 +1,12 @@
 #include "light.h"
 
 float Light::ray_length = 0.2;
+float Light::ray_rift_normal_bias = 10;
 
 void Light::setup()
 {
     position = ofPoint(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()));
-    color = ofColor::fromHsb(ofRandom(128), 255, 255);
+    color = ofColor::fromHsb(ofRandom(255), 255, 255);
 }
 
 void Light::update(double delta_t)

@@ -24,10 +24,10 @@ public:
     void drawLights(const vector<Light>& lights);
     void drawOutline();
 
-    double resample_time = 10.0;
+    double resample_time = 20.0;
     float max_dist = 40;
     float grow_speed = 0.4;
-    float shrink_speed = 0.05;
+    float shrink_speed = 0.1;
     int tear_frequency = 10;
     float tear_heat = 8.0f;
     float heat_decay = 0.99;
