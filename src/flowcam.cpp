@@ -6,10 +6,6 @@ void FlowCam::setup(int max_flow_width)
 {
     // Initialize member variables
     setFlowErosionSize(5);
-    // Contourfinder setup
-    contourfinder_high.setSimplify(true);
-    contourfinder_high.setMinArea(80);
-    contourfinder_high.getTracker().setSmoothingRate(0.2);
     // OpticalFlow setup
     opticalflow.setPyramidScale(0.5);
     opticalflow.setNumLevels(2);
@@ -40,10 +36,6 @@ void FlowCam::drawDebug()
     ofSetLineWidth(4.0);
     ofSetColor(ofColor::red);
     ofScale(ofGetWidth() / (float)flow_high.cols, ofGetHeight() / (float)flow_high.rows);
-    for (int i = 0; i < contourfinder_high.size(); i ++)
-    {
-        contourfinder_high.getPolyline(i).draw();
-    }
     ofPopMatrix();
     ofPopStyle();
 }
@@ -70,12 +62,16 @@ void FlowCam::update(cv::Mat frame, double delta_t)
     flow = opticalflow.getFlow();
     std::swap(flow_high_prev, flow_high);
     // ofxCV wrapper returns a 1x1 flow image after the first optical flow computation.
-    if (flow.cols == 1)
+    if (frame_gray.cols != flow.cols || frame_gray.rows != flow.rows)
     {
+        ofLogVerbose("FlowCam") << "Initialize flow data";
         flow = cv::Mat::zeros(frame_gray.rows, frame_gray.cols, CV_32FC2);
         flow_high_prev = cv::Mat::zeros(flow.rows, flow.cols, CV_8U);
         flow_high_hist = cv::Mat::zeros(flow.rows, flow.cols, CV_8U);
+        opticalflow.resetFlow();
+        opticalflow.calcOpticalFlow(frame_gray);
     }
+    //
     std::vector<cv::Mat> xy(2);
     cv::split(flow, xy);
     cv::cartToPolar(xy[0], xy[1], magnitude, angle, true);
@@ -89,6 +85,8 @@ void FlowCam::update(cv::Mat frame, double delta_t)
     // Update history
     flow_high_hist += flow_high / 16;
     flow_high_hist -= 1;
+    //
+    flow_high_new = flow_high & ~flow_high_prev;
     // Check for flow creep
     global_flow = cv::sum(flow_high)[0] / 255 / (float)(flow_high.cols * flow_high.rows);
     if (global_flow > 0.2f)
@@ -104,6 +102,5 @@ void FlowCam::update(cv::Mat frame, double delta_t)
     {
         flow_creep_counter = MAX(0, flow_creep_counter - 1);
     }
-    contourfinder_high.findContours(flow_high);
     has_data = true;
 }

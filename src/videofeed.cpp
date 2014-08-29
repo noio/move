@@ -55,5 +55,6 @@ void VideoFeedImageUrl::threadedFunction()
         pixels = loader.getPixelsRef();
         unlock();
         frame_is_new = true;
+        ofSleepMillis(10);
     }
 }

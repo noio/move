@@ -18,19 +18,31 @@ public:
 //    Rift& operator=(const Rift&) = delete; // no assign
 
     void setup();
-    void update(double delta_t, const FlowCam& flowcam);
+    void setup(ofPolyline initial);
+    void update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowcam_b);
     void drawMask();
     void drawDebug();
     void drawLights(const vector<Light>& lights);
     void drawOutline();
+    void drawInnerLight();
 
-    double resample_time = 20.0;
-    float max_dist = 40;
-    float grow_speed = 0.4;
-    float shrink_speed = 0.1;
-    int tear_frequency = 10;
-    float tear_heat = 8.0f;
-    float heat_decay = 0.99;
+    ofRectangle getBoundingBox() { return points.getBoundingBox(); };
+
+    static float inner_light_strength;
+    static float fade_max_area;
+    static float fade_time;
+    static float min_age;
+    static float resample_time;
+    static float max_point_dist;
+    static float grow_min_flow_squared;
+    static float grow_speed;
+    static float shrink_speed;
+    static float heat_decay;
+    static float tear_heat;
+
+    float area = 0.0;
+    float fade = 0.001;
+    float age = 0.0;
 
 private:
     ofPolyline points;

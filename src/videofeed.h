@@ -1,5 +1,5 @@
-#ifndef SLOW_VIDEOFEED_H_
-#define SLOW_VIDEOFEED_H_
+#ifndef MOVE_VIDEOFEED_H_
+#define MOVE_VIDEOFEED_H_
 
 #include "ofMain.h"
 #include "ofxCv.h"
@@ -131,4 +131,4 @@ private:
 
 
 
-#endif /* defined(SLOW_VIDEOFEED_H_) */
+#endif /* defined(MOVE_VIDEOFEED_H_) */

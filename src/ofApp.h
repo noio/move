@@ -6,10 +6,13 @@
 #include "rift.h"
 #include "light.h"
 
+#include "ofxCv.h"
 #include "ofMain.h"
 
 #include <deque>
 
+using namespace ofxCv;
+using namespace cv;
 
 class ofApp : public ofBaseApp
 {
@@ -29,9 +32,13 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
+    void createRifts();
+
     ofPtr<VideoFeed> rgb_there;
     ofPtr<VideoFeed> rgb_here;
     FlowCam flowcam_here;
+    FlowCam flowcam_there;
+    ContourFinder contourfinder;
 
     vector<Rift> rifts;
     vector<Light> lights;
@@ -42,4 +49,6 @@ public:
     int capture_height = 720;
 
     bool draw_debug = true;
+    int max_rifts = 3;
+    int new_rift_min_flow = 200;
 };

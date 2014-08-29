@@ -23,8 +23,10 @@ public:
     void drawDebug();
 
     cv::Mat getFlowHigh() const { return flow_high; };
+    cv::Mat getFLowHighHist() const { return flow_high_hist; };
+    cv::Mat getFlowHighNew() const { return flow_high_new; };
     ofVec2f getFlowAt(float x, float y) const { return ofxCv::toOf(flow.at<cv::Vec2f>(y, x)); };
-    const vector<ofPolyline>&  getContoursHigh() const { return contourfinder_high.getPolylines(); };
+    ofVec2f getFlowAtUnitPos(float x, float y) const { return ofxCv::toOf(flow.at<cv::Vec2f>( y * flow.rows, x * flow.cols) ); };
 
     void setFlowThreshold(float threshold_high) { flow_threshold_high = threshold_high; };
     void setFlowErosionSize(int in_flow_erosion_size);
@@ -36,10 +38,9 @@ private:
     cv::Mat open_kernel;
 
     ofxCv::FlowFarneback opticalflow;
-    ofxCv::ContourFinder contourfinder_high;
 
     cv::Mat frame_gray, frame_screen;
-    cv::Mat magnitude, angle, flow, flow_high, flow_high_prev, flow_high_hist;
+    cv::Mat magnitude, angle, flow, flow_high, flow_high_prev, flow_high_hist, flow_high_new;
 
     float global_flow;
     int flow_creep_counter = 0;
