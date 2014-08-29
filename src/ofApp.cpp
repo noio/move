@@ -34,7 +34,7 @@ void ofApp::setup()
     flowcam_there.setup(160);
     //
     VideoFeedImageUrl* rgb_there_p = new VideoFeedImageUrl();
-    rgb_there_p->setup("http://192.168.1.34:1338/color");
+    rgb_there_p->setup("http://i.stack.imgur.com/Y22En.png?s=32&g=1");
 //    VideoFeedStatic* rgb_there_p = new VideoFeedStatic();
 //    rgb_there_p->setup("stockholm.jpg");
     rgb_there_p->setAspectRatio(ofGetWidth(), ofGetHeight());
@@ -243,6 +243,12 @@ void ofApp::draw()
     }
 }
 
+
+void ofApp::exit()
+{
+    rgb_here.reset();
+    rgb_there.reset();
+}
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
