@@ -74,10 +74,11 @@ void Rift::update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowc
         ofVec2f flow_a = flowcam_a.getFlowAtUnitPos(p.x, p.y);
         ofVec2f flow_b = flowcam_b.getFlowAtUnitPos(p.x, p.y);
         if ((flow_a.lengthSquared() > grow_min_flow_squared && flow_a.dot(normal) > 0) ||
-            (flow_b.lengthSquared() > grow_min_flow_squared && flow_b.dot(normal) > 0))
+                (flow_b.lengthSquared() > grow_min_flow_squared && flow_b.dot(normal) > 0))
         {
             heat[i] = MAX(heat[i], 2.0f);
             ofPoint moved = cur + normal * grow_speed * heat[i];
+            moved = ofPoint(ofClamp(moved.x, 0, ofGetWidth()), ofClamp(moved.y, 0, ofGetHeight()));
             if (!points.inside(moved))
             {
                 points[i] = moved;
@@ -89,6 +90,7 @@ void Rift::update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowc
             if (heat[i] <= 1)
             {
                 ofPoint moved = cur - shrink_speed * points.getNormalAtIndex(i);
+                moved = ofPoint(ofClamp(moved.x, 0, ofGetWidth()), ofClamp(moved.y, 0, ofGetHeight()));
                 if (points.inside(moved))
                 {
                     points[i] = moved;
@@ -128,11 +130,14 @@ void Rift::resample()
         points = points.getSmoothed(2);
         heat.resize(points.size());
         std::fill(heat.begin(), heat.end(), 1.0f);
-        unsigned int nearestIndex;
-        points.getClosestPoint(ofPoint(0, ofGetHeight() * .5), &nearestIndex);
-        heat[nearestIndex] = tear_heat;
-        points.getClosestPoint(ofPoint(ofGetWidth(), ofGetHeight() * .5), &nearestIndex);
-        heat[nearestIndex] = tear_heat;
+        if (points.size() > 1)
+        {
+            unsigned int nearestIndex;
+            points.getClosestPoint(ofPoint(0, ofGetHeight() * .5), &nearestIndex);
+            heat[nearestIndex] = tear_heat;
+            points.getClosestPoint(ofPoint(ofGetWidth(), ofGetHeight() * .5), &nearestIndex);
+            heat[nearestIndex] = tear_heat;
+        }
     }
 }
 
@@ -207,16 +212,16 @@ void Rift::drawOutline()
 
 void Rift::drawInnerLight()
 {
-    ofEnableBlendMode(OF_BLENDMODE_SCREEN);
+    ofEnableAlphaBlending();
     int alpha = MIN(255 * inner_light_strength / area, 255);
-    ofSetColor(alpha, alpha);
+    ofSetColor(fade * 255, alpha);
     ofBeginShape();
     for(int j = 0; j < points.size(); j++)
     {
         ofVertex(points[j]);
     }
     ofEndShape();
-    ofDisableBlendMode();
+    ofDisableAlphaBlending();
 }
 
 void Rift::drawDebug()

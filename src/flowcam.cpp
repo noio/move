@@ -14,6 +14,8 @@ void FlowCam::setup(int max_flow_width)
     opticalflow.setPolyN(5);
     opticalflow.setPolySigma(1.2);
     //
+    flow = cv::Mat::zeros(2, 2, CV_32FC2);
+    //
     reset();
 }
 

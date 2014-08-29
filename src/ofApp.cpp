@@ -33,10 +33,10 @@ void ofApp::setup()
     flowcam_here.setup(160);
     flowcam_there.setup(160);
     //
-//    VideoFeedImageUrl* rgb_there_p = new VideoFeedImageUrl();
-//    rgb_there_p->setup("http://192.168.1.34:1338/color");
-    VideoFeedStatic* rgb_there_p = new VideoFeedStatic();
-    rgb_there_p->setup("stockholm.jpg");
+    VideoFeedImageUrl* rgb_there_p = new VideoFeedImageUrl();
+    rgb_there_p->setup("http://192.168.1.34:1338/color");
+//    VideoFeedStatic* rgb_there_p = new VideoFeedStatic();
+//    rgb_there_p->setup("stockholm.jpg");
     rgb_there_p->setAspectRatio(ofGetWidth(), ofGetHeight());
     rgb_there = ofPtr<VideoFeed>(rgb_there_p);
     //
@@ -45,16 +45,11 @@ void ofApp::setup()
     rgb_here_p->setAspectRatio(ofGetWidth(), ofGetHeight());
     rgb_here = ofPtr<VideoFeed>(rgb_here_p);
     //
+    contourfinder.setThreshold(254);
     contourfinder.setSimplify(true);
     contourfinder.setMinArea(80);
     contourfinder.getTracker().setSmoothingRate(0.2);
     //
-    for (int i = 0; i < 2; i++)
-    {
-        Rift r;
-        r.setup();
-        rifts.push_back(r);
-    }
     for (int i = 0; i < 5; i ++)
     {
         Light l;
@@ -63,11 +58,10 @@ void ofApp::setup()
     }
     // SETUP UI
     OFX_REMOTEUI_SERVER_SETUP(44040); //start server
-    //Expose x and y vars to the server, providing a valid slider range
     OFX_REMOTEUI_SERVER_NEW_GROUP("Global");
     OFX_REMOTEUI_SERVER_SHARE_PARAM(draw_debug);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(max_rifts, 0, 10);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(new_rift_min_flow, 0, 255);
+    OFX_REMOTEUI_SERVER_SHARE_PARAM(new_rift_min_flow, 0, 512);
     OFX_REMOTEUI_SERVER_NEW_GROUP("Rift");
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::inner_light_strength, 0, 10000.0f);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::fade_max_area, 200, 500);
@@ -76,7 +70,7 @@ void ofApp::setup()
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::resample_time, 2, 60.0);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::max_point_dist, 10, 100);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::grow_speed, 0, 2);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::grow_min_flow_squared, 0, 100);
+    OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::grow_min_flow_squared, 0, 10);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::shrink_speed, 0, 2);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::tear_heat, 1, 20);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::heat_decay, 0.98, 0.999);
@@ -100,18 +94,20 @@ void ofApp::update()
     {
         flowcam_there.update(frame, delta_t);
     }
-    if (flowcam_here.hasData())
+    for (int i = 0; i < rifts.size(); i ++)
     {
-        for (int i = 0; i < rifts.size(); i ++)
+        rifts[i].update(delta_t, flowcam_here, flowcam_there);
+        if (rifts[i].fade <= 0)
         {
-            rifts[i].update(delta_t, flowcam_here, flowcam_there);
-            if (rifts[i].fade <= 0)
-            {
-                rifts.erase(rifts.begin() + i);
-                i--;
-            }
+            rifts.erase(rifts.begin() + i);
+            i--;
         }
+    }
+    create_rifts_timer += delta_t;
+    if (create_rifts_timer > create_rifts_time)
+    {
         createRifts();
+        create_rifts_timer = 0;
     }
     for (int i = 0; i < lights.size(); i++)
     {
@@ -123,12 +119,46 @@ void ofApp::createRifts()
 {
     if (rifts.size() < max_rifts)
     {
-        Mat flow_hist = flowcam_here.getFLowHighHist() > new_rift_min_flow;
-        contourfinder.findContours(flow_hist);
+        Mat flow_here_hist = flowcam_here.getFLowHighHist();
+        Mat flow_there_hist = flowcam_there.getFLowHighHist();
+        if (flow_here_hist.empty() && flow_there_hist.empty())
+        {
+            return;
+        }
+        if (flow_here_hist.empty())
+        {
+            flow_hist_total = cv::Mat::zeros(flow_there_hist.rows, flow_there_hist.cols, CV_32FC2);
+        }
+        else
+        {
+            flow_hist_total = flow_here_hist;
+        }
+        //
+        if (!flow_there_hist.empty())
+        {
+            if (flow_there_hist.size() != flow_here_hist.size())
+            {
+                cv::resize(flow_there_hist, flow_there_hist, flow_here_hist.size());
+            }
+            flow_hist_total += flow_there_hist;
+        }
+        flow_hist_total /= new_rift_min_flow;
+        contourfinder.findContours(flow_hist_total);
         if (contourfinder.size())
         {
-            float scale_flow_to_game = ofGetWidth() / (float)flow_hist.cols;
-            const ofPolyline& contour = contourfinder.getPolyline(ofRandomuf() * contourfinder.size());
+            float scale_flow_to_game = ofGetWidth() / (float)flow_hist_total.cols;
+            int max_area = 0;
+            int biggest_contour_idx = 0;
+            for (int i = 0; i < contourfinder.size(); i ++)
+            {
+                int area = contourfinder.getBoundingRect(i).area();
+                if (area > max_area)
+                {
+                    biggest_contour_idx = i;
+                    max_area = area;
+                }
+            }
+            const ofPolyline& contour = contourfinder.getPolyline(biggest_contour_idx);
             ofRectangle bbc = contour.getBoundingBox();
             bbc.scale(scale_flow_to_game);
             bbc.x *= scale_flow_to_game;
@@ -201,11 +231,10 @@ void ofApp::draw()
         float scale_flow_to_game = ofGetWidth() / (float)flowcam_here.getFlowHigh().cols;
         ofPushMatrix();
         ofScale(scale_flow_to_game, scale_flow_to_game);
-        if (flowcam_here.hasData())
+        if (flow_hist_total.cols > 0)
         {
             ofEnableBlendMode(OF_BLENDMODE_ADD);
-            Mat flow_hist = flowcam_here.getFLowHighHist();
-            drawMat(flow_hist, 0, 0);
+            drawMat(flow_hist_total, 0, 0);
             ofDisableBlendMode();
         }
         contourfinder.draw();
