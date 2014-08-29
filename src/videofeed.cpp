@@ -42,7 +42,9 @@ void VideoFeedWebcam::threadedFunction()
 void VideoFeedImageUrl::setup(string new_url)
 {
     url = new_url;
-    loader.setUseTexture(false);
+    fail_count = 0;
+    loader = new ofImage();
+    loader->setUseTexture(false);
     startThread(true, false);
 }
 
@@ -50,11 +52,20 @@ void VideoFeedImageUrl::threadedFunction()
 {
     while (isThreadRunning())
     {
-        loader.loadImage(url);
-        lock();
-        pixels = loader.getPixelsRef();
-        unlock();
-        frame_is_new = true;
-        ofSleepMillis(10);
+        if (!loader->loadImage(url)){
+            ofLogWarning("VideoFeedImageUrl") << "load fail (" << fail_count << ") " << url;
+            // When loading fails, the ofImage resets bUseTexture to true
+            loader->setUseTexture(false);
+            fail_count ++;
+            ofSleepMillis(fail_count < 60 ? 10 : 1000);
+        } else {
+            lock();
+            pixels = loader->getPixelsRef();
+            unlock();
+            frame_is_new = true;
+            fail_count = 0;
+            ofSleepMillis(10);
+        }
+        
     }
 }

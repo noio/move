@@ -45,7 +45,7 @@ void ofApp::setup()
     rgb_here_p->setAspectRatio(ofGetWidth(), ofGetHeight());
     rgb_here = ofPtr<VideoFeed>(rgb_here_p);
     //
-    contourfinder.setThreshold(254);
+    contourfinder.setThreshold(1);
     contourfinder.setSimplify(true);
     contourfinder.setMinArea(80);
     contourfinder.getTracker().setSmoothingRate(0.2);
@@ -62,6 +62,7 @@ void ofApp::setup()
     OFX_REMOTEUI_SERVER_SHARE_PARAM(draw_debug);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(max_rifts, 0, 10);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(new_rift_min_flow, 0, 512);
+    OFX_REMOTEUI_SERVER_SHARE_PARAM(create_rifts_time, 0, 10);
     OFX_REMOTEUI_SERVER_NEW_GROUP("Rift");
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::inner_light_strength, 0, 10000.0f);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::fade_max_area, 200, 500);
@@ -131,7 +132,7 @@ void ofApp::createRifts()
         }
         else
         {
-            flow_hist_total = flow_here_hist;
+            flow_hist_total = flow_here_hist.clone();
         }
         //
         if (!flow_there_hist.empty())
@@ -142,8 +143,8 @@ void ofApp::createRifts()
             }
             flow_hist_total += flow_there_hist;
         }
-        flow_hist_total /= new_rift_min_flow;
-        contourfinder.findContours(flow_hist_total);
+        
+        contourfinder.findContours(flow_hist_total > new_rift_min_flow);
         if (contourfinder.size())
         {
             float scale_flow_to_game = ofGetWidth() / (float)flow_hist_total.cols;
