@@ -119,7 +119,6 @@ void ofApp::setup()
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::grow_min_flow_squared, 0, 10);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::shrink_speed, 0, 2);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::shrink_delay, 0, 10);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::tear_heat, 1, 20);
     OFX_REMOTEUI_SERVER_NEW_GROUP("Lights");
     OFX_REMOTEUI_SERVER_SHARE_PARAM(lights.ray_length, 0, 2.0f);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(lights.ray_rift_normal_bias, 0, 40.0f);

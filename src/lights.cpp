@@ -1,5 +1,18 @@
 #include "lights.h"
 
+void meshAddBeam(ofMesh& mesh, int center_idx, float length, float angle, float width)
+{
+    const ofPoint& center = mesh.getVertex(center_idx);
+    ofColor outer_color = ofColor(mesh.getColor(center_idx), 0);
+    const ofPoint l = center + ofPoint(cos(angle - width) * length, sin(angle - width) * length);
+    const ofPoint r = center + ofPoint(cos(angle + width) * length, sin(angle + width) * length);
+    mesh.addVertex(l);
+    mesh.addColor(outer_color);
+    mesh.addVertex(r);
+    mesh.addColor(outer_color);
+    mesh.addTriangle(center_idx, mesh.getNumVertices() - 2, mesh.getNumVertices() - 1);
+}
+
 void Lights::setup(int num_lights)
 {
     for (int i = 0; i < num_lights; i ++)
@@ -21,7 +34,23 @@ void Lights::update(double delta_t, const vector<Skeleton>& skeletons)
         light.position += light.velocity * delta_t;
         light.position.x = ofClamp(light.position.x, 0, ofGetWidth());
         light.position.y = ofClamp(light.position.y, 0, ofGetHeight());
+        light.rotation += .1;
     }
+}
+
+void Lights::draw()
+{
+    ofMesh mesh;
+    for (int i = 0; i < lights.size(); i ++)
+    {
+        const Light& light = lights[i];
+        int mid = mesh.getNumVertices();
+        mesh.addVertex(light.position);
+        mesh.addColor(light.color);
+        meshAddBeam(mesh, mid, ray_length * ofGetHeight(), light.rotation, .5);
+        meshAddBeam(mesh, mid, ray_length * ofGetHeight(), light.rotation + PI, .5);
+    }
+    mesh.draw();
 }
 
 void Lights::drawDebug()

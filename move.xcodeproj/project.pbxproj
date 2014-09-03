@@ -431,8 +431,6 @@
 		DF49D76C45D5DB505A234880 /* ofxOscMessage.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscMessage.cpp; path = ../../../addons/ofxOsc/src/ofxOscMessage.cpp; sourceTree = SOURCE_ROOT; };
 		E112B3AEBEA2C091BF2B40AE /* ofxPanel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxPanel.cpp; path = ../../../addons/ofxGui/src/ofxPanel.cpp; sourceTree = SOURCE_ROOT; };
 		E14D3EF03E140F5604900412 /* tracking.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = tracking.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/video/tracking.hpp; sourceTree = SOURCE_ROOT; };
-		E25F523119AC985C00ADEC34 /* light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = light.cpp; sourceTree = "<group>"; };
-		E25F523219AC985C00ADEC34 /* light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = light.h; sourceTree = "<group>"; };
 		E261621D19A774960059DBDF /* rift.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rift.cpp; sourceTree = "<group>"; };
 		E261621E19A774960059DBDF /* rift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rift.h; sourceTree = "<group>"; };
 		E261622219A77FE90059DBDF /* utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utilities.h; sourceTree = "<group>"; };
@@ -1371,8 +1369,6 @@
 			children = (
 				E28B43071998BAFB0059F698 /* flowcam.cpp */,
 				E28B43081998BAFB0059F698 /* flowcam.h */,
-				E25F523119AC985C00ADEC34 /* light.cpp */,
-				E25F523219AC985C00ADEC34 /* light.h */,
 				E288F8A119B76A6900125D36 /* lights.cpp */,
 				E288F8A219B76A6900125D36 /* lights.h */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,

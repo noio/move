@@ -12,9 +12,6 @@ float Rift::grow_speed = 0.4f;
 float Rift::grow_min_flow_squared = 1600;
 float Rift::shrink_speed = 0.1f;
 float Rift::shrink_delay = 3.0f;
-float Rift::tear_heat = 8.0f;
-
-
 
 void Rift::setup()
 {
@@ -60,10 +57,11 @@ void Rift::setup(ofPolyline initial)
         do_open = false;
         points = initial;
     }
-    heat.clear();
+    meta.clear();
+    float current_time = ofGetElapsedTimef();
     for (int i = 0; i < points.size(); i ++)
     {
-        heat.push_back(1.0f);
+        meta.push_back( (PointMeta) {false, current_time} );
     }
     resample();
 }
@@ -131,7 +129,7 @@ void Rift::insertPoints(float insert_point_dist)
         if (d > max_dist_squared)
         {
             points.insertVertex((a + b) * .5, i + 1);
-            heat.insert(heat.begin() + i + 1, 1.0f);
+            meta.insert(meta.begin() + i + 1, (PointMeta) {false, 1.0f});
             changed = true;
         }
     }
@@ -140,6 +138,7 @@ void Rift::insertPoints(float insert_point_dist)
 void Rift::updateSize(const FlowCam& flowcam_a, const FlowCam& flowcam_b)
 {
     const ofPoint screen = ofPoint(ofGetWidth(), ofGetHeight());
+    float current_time = ofGetElapsedTimef();
     for (unsigned int i = 0; i < points.size(); i ++)
     {
         const ofPoint& cur = points[i];
@@ -150,27 +149,30 @@ void Rift::updateSize(const FlowCam& flowcam_a, const FlowCam& flowcam_b)
         if ((flow_a.lengthSquared() > grow_min_flow_squared && flow_a.dot(normal) > 0) ||
                 (flow_b.lengthSquared() > grow_min_flow_squared && flow_b.dot(normal) > 0))
         {
-            heat[i] = MAX(heat[i], 2.0f);
-            ofPoint moved = cur + normal * grow_speed * heat[i];
+            float gs = grow_speed;
+            if (meta[i].is_tear)
+            {
+                gs *= 4;
+            }
+            ofPoint moved = cur + normal * gs;
             moved = ofPoint(ofClamp(moved.x, 0, ofGetWidth()), ofClamp(moved.y, 0, ofGetHeight()));
             if (!points.inside(moved))
             {
                 points[i] = moved;
+                meta[i].last_grown = current_time;
                 changed = true;
                 time_since_grow = 0;
             }
         }
-        else if (time_since_grow >= shrink_delay)
+        else if (current_time - meta[i].last_grown >= shrink_delay)
         {
-            if (heat[i] <= 1)
+            ofPoint moved = cur - shrink_speed * points.getNormalAtIndex(i);
+            moved = ofPoint(ofClamp(moved.x, 0, ofGetWidth()), ofClamp(moved.y, 0, ofGetHeight()));
+            if (points.inside(moved))
             {
-                ofPoint moved = cur - shrink_speed * points.getNormalAtIndex(i);
-                moved = ofPoint(ofClamp(moved.x, 0, ofGetWidth()), ofClamp(moved.y, 0, ofGetHeight()));
-                if (points.inside(moved))
-                {
-                    points[i] = moved;
-                    changed = true;
-                }
+                points[i] = moved;
+                meta[i].is_tear = false;
+                changed = true;
             }
         }
     }
@@ -182,15 +184,14 @@ void Rift::resample()
     {
         points = points.getResampledBySpacing(max_point_dist / 2);
         points = points.getSmoothed(2);
-        heat.resize(points.size());
-        std::fill(heat.begin(), heat.end(), 1.0f);
+        meta.resize(points.size());
         if (points.size() > 1)
         {
             unsigned int nearestIndex;
             points.getClosestPoint(ofPoint(0, ofGetHeight() * .5), &nearestIndex);
-            heat[nearestIndex] = tear_heat;
+            meta[nearestIndex].is_tear = true;
             points.getClosestPoint(ofPoint(ofGetWidth(), ofGetHeight() * .5), &nearestIndex);
-            heat[nearestIndex] = tear_heat;
+            meta[nearestIndex].is_tear = true;
         }
     }
 }
@@ -209,7 +210,6 @@ void Rift::drawMask()
 
 void Rift::drawLights(Lights lights)
 {
-    ofEnableAlphaBlending();
     ofEnableBlendMode(OF_BLENDMODE_ADD);
     for (int li = 0; li < lights.lights.size(); li ++)
     {
@@ -283,14 +283,17 @@ void Rift::drawInnerLight()
 void Rift::drawDebug()
 {
     ofSetLineWidth(2.0f);
-    ofSetColor(255, 0, 255);
     for(int i = 0; i < (int) points.size(); i++ )
     {
         const ofPoint& cur = points[i];
         int j = (i + 1) % points.size();
         const ofPoint& next = points[j];
         ofLine(cur, next);
-        ofLine(cur, cur + points.getNormalAtIndex(i) * 10 * heat[i]);
+        if (meta[i].is_tear)
+        {
+            ofSetColor(255, 0, 255);
+        }
+        ofLine(cur, cur + points.getNormalAtIndex(i) * 10);
         ofSetColor(255, 255, 255);
     }
 }

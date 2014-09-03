@@ -9,6 +9,11 @@
 
 using namespace cv;
 
+typedef struct PointMeta {
+    bool is_tear;
+    float last_grown;
+} PointMeta;
+
 class Rift
 {
 
@@ -46,7 +51,6 @@ public:
     static float grow_speed;
     static float shrink_speed;
     static float shrink_delay;
-    static float tear_heat;
 
     bool changed = false;
     float area = 0.0;
@@ -57,7 +61,7 @@ public:
 
 private:
     ofPolyline initial_line, points;
-    vector<float> heat;
+    vector<PointMeta> meta;
 
     double resample_timer;
 

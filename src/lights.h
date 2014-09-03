@@ -11,6 +11,7 @@ typedef struct Light
     ofColor color;
     ofPoint position;
     ofPoint velocity;
+    float rotation;
 } Light;
 
 class Lights
@@ -21,7 +22,7 @@ public:
 
     void setup(int num_lights);
     void update(double delta_t, const vector<Skeleton>& skeletons);
-
+    void draw();
     void drawDebug();
     
     vector<Light> lights;
