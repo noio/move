@@ -207,21 +207,21 @@ void Rift::drawMask()
     ofEndShape();
 }
 
-void Rift::drawLights(const vector<Light>& lights)
+void Rift::drawLights(Lights lights)
 {
     ofEnableAlphaBlending();
     ofEnableBlendMode(OF_BLENDMODE_ADD);
-    for (int li = 0; li < lights.size(); li ++)
+    for (int li = 0; li < lights.lights.size(); li ++)
     {
         ofMesh mesh;
-        const Light& light = lights[li];
+        const Light& light = lights.lights[li];
         int midx = 0;
         for(int pidx = 0; pidx <= (int) points.size(); pidx++ )
         {
             int pwrap = pidx % points.size();
             const ofPoint& n1 = points[pwrap];
-            ofPoint ray = (n1 - light.position) * light.ray_length;
-            ofPoint n2 = n1 + ray * .5 + points.getNormalAtIndex(pwrap) * light.ray_rift_normal_bias;
+            ofPoint ray = (n1 - light.position) * lights.ray_length;
+            ofPoint n2 = n1 + ray * .5 + points.getNormalAtIndex(pwrap) * lights.ray_rift_normal_bias;
             ofPoint n3 = n1 + ray;
             int alpha = MIN(255, 10 * 255 * 255 / n1.squareDistance(light.position)) * fade;
             alpha *= fade;

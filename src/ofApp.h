@@ -3,9 +3,8 @@
 #include "skeletonfeed.h"
 #include "videofeed.h"
 #include "flowcam.h"
-#include "maskedimage.h"
 #include "rift.h"
-#include "light.h"
+#include "lights.h"
 
 #include "ofxCv.h"
 #include "ofMain.h"
@@ -19,7 +18,9 @@ enum DebugDrawFlow
 {
     DEBUGDRAW_FLOW_NONE,
     DEBUGDRAW_FLOW_HERE,
-    DEBUGDRAW_FLOW_THERE
+    DEBUGDRAW_FLOW_THERE,
+    DEBUGDRAW_FLOWHIST_HERE,
+    DEBUGDRAW_FLOWHIST_THERE,
 };
 
 class ofApp : public ofBaseApp
@@ -54,7 +55,7 @@ public:
     ContourFinder contourfinder;
 
     vector<Rift> rifts;
-    vector<Light> lights;
+    Lights lights;
 
     float delta_t;
     double create_rifts_timer;

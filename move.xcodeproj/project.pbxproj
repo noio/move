@@ -91,11 +91,10 @@
 		DF0C851B244C4C867CEA8806 /* ofxUICircleSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2556100026B425E8370BCF75 /* ofxUICircleSlider.cpp */; };
 		E212C821D1064B92DD953A42 /* ofxCvHaarFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9A16CBF2E8CFE43AF54FE6F5 /* ofxCvHaarFinder.cpp */; };
 		E2564CF7DDB3713772BB682E /* ofxUDPManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 35BB9BB90DBABFD3B39F8DB6 /* ofxUDPManager.cpp */; };
-		E25F523319AC985C00ADEC34 /* light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25F523119AC985C00ADEC34 /* light.cpp */; };
 		E261621F19A774960059DBDF /* rift.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E261621D19A774960059DBDF /* rift.cpp */; };
 		E286BED419A604CF002CD07E /* videofeed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E286BED219A604CF002CD07E /* videofeed.cpp */; };
+		E288F8A319B76A6900125D36 /* lights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E288F8A119B76A6900125D36 /* lights.cpp */; };
 		E28B43091998BAFB0059F698 /* flowcam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28B43071998BAFB0059F698 /* flowcam.cpp */; };
-		E28B430C1998DA6C0059F698 /* maskedimage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28B430A1998DA6C0059F698 /* maskedimage.cpp */; };
 		E28B43121998DC3E0059F698 /* ofxShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28B43101998DC360059F698 /* ofxShader.cpp */; };
 		E2CA4FD919B70B7B003FFFD0 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CA4FC719B70B68003FFFD0 /* jsoncpp.cpp */; };
 		E2CA4FDA19B70B7D003FFFD0 /* ofxJSONElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CA4FCB19B70B68003FFFD0 /* ofxJSONElement.cpp */; };
@@ -440,10 +439,10 @@
 		E2813E36CEFD8D1C1B70E600 /* ofxUIRangeSlider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIRangeSlider.cpp; path = ../../../addons/ofxUI/src/ofxUIRangeSlider.cpp; sourceTree = SOURCE_ROOT; };
 		E286BED219A604CF002CD07E /* videofeed.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = videofeed.cpp; sourceTree = "<group>"; };
 		E286BED319A604CF002CD07E /* videofeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = videofeed.h; sourceTree = "<group>"; };
+		E288F8A119B76A6900125D36 /* lights.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lights.cpp; sourceTree = "<group>"; };
+		E288F8A219B76A6900125D36 /* lights.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lights.h; sourceTree = "<group>"; };
 		E28B43071998BAFB0059F698 /* flowcam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = flowcam.cpp; sourceTree = "<group>"; };
 		E28B43081998BAFB0059F698 /* flowcam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = flowcam.h; sourceTree = "<group>"; };
-		E28B430A1998DA6C0059F698 /* maskedimage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = maskedimage.cpp; sourceTree = "<group>"; };
-		E28B430B1998DA6C0059F698 /* maskedimage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = maskedimage.h; sourceTree = "<group>"; };
 		E28B430E1998DC360059F698 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		E28B43101998DC360059F698 /* ofxShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxShader.cpp; sourceTree = "<group>"; };
 		E28B43111998DC360059F698 /* ofxShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxShader.h; sourceTree = "<group>"; };
@@ -1374,9 +1373,9 @@
 				E28B43081998BAFB0059F698 /* flowcam.h */,
 				E25F523119AC985C00ADEC34 /* light.cpp */,
 				E25F523219AC985C00ADEC34 /* light.h */,
+				E288F8A119B76A6900125D36 /* lights.cpp */,
+				E288F8A219B76A6900125D36 /* lights.h */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
-				E28B430A1998DA6C0059F698 /* maskedimage.cpp */,
-				E28B430B1998DA6C0059F698 /* maskedimage.h */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				E261621D19A774960059DBDF /* rift.cpp */,
@@ -1577,7 +1576,6 @@
 				0546D1A38E13BD319CC9755B /* OscReceivedElements.cpp in Sources */,
 				879A251454401BC0B6E4F238 /* OscTypes.cpp in Sources */,
 				EC26F225D807F4F069405924 /* ofxThreadedImageLoader.cpp in Sources */,
-				E25F523319AC985C00ADEC34 /* light.cpp in Sources */,
 				63B57AC5BF4EF088491E0317 /* ofxXmlSettings.cpp in Sources */,
 				933A2227713C720CEFF80FD9 /* tinyxml.cpp in Sources */,
 				9D44DC88EF9E7991B4A09951 /* tinyxmlerror.cpp in Sources */,
@@ -1601,6 +1599,7 @@
 				88D1DBE8F3B3569621C0F53F /* ofxRemoteUINeigbors.cpp in Sources */,
 				AF677F0ABF3AA960413308F9 /* ofxRemoteUIServer.cpp in Sources */,
 				11440ECA63E32663D4F88998 /* uriencode.cpp in Sources */,
+				E288F8A319B76A6900125D36 /* lights.cpp in Sources */,
 				9F5C6DD965B4F3A6DB5B88F8 /* ofxUI2DGraph.cpp in Sources */,
 				4B3ED367CA852D522E2EE996 /* ofxUI2DPad.cpp in Sources */,
 				F1E8DE8734BA6F69A5112FA8 /* ofxUIBaseDraws.cpp in Sources */,
@@ -1616,7 +1615,6 @@
 				22030CBDCC25D815E7ED6757 /* ofxUIFPSSlider.cpp in Sources */,
 				3D4EA8E172D3E4A30FEFA969 /* ofxUIImage.cpp in Sources */,
 				7F2CD93F681F3C1547B3BF2C /* ofxUIImageButton.cpp in Sources */,
-				E28B430C1998DA6C0059F698 /* maskedimage.cpp in Sources */,
 				FBD0CD0AFE3849C14E829CAF /* ofxUIImageSampler.cpp in Sources */,
 				E28B43121998DC3E0059F698 /* ofxShader.cpp in Sources */,
 				26874B150C8535AEA0F24C8C /* ofxUIImageSlider.cpp in Sources */,

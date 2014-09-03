@@ -88,12 +88,7 @@ void ofApp::setup()
     contourfinder.setMinArea(80);
     contourfinder.getTracker().setSmoothingRate(0.2);
     //
-    for (int i = 0; i < 5; i ++)
-    {
-        Light l;
-        l.setup();
-        lights.push_back(l);
-    }
+    lights.setup(5);
     // SETUP UI
     OFX_REMOTEUI_SERVER_SETUP(44040); //start server
     OFX_REMOTEUI_SERVER_NEW_GROUP("Global");
@@ -103,7 +98,9 @@ void ofApp::setup()
     menuItems.push_back("NONE");
     menuItems.push_back("FLOW_HERE");
     menuItems.push_back("FLOW_THERE");
-    OFX_REMOTEUI_SERVER_SHARE_ENUM_PARAM(debug_draw_flow_mode, 0, 2, menuItems);
+    menuItems.push_back("FLOWHIST_HERE");
+    menuItems.push_back("FLOWHIST_THERE");
+    OFX_REMOTEUI_SERVER_SHARE_ENUM_PARAM(debug_draw_flow_mode, 0, 4, menuItems);
     OFX_REMOTEUI_SERVER_NEW_GROUP("Creation");
     OFX_REMOTEUI_SERVER_SHARE_PARAM(max_rifts, 0, 10);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(new_rift_min_flow, 0, 255);
@@ -124,8 +121,8 @@ void ofApp::setup()
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::shrink_delay, 0, 10);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::tear_heat, 1, 20);
     OFX_REMOTEUI_SERVER_NEW_GROUP("Lights");
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(Light::ray_length, 0, 2.0f);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(Light::ray_rift_normal_bias, 0, 40.0f);
+    OFX_REMOTEUI_SERVER_SHARE_PARAM(lights.ray_length, 0, 2.0f);
+    OFX_REMOTEUI_SERVER_SHARE_PARAM(lights.ray_rift_normal_bias, 0, 40.0f);
     //load values from XML, as they were last saved (if they were)
     OFX_REMOTEUI_SERVER_LOAD_FROM_XML();
 }
@@ -162,21 +159,7 @@ void ofApp::update()
         create_rifts_timer = 0;
     }
     vector<Skeleton> skeletons = skeletonfeed->getSkeletons();
-    for (int i = 0; i < lights.size(); i++)
-    {
-        if (skeletons.size() > 0)
-        {
-            if (i % 2 == 0)
-            {
-                lights[i].moveTo(skeletons[i % skeletons.size()].hand_right);
-            }
-            else
-            {
-                lights[i].moveTo(skeletons[i % skeletons.size()].hand_left);
-            }
-        }
-        lights[i].update(delta_t);
-    }
+    lights.update(delta_t, skeletons);
 }
 
 void ofApp::updateFlowHist()
@@ -294,7 +277,7 @@ void ofApp::draw()
     //
     if (draw_debug)
     {
-        ofSetColor(255, 128);
+        ofSetColor(255, 200);
         ofEnableAlphaBlending();
         switch (debug_draw_flow_mode)
         {
@@ -304,6 +287,12 @@ void ofApp::draw()
         case DEBUGDRAW_FLOW_THERE:
             drawMatFull(flowcam_there.getFlow());
             break;
+        case DEBUGDRAW_FLOWHIST_HERE:
+            drawMatFull(flowcam_here.getFLowHighHist());
+            break;
+        case DEBUGDRAW_FLOWHIST_THERE:
+            drawMatFull(flowcam_there.getFLowHighHist());
+            break;
         default:
             break;
         }
@@ -312,10 +301,7 @@ void ofApp::draw()
         {
             rifts[i].drawDebug();
         }
-        for (int i = 0; i < lights.size(); i ++)
-        {
-            lights[i].drawDebug();
-        }
+        lights.drawDebug();
         ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate(), 0) + "fps (r11)", ofPoint(3, 13));
         ofDrawBitmapStringHighlight("[d]ebug view", ofPoint(3, 33));
         float scale_flow_to_game = ofGetWidth() / (float)flowcam_here.getFlowHigh().cols;

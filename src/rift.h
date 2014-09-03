@@ -1,7 +1,7 @@
 #ifndef MOVE_RIFT_H_
 #define MOVE_RIFT_H_
 
-#include "light.h"
+#include "lights.h"
 #include "flowcam.h"
 
 #include "ofMain.h"
@@ -29,7 +29,7 @@ public:
 
     void drawMask();
     void drawDebug();
-    void drawLights(const vector<Light>& lights);
+    void drawLights(Lights lights);
     void drawOutline();
     void drawInnerLight();
 
