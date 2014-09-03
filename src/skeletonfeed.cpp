@@ -36,6 +36,7 @@ void SkeletonFeed::setOutputScaleAndOffset(ofPoint scale, ofPoint offset)
     lock();
     output_scale = scale;
     output_offset = offset;
+    ofLogVerbose("SkeletonFeed") << "set offset " << output_offset << ", scale " << output_scale;
     unlock();
 }
 
@@ -45,10 +46,11 @@ void SkeletonFeed::setOutputScaleAndOffset(ofPoint scale, ofPoint offset)
  */
 void SkeletonFeed::setOutputFillScreen()
 {
-    float ratio = (float)input_scale.x / input_scale.y;
-    int w = MAX(ofGetWidth(), static_cast<int>(round(ofGetHeight() * ratio)));
-    int h = MAX(ofGetHeight(), static_cast<int>(round(ofGetWidth() / ratio)));
-    setOutputScaleAndOffset(ofPoint(w, h), ofPoint(-w / 2, -h / 2));
+    float ratio = input_scale.x / input_scale.y;
+    int w = MAX(ofGetWidth(), ofGetHeight() * ratio);
+    int h = MAX(ofGetHeight(), ofGetWidth() / ratio);
+    setOutputScaleAndOffset(ofPoint(w, h, 1),
+                            ofPoint((ofGetWidth() - w) / 2, (ofGetHeight() - h) / 2, 1));
 }
 
 void SkeletonFeed::setup(string in_url)
@@ -61,9 +63,9 @@ void SkeletonFeed::setup(string in_url)
 
 ofPoint SkeletonFeed::getPoint(Json::Value point)
 {
-    return ofPoint(point["X"].asFloat() / input_scale.x,
-                   point["Y"].asFloat() / input_scale.y,
-                   point["Z"].asFloat());
+    return ofPoint(point["X"].asFloat(),
+                   point["Y"].asFloat(),
+                   point["Z"].asFloat()) / input_scale * output_scale + output_offset;
 }
 
 
@@ -92,10 +94,9 @@ void SkeletonFeed::threadedFunction()
         }
         double elapsed = ofGetElapsedTimeMillis() - fetch_start;
         double wait = wait_millis - elapsed;
-        if (wait_millis > 0)
+        if (wait > 0)
         {
-            ofLogVerbose("SkeletonFeed") << "Sleeping " << wait_millis << " ms";
-            ofSleepMillis(wait_millis);
+            ofSleepMillis(wait);
         }
     }
 }
@@ -104,12 +105,12 @@ void SkeletonFeed::drawDebug()
 {
     ofSetLineWidth(2.0f);
     ofNoFill();
-    ofPoint output_size = ofPoint(ofGetWidth(), ofGetHeight());
-    for (int i = 0; i < skeletons.size(); i++) {
+    for (int i = 0; i < skeletons.size(); i++)
+    {
         ofSetColor(ofColor::fromHsb(190 * i, 255, 255), 255);
-        ofPoint hd = skeletons[i].head * output_size;
-        ofPoint hl = skeletons[i].hand_left * output_size;
-        ofPoint hr = skeletons[i].hand_right * output_size;
+        ofPoint hd = skeletons[i].head;
+        ofPoint hl = skeletons[i].hand_left;
+        ofPoint hr = skeletons[i].hand_right;
         ofDrawBitmapStringHighlight(ofToString(i), hd);
         ofSetCircleResolution(6);
         ofCircle(hd, 20);

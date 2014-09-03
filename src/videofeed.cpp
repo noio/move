@@ -51,13 +51,16 @@ void VideoFeedImageUrl::threadedFunction()
 {
     while (isThreadRunning())
     {
-        if (!loader.loadImage(url)){
+        if (!loader.loadImage(url))
+        {
             ofLogWarning("VideoFeedImageUrl") << "load fail (" << fail_count << ") " << url;
             // When loading fails, the ofImage resets bUseTexture to true
             loader.setUseTexture(false);
             fail_count ++;
             ofSleepMillis(fail_count < 60 ? 10 : 1000);
-        } else {
+        }
+        else
+        {
             lock();
             pixels = loader.getPixelsRef();
             unlock();
@@ -65,6 +68,5 @@ void VideoFeedImageUrl::threadedFunction()
             fail_count = 0;
             ofSleepMillis(10);
         }
-        
     }
 }

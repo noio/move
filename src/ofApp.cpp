@@ -31,26 +31,29 @@ void maskEnd()
 void ofApp::setup()
 {
     ofSetLogLevel(OF_LOG_VERBOSE);
-    
     skeletons = ofPtr<SkeletonFeed>(new SkeletonFeed());
     skeletons->setup("http://192.168.1.34:1338/activeskeletonsprojected");
-    
+    // Numbers below found by trial & error
+    // Frameworks till does crazy squishing at non-standard resolutions
+    // so there is no making sense of this.
+    skeletons->setOutputScaleAndOffset(ofPoint(896, 400,1), ofPoint(0,0,1));
+    //
     flowcam_here.setup(160);
     flowcam_there.setup(160);
+    //
+    //===== REMOTE CAM SETUP =====
     VideoFeedStatic* rgb_there_p = new VideoFeedStatic();
     rgb_there_p->setup("stockholm.jpg");
-    
 //    VideoFeedWebcam* rgb_there_p = new VideoFeedWebcam();
 //    rgb_there_p->setup(1, 1280, 720);
-
 //    VideoFeedImageUrl* rgb_there_p = new VideoFeedImageUrl();
 //    rgb_there_p->setup("http://192.168.1.34:1338/color");
     rgb_there_p->setAspectRatio(ofGetWidth(), ofGetHeight());
     rgb_there = ofPtr<VideoFeed>(rgb_there_p);
-
+    //
+    //===== LOCAL CAMERA SETUP =====
 //    VideoFeedWebcam* rgb_here_p = new VideoFeedWebcam();
 //    rgb_here_p->setup(0, 1280, 720);
-    
     VideoFeedImageUrl* rgb_here_p = new VideoFeedImageUrl();
     rgb_here_p->setup("http://192.168.1.34:1338/color");
     rgb_here_p->setAspectRatio(ofGetWidth(), ofGetHeight());
@@ -170,7 +173,6 @@ void ofApp::createRifts()
 {
     if (rifts.size() < max_rifts)
     {
-
         if (contourfinder.size())
         {
             float scale_flow_to_game = ofGetWidth() / (float)flow_hist_threshold.cols;

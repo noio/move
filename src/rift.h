@@ -21,7 +21,7 @@ public:
     void setup(const ofPoint& center);
     void setup(const ofRectangle& bbox);
     void setup(ofPolyline initial);
-    
+
     void update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowcam_b);
     void updateOpen();
     void updateHeat(float insert_point_dist);

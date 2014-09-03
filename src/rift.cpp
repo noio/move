@@ -53,7 +53,9 @@ void Rift::setup(ofPolyline initial)
         points.addVertex(initial_line.getPointAtPercent(0.49));
         points.addVertex(initial_line.getPointAtPercent(0.51));
         points.close();
-    } else {
+    }
+    else
+    {
         do_open = false;
         points = initial;
     }
@@ -78,7 +80,6 @@ void Rift::update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowc
         updateSize(flowcam_a, flowcam_b);
         updateHeat(max_point_dist);
     }
-    
     if (changed)
     {
         area = MAX(0.1, points.getArea());
@@ -146,7 +147,7 @@ void Rift::updateSize(const FlowCam& flowcam_a, const FlowCam& flowcam_b)
         const ofVec2f flow_a = flowcam_a.getFlowAtUnitPos(p.x, p.y);
         const ofVec2f flow_b = flowcam_b.getFlowAtUnitPos(p.x, p.y);
         if ((flow_a.lengthSquared() > grow_min_flow_squared && flow_a.dot(normal) > 0) ||
-            (flow_b.lengthSquared() > grow_min_flow_squared && flow_b.dot(normal) > 0))
+                (flow_b.lengthSquared() > grow_min_flow_squared && flow_b.dot(normal) > 0))
         {
             heat[i] = MAX(heat[i], 2.0f);
             ofPoint moved = cur + normal * grow_speed * heat[i];

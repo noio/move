@@ -6,7 +6,8 @@
 
 using namespace std;
 
-typedef struct Skeleton {
+typedef struct Skeleton
+{
     int location;
     ofPoint head;
     ofPoint hand_left;
@@ -22,7 +23,7 @@ public:
     SkeletonFeed(const SkeletonFeed&) = delete;            // no copy
     SkeletonFeed& operator=(const SkeletonFeed&) = delete; // no assign
     ~SkeletonFeed() { waitForThread(true); }
-    
+
     static const int SPINE;
     static const int HEAD;
     static const int HAND_LEFT;
@@ -33,16 +34,16 @@ public:
     void setInputScale(ofPoint scale);
     void setOutputScaleAndOffset(ofPoint scale, ofPoint offset);
     void setOutputFillScreen();
-    
+
     void setup(string in_url);
-    
+
     void drawDebug();
-    
+
     void threadedFunction();
-    
+
 private:
     ofPoint getPoint(Json::Value point);
-    
+
     vector<Skeleton> skeletons;
     ofxJSONElement json;
 
