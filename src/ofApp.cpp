@@ -26,38 +26,61 @@ void maskEnd()
     glDisable(GL_BLEND);
 }
 
+void drawMatFull(const Mat& matrix)
+{
+    if (!matrix.empty())
+    {
+        cv::Mat rgb;
+        if (matrix.type() == CV_32FC2)
+        {
+            float maxval = matrix.cols / 5;
+            vector<Mat> channels;
+            split(matrix, channels);
+            channels.push_back(Mat::zeros(matrix.rows, matrix.cols, CV_32F));
+            merge(channels, rgb);
+            rgb.convertTo(rgb, CV_8UC3, 255 / maxval, 128);
+        }
+        else
+        {
+            rgb = matrix;
+        }
+        drawMat(rgb, 0, 0, ofGetWidth(), ofGetHeight());
+    }
+}
+
 
 //--------------------------------------------------------------
 void ofApp::setup()
 {
     ofSetLogLevel(OF_LOG_VERBOSE);
-    skeletons = ofPtr<SkeletonFeed>(new SkeletonFeed());
-    skeletons->setup("http://192.168.1.34:1338/activeskeletonsprojected");
+    skeletonfeed = ofPtr<SkeletonFeed>(new SkeletonFeed());
+    skeletonfeed->setup("http://192.168.1.34:1338/activeskeletonsprojected");
     // Numbers below found by trial & error
     // Frameworks till does crazy squishing at non-standard resolutions
     // so there is no making sense of this.
-    skeletons->setOutputScaleAndOffset(ofPoint(896, 400,1), ofPoint(0,0,1));
+    skeletonfeed->setOutputScaleAndOffset(ofPoint(896, 400, 1), ofPoint(0, 0, 1));
     //
     flowcam_here.setup(160);
     flowcam_there.setup(160);
     //
     //===== REMOTE CAM SETUP =====
-    VideoFeedStatic* rgb_there_p = new VideoFeedStatic();
-    rgb_there_p->setup("stockholm.jpg");
+//    VideoFeedStatic* rgb_there_p = new VideoFeedStatic();
+//    rgb_there_p->setup("stockholm.jpg");
 //    VideoFeedWebcam* rgb_there_p = new VideoFeedWebcam();
 //    rgb_there_p->setup(1, 1280, 720);
-//    VideoFeedImageUrl* rgb_there_p = new VideoFeedImageUrl();
-//    rgb_there_p->setup("http://192.168.1.34:1338/color");
+    VideoFeedImageUrl* rgb_there_p = new VideoFeedImageUrl();
+    rgb_there_p->setup("http://192.168.1.34:1338/color");
     rgb_there_p->setAspectRatio(ofGetWidth(), ofGetHeight());
     rgb_there = ofPtr<VideoFeed>(rgb_there_p);
     //
     //===== LOCAL CAMERA SETUP =====
 //    VideoFeedWebcam* rgb_here_p = new VideoFeedWebcam();
 //    rgb_here_p->setup(0, 1280, 720);
-    VideoFeedImageUrl* rgb_here_p = new VideoFeedImageUrl();
-    rgb_here_p->setup("http://192.168.1.34:1338/color");
+//    VideoFeedImageUrl* rgb_here_p = new VideoFeedImageUrl();
+//    rgb_here_p->setup("http://192.168.1.34:1338/color");
+    VideoFeedStatic* rgb_here_p = new VideoFeedStatic();
+    rgb_here_p->setup("denhaag.jpg");
     rgb_here_p->setAspectRatio(ofGetWidth(), ofGetHeight());
-    rgb_here_p->setFlip(2);
     rgb_here = ofPtr<VideoFeed>(rgb_here_p);
     //
     contourfinder.setThreshold(1);
@@ -75,6 +98,12 @@ void ofApp::setup()
     OFX_REMOTEUI_SERVER_SETUP(44040); //start server
     OFX_REMOTEUI_SERVER_NEW_GROUP("Global");
     OFX_REMOTEUI_SERVER_SHARE_PARAM(draw_debug);
+    OFX_REMOTEUI_SERVER_SHARE_PARAM(disable_local_rgb);
+    vector<string> menuItems;
+    menuItems.push_back("NONE");
+    menuItems.push_back("FLOW_HERE");
+    menuItems.push_back("FLOW_THERE");
+    OFX_REMOTEUI_SERVER_SHARE_ENUM_PARAM(debug_draw_flow_mode, 0, 2, menuItems);
     OFX_REMOTEUI_SERVER_NEW_GROUP("Creation");
     OFX_REMOTEUI_SERVER_SHARE_PARAM(max_rifts, 0, 10);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(new_rift_min_flow, 0, 255);
@@ -108,11 +137,11 @@ void ofApp::update()
     cv::Mat frame;
     if (rgb_here->getFrame(frame))
     {
-        flowcam_here.update(frame, delta_t);
+        flowcam_here.update(frame);
     }
     if (rgb_there->getFrame(frame))
     {
-        flowcam_there.update(frame, delta_t);
+        flowcam_there.update(frame);
     }
     for (int i = 0; i < rifts.size(); i ++)
     {
@@ -132,8 +161,20 @@ void ofApp::update()
         createRifts();
         create_rifts_timer = 0;
     }
+    vector<Skeleton> skeletons = skeletonfeed->getSkeletons();
     for (int i = 0; i < lights.size(); i++)
     {
+        if (skeletons.size() > 0)
+        {
+            if (i % 2 == 0)
+            {
+                lights[i].moveTo(skeletons[i % skeletons.size()].hand_right);
+            }
+            else
+            {
+                lights[i].moveTo(skeletons[i % skeletons.size()].hand_left);
+            }
+        }
         lights[i].update(delta_t);
     }
 }
@@ -163,7 +204,7 @@ void ofApp::updateFlowHist()
         }
         flow_hist_threshold = (flow_here_hist > new_rift_min_flow) | (flow_there_hist > new_rift_min_flow);
     }
-    if (!flow_here_hist.empty())
+    if (!flow_hist_threshold.empty())
     {
         contourfinder.findContours(flow_hist_threshold);
     }
@@ -210,8 +251,13 @@ void ofApp::createRifts()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-    ofSetColor(rgb_here_multiply);
-    rgb_here->draw(0, 0, ofGetWidth(), ofGetHeight());
+    if (!disable_local_rgb)
+    {
+        ofSetColor(rgb_here_multiply);
+        rgb_here->draw(0, 0, ofGetWidth(), ofGetHeight());
+    } else {
+        rgb_there->draw(0, 0, ofGetWidth(), ofGetHeight());
+    }
     if (!flow_here_hist.empty())
     {
         ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
@@ -246,6 +292,20 @@ void ofApp::draw()
     //
     if (draw_debug)
     {
+        ofSetColor(255, 128);
+        ofEnableAlphaBlending();
+        switch (debug_draw_flow_mode)
+        {
+        case DEBUGDRAW_FLOW_HERE:
+            drawMatFull(flowcam_here.getFlow());
+            break;
+        case DEBUGDRAW_FLOW_THERE:
+            drawMatFull(flowcam_there.getFlow());
+            break;
+        default:
+            break;
+        }
+        ofDisableAlphaBlending();
         for (int i = 0; i < rifts.size(); i ++)
         {
             rifts[i].drawDebug();
@@ -264,7 +324,7 @@ void ofApp::draw()
             contourfinder.getPolyline(i).getSmoothed(3).draw();
         }
         ofPopMatrix();
-        skeletons->drawDebug();
+        skeletonfeed->drawDebug();
     }
 }
 
@@ -273,7 +333,7 @@ void ofApp::exit()
 {
     rgb_here.reset();
     rgb_there.reset();
-    skeletons.reset();
+    skeletonfeed.reset();
 }
 
 //--------------------------------------------------------------

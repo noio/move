@@ -9,6 +9,12 @@ void Light::setup()
     color = ofColor::fromHsb(ofRandom(255), 255, 255);
 }
 
+void Light::moveTo(const ofPoint& target)
+{
+    position += .1 * (target - position);
+    velocity.set(0, 0);
+}
+
 void Light::update(double delta_t)
 {
     velocity += ofPoint(ofRandomf(), ofRandomf()) * delta_t * 30;

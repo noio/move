@@ -29,7 +29,7 @@ public:
 
     bool processFrame()
     {
-        if (!frame_is_new)
+        if (!needs_processing)
         {
             return false;
         }
@@ -56,15 +56,25 @@ public:
         {
             frame = frame_mat(roi).clone();
         }
-        frame_is_new = false;
+        frame_timestamp = ofGetElapsedTimeMillis();
+        needs_processing = false;
         return true;
     }
 
+    /*
+     * Puts the latest frame into the given matrix, 
+     * and returns whether this a fresher frame than
+     * the last time you called getMatrix.
+     * Therefore, if you depend on the return, use only
+     * once per loop.
+     */
     bool getFrame(Mat& output_frame)
     {
-        bool was_new = processFrame();
+        processFrame();
         output_frame = frame;
-        return was_new;
+        bool frame_is_fresh = frame_timestamp > last_frame_returned;
+        last_frame_returned = frame_timestamp;
+        return frame_is_fresh;
     }
 
     void draw(float x, float y, float w, float h)
@@ -93,7 +103,9 @@ public:
 
 protected:
     int width, height, flip = 1;
-    bool frame_is_new = false;
+    bool needs_processing = false;
+    unsigned long long frame_timestamp = 0;
+    unsigned long long last_frame_returned = 0;
     Mat frame_mat;
     Mat frame;
     ofImage frame_im;

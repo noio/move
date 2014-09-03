@@ -18,10 +18,11 @@ public:
     FlowCam& operator=(const FlowCam&) = delete; // no assign
 
     void setup(int max_flow_width);
-    void update(Mat frame, double delta_t);
+    void update(Mat frame);
 
     void drawDebug();
 
+    cv::Mat getFlow() const { return flow; }
     cv::Mat getFlowHigh() const { return flow_high; };
     cv::Mat getFLowHighHist() const { return flow_high_hist; };
     cv::Mat getFlowHighNew() const { return flow_high_new; };
@@ -49,6 +50,7 @@ private:
     float flow_threshold_high = 0.5f;
     int flow_erosion_size;
 
+    float last_update = 0;
     bool has_data = false;
 };
 

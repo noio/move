@@ -15,6 +15,13 @@
 using namespace ofxCv;
 using namespace cv;
 
+enum DebugDrawFlow
+{
+    DEBUGDRAW_FLOW_NONE,
+    DEBUGDRAW_FLOW_HERE,
+    DEBUGDRAW_FLOW_THERE
+};
+
 class ofApp : public ofBaseApp
 {
 
@@ -38,7 +45,7 @@ public:
     void updateFlowHist();
     void createRifts();
 
-    ofPtr<SkeletonFeed> skeletons;
+    ofPtr<SkeletonFeed> skeletonfeed;
     ofPtr<VideoFeed> rgb_there;
     ofPtr<VideoFeed> rgb_here;
     FlowCam flowcam_here;
@@ -52,10 +59,10 @@ public:
     float delta_t;
     double create_rifts_timer;
 
-    int capture_width = 1280;
-    int capture_height = 720;
-
     bool draw_debug = true;
+    bool disable_local_rgb = false;
+    DebugDrawFlow debug_draw_flow_mode = DEBUGDRAW_FLOW_NONE;
+
     float create_rifts_time = 2.0f;
     int max_rifts = 3;
     int new_rift_min_flow = 200;

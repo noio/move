@@ -101,10 +101,17 @@ void SkeletonFeed::threadedFunction()
     }
 }
 
+vector<Skeleton> SkeletonFeed::getSkeletons()
+{
+    Poco::ScopedLock<ofMutex> lock(mutex);
+    return skeletons;
+}
+
 void SkeletonFeed::drawDebug()
 {
     ofSetLineWidth(2.0f);
     ofNoFill();
+    lock();
     for (int i = 0; i < skeletons.size(); i++)
     {
         ofSetColor(ofColor::fromHsb(190 * i, 255, 255), 255);
@@ -121,4 +128,6 @@ void SkeletonFeed::drawDebug()
         ofSetCircleResolution(4);
         ofCircle(hr, 20);
     }
+    unlock();
+    ofSetColor(ofColor::white);
 }

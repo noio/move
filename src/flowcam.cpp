@@ -53,8 +53,9 @@ void FlowCam::setFlowErosionSize(int in_flow_erosion_size)
 
 ////////// PRIVATE METHODS //////////
 
-void FlowCam::update(cv::Mat frame, double delta_t)
+void FlowCam::update(cv::Mat frame)
 {
+    float delta_t = ofGetElapsedTimef() - last_update;
     cv::cvtColor(frame, frame_gray, CV_BGR2GRAY);
     while (frame_gray.cols > max_flow_width)
     {
@@ -77,10 +78,8 @@ void FlowCam::update(cv::Mat frame, double delta_t)
     cv::split(flow, xy);
     cv::cartToPolar(xy[0], xy[1], magnitude, angle, true);
     //
-    float adj_flow_threshold_high = flow_threshold_high * delta_t * 30.0;
-    //
     // Compute the high speed mask
-    flow_high = magnitude > adj_flow_threshold_high;
+    flow_high = magnitude > flow_threshold_high;
     cv::erode(flow_high, flow_high, open_kernel);
     cv::dilate(flow_high, flow_high, open_kernel);
     // Update history
@@ -88,7 +87,7 @@ void FlowCam::update(cv::Mat frame, double delta_t)
     {
         flow_high_hist = cv::Mat::zeros(flow_high.rows, flow_high.cols, CV_8U);
     }
-    flow_high_hist += flow_high / 16;
+    flow_high_hist += flow_high * (delta_t * 2);
     flow_high_hist -= 1;
     ofxCv::blur(flow_high_hist, flow_high_hist, 3);
     //
@@ -109,4 +108,5 @@ void FlowCam::update(cv::Mat frame, double delta_t)
         flow_creep_counter = MAX(0, flow_creep_counter - 1);
     }
     has_data = true;
+    last_update = ofGetElapsedTimef();
 }

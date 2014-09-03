@@ -35,6 +35,8 @@ public:
     void setOutputScaleAndOffset(ofPoint scale, ofPoint offset);
     void setOutputFillScreen();
 
+    vector<Skeleton> getSkeletons();
+
     void setup(string in_url);
 
     void drawDebug();

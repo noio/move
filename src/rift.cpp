@@ -274,6 +274,7 @@ void Rift::drawInnerLight()
         ofVertex(points[j]);
     }
     ofEndShape();
+    ofSetColor(ofColor::white);
     ofDisableAlphaBlending();
 }
 
