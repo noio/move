@@ -3,16 +3,17 @@
 
 float Rift::inner_light_strength = 1000;
 float Rift::fade_max_area = 300;
-float Rift::open_time = 1.0;
-float Rift::fade_in_time = 1.0;
+float Rift::open_time = 1.0f;
+float Rift::fade_in_time = 1.0f;
 float Rift::fade_out_time = 10.0f;
-float Rift::resample_time = 20.0;
+float Rift::resample_time = 20.0f;
 float Rift::max_point_dist = 40;
-float Rift::grow_speed = 0.4;
+float Rift::grow_speed = 0.4f;
 float Rift::grow_min_flow_squared = 1600;
-float Rift::shrink_speed = 0.1;
+float Rift::shrink_speed = 0.1f;
+float Rift::shrink_delay = 3.0f;
 float Rift::tear_heat = 8.0f;
-float Rift::heat_decay = 0.99;
+
 
 
 void Rift::setup()
@@ -73,12 +74,15 @@ void Rift::update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowc
     if (do_open && age < open_time)
     {
         updateOpen();
-        updateHeat(max_point_dist * .5);
+        insertPoints(max_point_dist * .5);
     }
     else
     {
         updateSize(flowcam_a, flowcam_b);
-        updateHeat(max_point_dist);
+        if (time_since_grow == 0)
+        {
+            insertPoints(max_point_dist);
+        }
     }
     if (changed)
     {
@@ -94,6 +98,7 @@ void Rift::update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowc
     }
     //
     age += delta_t;
+    time_since_grow += delta_t;
     resample_timer += delta_t;
     if (resample_timer > resample_time)
     {
@@ -114,7 +119,7 @@ void Rift::updateOpen()
     points[nearestIndex] = b;
 }
 
-void Rift::updateHeat(float insert_point_dist)
+void Rift::insertPoints(float insert_point_dist)
 {
     const float max_dist_squared = insert_point_dist * insert_point_dist;
     for (int i = 0; i < points.size(); i ++)
@@ -123,10 +128,6 @@ void Rift::updateHeat(float insert_point_dist)
         const ofPoint a = points[i];
         const ofPoint b = points[j];
         float d = ofDistSquared(a.x, a.y, b.x, b.y);
-        if (heat[i] < tear_heat)
-        {
-            heat[i] *= heat_decay;
-        }
         if (d > max_dist_squared)
         {
             points.insertVertex((a + b) * .5, i + 1);
@@ -156,9 +157,10 @@ void Rift::updateSize(const FlowCam& flowcam_a, const FlowCam& flowcam_b)
             {
                 points[i] = moved;
                 changed = true;
+                time_since_grow = 0;
             }
         }
-        else
+        else if (time_since_grow >= shrink_delay)
         {
             if (heat[i] <= 1)
             {

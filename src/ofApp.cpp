@@ -64,22 +64,22 @@ void ofApp::setup()
     flowcam_there.setup(160);
     //
     //===== REMOTE CAM SETUP =====
-//    VideoFeedStatic* rgb_there_p = new VideoFeedStatic();
-//    rgb_there_p->setup("stockholm.jpg");
+    VideoFeedStatic* rgb_there_p = new VideoFeedStatic();
+    rgb_there_p->setup("stockholm.jpg");
 //    VideoFeedWebcam* rgb_there_p = new VideoFeedWebcam();
 //    rgb_there_p->setup(1, 1280, 720);
-    VideoFeedImageUrl* rgb_there_p = new VideoFeedImageUrl();
-    rgb_there_p->setup("http://192.168.1.34:1338/color");
+//    VideoFeedImageUrl* rgb_there_p = new VideoFeedImageUrl();
+//    rgb_there_p->setup("http://192.168.1.34:1338/color");
     rgb_there_p->setAspectRatio(ofGetWidth(), ofGetHeight());
     rgb_there = ofPtr<VideoFeed>(rgb_there_p);
     //
     //===== LOCAL CAMERA SETUP =====
-//    VideoFeedWebcam* rgb_here_p = new VideoFeedWebcam();
-//    rgb_here_p->setup(0, 1280, 720);
+    VideoFeedWebcam* rgb_here_p = new VideoFeedWebcam();
+    rgb_here_p->setup(0, 1280, 720);
 //    VideoFeedImageUrl* rgb_here_p = new VideoFeedImageUrl();
 //    rgb_here_p->setup("http://192.168.1.34:1338/color");
-    VideoFeedStatic* rgb_here_p = new VideoFeedStatic();
-    rgb_here_p->setup("denhaag.jpg");
+//    VideoFeedStatic* rgb_here_p = new VideoFeedStatic();
+//    rgb_here_p->setup("denhaag.jpg");
     rgb_here_p->setAspectRatio(ofGetWidth(), ofGetHeight());
     rgb_here = ofPtr<VideoFeed>(rgb_here_p);
     //
@@ -121,8 +121,8 @@ void ofApp::setup()
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::grow_speed, 0, 2);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::grow_min_flow_squared, 0, 10);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::shrink_speed, 0, 2);
+    OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::shrink_delay, 0, 10);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::tear_heat, 1, 20);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::heat_decay, 0.98, 0.999);
     OFX_REMOTEUI_SERVER_NEW_GROUP("Lights");
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Light::ray_length, 0, 2.0f);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(Light::ray_rift_normal_bias, 0, 40.0f);
@@ -255,7 +255,9 @@ void ofApp::draw()
     {
         ofSetColor(rgb_here_multiply);
         rgb_here->draw(0, 0, ofGetWidth(), ofGetHeight());
-    } else {
+    }
+    else
+    {
         rgb_there->draw(0, 0, ofGetWidth(), ofGetHeight());
     }
     if (!flow_here_hist.empty())

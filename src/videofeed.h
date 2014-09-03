@@ -62,7 +62,7 @@ public:
     }
 
     /*
-     * Puts the latest frame into the given matrix, 
+     * Puts the latest frame into the given matrix,
      * and returns whether this a fresher frame than
      * the last time you called getMatrix.
      * Therefore, if you depend on the return, use only

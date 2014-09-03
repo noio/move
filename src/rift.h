@@ -24,7 +24,7 @@ public:
 
     void update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowcam_b);
     void updateOpen();
-    void updateHeat(float insert_point_dist);
+    void insertPoints(float insert_point_dist);
     void updateSize(const FlowCam& flowcam_a, const FlowCam& flowcam_b);
 
     void drawMask();
@@ -45,13 +45,14 @@ public:
     static float grow_min_flow_squared;
     static float grow_speed;
     static float shrink_speed;
-    static float heat_decay;
+    static float shrink_delay;
     static float tear_heat;
 
     bool changed = false;
     float area = 0.0;
     float fade = 0.001;
     float age = 0.0;
+    float time_since_grow = 0.0;
     float do_open = true;
 
 private:
