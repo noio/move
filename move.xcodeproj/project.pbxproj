@@ -97,6 +97,9 @@
 		E28B43091998BAFB0059F698 /* flowcam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28B43071998BAFB0059F698 /* flowcam.cpp */; };
 		E28B430C1998DA6C0059F698 /* maskedimage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28B430A1998DA6C0059F698 /* maskedimage.cpp */; };
 		E28B43121998DC3E0059F698 /* ofxShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28B43101998DC360059F698 /* ofxShader.cpp */; };
+		E2CA4FD919B70B7B003FFFD0 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CA4FC719B70B68003FFFD0 /* jsoncpp.cpp */; };
+		E2CA4FDA19B70B7D003FFFD0 /* ofxJSONElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CA4FCB19B70B68003FFFD0 /* ofxJSONElement.cpp */; };
+		E2CA4FDD19B70E74003FFFD0 /* skeletonfeed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CA4FDB19B70E74003FFFD0 /* skeletonfeed.cpp */; };
 		E3A1109F67D711D6C256031E /* ofxUIToggleMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 702A2528CA64B397E9B91ABE /* ofxUIToggleMatrix.cpp */; };
 		E3D59A6B55F05669B3FBF8BD /* ofxUINumberDialer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D6768C572B6CA49227C29EA /* ofxUINumberDialer.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
@@ -444,6 +447,15 @@
 		E28B430E1998DC360059F698 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		E28B43101998DC360059F698 /* ofxShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxShader.cpp; sourceTree = "<group>"; };
 		E28B43111998DC360059F698 /* ofxShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxShader.h; sourceTree = "<group>"; };
+		E2CA4FC419B70B68003FFFD0 /* json-forwards.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "json-forwards.h"; sourceTree = "<group>"; };
+		E2CA4FC519B70B68003FFFD0 /* json.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
+		E2CA4FC719B70B68003FFFD0 /* jsoncpp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = jsoncpp.cpp; sourceTree = "<group>"; };
+		E2CA4FC819B70B68003FFFD0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		E2CA4FCA19B70B68003FFFD0 /* ofxJSON.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxJSON.h; sourceTree = "<group>"; };
+		E2CA4FCB19B70B68003FFFD0 /* ofxJSONElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxJSONElement.cpp; sourceTree = "<group>"; };
+		E2CA4FCC19B70B68003FFFD0 /* ofxJSONElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxJSONElement.h; sourceTree = "<group>"; };
+		E2CA4FDB19B70E74003FFFD0 /* skeletonfeed.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = skeletonfeed.cpp; sourceTree = "<group>"; };
+		E2CA4FDC19B70E74003FFFD0 /* skeletonfeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = skeletonfeed.h; sourceTree = "<group>"; };
 		E354468911BA093791076DD7 /* gpumat.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = gpumat.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/gpu/gpumat.hpp; sourceTree = SOURCE_ROOT; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E4385429A1E63ACEDC39A612 /* operations.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = operations.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/core/operations.hpp; sourceTree = SOURCE_ROOT; };
@@ -975,6 +987,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				E2CA4F8119B70B68003FFFD0 /* ofxJSON */,
 				E28B430D1998DC360059F698 /* ofxShader */,
 				480A780D8D0308AE4A368801 /* ofxGui */,
 				18240ECCE4076FB0833A8578 /* ofxNetwork */,
@@ -1261,6 +1274,69 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		E2CA4F8119B70B68003FFFD0 /* ofxJSON */ = {
+			isa = PBXGroup;
+			children = (
+				E2CA4FC019B70B68003FFFD0 /* libs */,
+				E2CA4FC819B70B68003FFFD0 /* README.md */,
+				E2CA4FC919B70B68003FFFD0 /* src */,
+			);
+			name = ofxJSON;
+			path = ../../../addons/ofxJSON;
+			sourceTree = "<group>";
+		};
+		E2CA4FC019B70B68003FFFD0 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				E2CA4FC119B70B68003FFFD0 /* jsoncpp */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		E2CA4FC119B70B68003FFFD0 /* jsoncpp */ = {
+			isa = PBXGroup;
+			children = (
+				E2CA4FC219B70B68003FFFD0 /* include */,
+				E2CA4FC619B70B68003FFFD0 /* src */,
+			);
+			path = jsoncpp;
+			sourceTree = "<group>";
+		};
+		E2CA4FC219B70B68003FFFD0 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				E2CA4FC319B70B68003FFFD0 /* json */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		E2CA4FC319B70B68003FFFD0 /* json */ = {
+			isa = PBXGroup;
+			children = (
+				E2CA4FC419B70B68003FFFD0 /* json-forwards.h */,
+				E2CA4FC519B70B68003FFFD0 /* json.h */,
+			);
+			path = json;
+			sourceTree = "<group>";
+		};
+		E2CA4FC619B70B68003FFFD0 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				E2CA4FC719B70B68003FFFD0 /* jsoncpp.cpp */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		E2CA4FC919B70B68003FFFD0 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				E2CA4FCA19B70B68003FFFD0 /* ofxJSON.h */,
+				E2CA4FCB19B70B68003FFFD0 /* ofxJSONElement.cpp */,
+				E2CA4FCC19B70B68003FFFD0 /* ofxJSONElement.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		E4328144138ABC890047C5CB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1305,6 +1381,8 @@
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				E261621D19A774960059DBDF /* rift.cpp */,
 				E261621E19A774960059DBDF /* rift.h */,
+				E2CA4FDB19B70E74003FFFD0 /* skeletonfeed.cpp */,
+				E2CA4FDC19B70E74003FFFD0 /* skeletonfeed.h */,
 				E261622219A77FE90059DBDF /* utilities.h */,
 				E286BED219A604CF002CD07E /* videofeed.cpp */,
 				E286BED319A604CF002CD07E /* videofeed.h */,
@@ -1468,6 +1546,7 @@
 				B266578FC55D23BFEBC042E7 /* ofxGuiGroup.cpp in Sources */,
 				483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */,
 				F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */,
+				E2CA4FDA19B70B7D003FFFD0 /* ofxJSONElement.cpp in Sources */,
 				837220E80EB56CD44AD27F2A /* ofxSlider.cpp in Sources */,
 				B56FE57CC35806596D38118C /* ofxSliderGroup.cpp in Sources */,
 				1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */,
@@ -1506,6 +1585,7 @@
 				5A4349E9754D6FA14C0F2A3A /* tinyxmlparser.cpp in Sources */,
 				B6840996567E78436F7ECFAB /* ETF.cpp in Sources */,
 				F76B4A79BD8DE4854141CB47 /* fdog.cpp in Sources */,
+				E2CA4FD919B70B7B003FFFD0 /* jsoncpp.cpp in Sources */,
 				EBCDE831EFAE08274E799C97 /* Calibration.cpp in Sources */,
 				6AABAB39E82AF5CFEA23A205 /* ContourFinder.cpp in Sources */,
 				45CC483A999BF1065A6B926C /* Distance.cpp in Sources */,
@@ -1557,6 +1637,7 @@
 				740A58CBFDFE578C83A349AF /* ofxUISlider.cpp in Sources */,
 				ADE7C2AFC51E3F7E5E389026 /* ofxUISortableList.cpp in Sources */,
 				BFEFCE32DAFE10A8EB519F6C /* ofxUISpacer.cpp in Sources */,
+				E2CA4FDD19B70E74003FFFD0 /* skeletonfeed.cpp in Sources */,
 				52AFF80A869790144ACCC9BA /* ofxUISpectrum.cpp in Sources */,
 				1DAAC3FB4B98B08AE63F4687 /* ofxUISuperCanvas.cpp in Sources */,
 				5AE95ADB5549701423B6DA48 /* ofxUITabBar.cpp in Sources */,
@@ -1655,6 +1736,7 @@
 					../../../addons/ofxRemoteUI/src,
 					../../../addons/ofxUI/libs,
 					../../../addons/ofxUI/src,
+					../../../addons/ofxJSON/libs/jsoncpp/include,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1745,6 +1827,7 @@
 					../../../addons/ofxRemoteUI/src,
 					../../../addons/ofxUI/libs,
 					../../../addons/ofxUI/src,
+					../../../addons/ofxJSON/libs/jsoncpp/include,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CPLUSPLUSFLAGS = (

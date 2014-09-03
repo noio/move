@@ -39,9 +39,9 @@ void VideoFeedWebcam::threadedFunction()
     }
 }
 
-void VideoFeedImageUrl::setup(string new_url)
+void VideoFeedImageUrl::setup(string in_url)
 {
-    url = new_url;
+    url = in_url;
     fail_count = 0;
     loader.setUseTexture(false);
     startThread(true, false);

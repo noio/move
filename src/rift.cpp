@@ -3,8 +3,9 @@
 
 float Rift::inner_light_strength = 1000;
 float Rift::fade_max_area = 300;
-float Rift::fade_time = 10.0f;
-float Rift::min_age = 2.0;
+float Rift::open_time = 1.0;
+float Rift::fade_in_time = 1.0;
+float Rift::fade_out_time = 10.0f;
 float Rift::resample_time = 20.0;
 float Rift::max_point_dist = 40;
 float Rift::grow_speed = 0.4;
@@ -24,19 +25,40 @@ void Rift::setup()
     setup(initial);
 }
 
+
+void Rift::setup(const ofRectangle& bbox)
+{
+    const int num_points = ceil(bbox.height / (0.5f * max_point_dist));
+    const float step = 1.0f / (num_points - 1);
+    const float x_mid = bbox.getCenter().x;
+    ofPolyline initial;
+    for (int i = 0; i < num_points; i ++)
+    {
+        const float r = i * step;
+        const float scale = r * (1 - r) * 4;
+        float x = x_mid + ofRandomf() * bbox.width * .2 * scale;
+        float y = bbox.y + r * bbox.height;
+        initial.addVertex(ofPoint(x, y));
+    }
+    setup(initial);
+}
+
 void Rift::setup(ofPolyline initial)
 {
-    points = initial;
-    if (!points.isClosed())
+    if (!initial.isClosed())
     {
-        for (int i = points.size() - 2; i > 0; i--)
-        {
-            points.addVertex(points[i]);
-        }
+        do_open = true;
+        initial_line = initial;
+        points.clear();
+        points.addVertex(initial_line.getPointAtPercent(0.49));
+        points.addVertex(initial_line.getPointAtPercent(0.51));
         points.close();
+    } else {
+        do_open = false;
+        points = initial;
     }
     heat.clear();
-    for (int i = 0; i < initial.size(); i ++)
+    for (int i = 0; i < points.size(); i ++)
     {
         heat.push_back(1.0f);
     }
@@ -45,13 +67,60 @@ void Rift::setup(ofPolyline initial)
 
 void Rift::update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowcam_b)
 {
-    bool changed = false;
-    float max_dist_squared = max_point_dist * max_point_dist;
+    changed = false;
+    if (do_open && age < open_time)
+    {
+        updateOpen();
+        updateHeat(max_point_dist * .5);
+    }
+    else
+    {
+        updateSize(flowcam_a, flowcam_b);
+        updateHeat(max_point_dist);
+    }
+    
+    if (changed)
+    {
+        area = MAX(0.1, points.getArea());
+    }
+    if (area < fade_max_area && age > fade_in_time + open_time)
+    {
+        fade = MAX(0.0, fade - delta_t / fade_out_time);
+    }
+    else
+    {
+        fade = MIN(1.0, fade + delta_t / fade_in_time);
+    }
+    //
+    age += delta_t;
+    resample_timer += delta_t;
+    if (resample_timer > resample_time)
+    {
+        resample_timer = 0;
+        resample();
+    }
+}
+
+void Rift::updateOpen()
+{
+    const float f = 0.5 + 0.5 * age / open_time;
+    ofPoint a = initial_line.getPointAtPercent(f);
+    ofPoint b = initial_line.getPointAtPercent(1 - f);
+    unsigned int nearestIndex;
+    points.getClosestPoint(a, &nearestIndex);
+    points[nearestIndex] = a;
+    points.getClosestPoint(b, &nearestIndex);
+    points[nearestIndex] = b;
+}
+
+void Rift::updateHeat(float insert_point_dist)
+{
+    const float max_dist_squared = insert_point_dist * insert_point_dist;
     for (int i = 0; i < points.size(); i ++)
     {
         int j = (i + 1) % points.size();
-        ofPoint a = points[i];
-        ofPoint b = points[j];
+        const ofPoint a = points[i];
+        const ofPoint b = points[j];
         float d = ofDistSquared(a.x, a.y, b.x, b.y);
         if (heat[i] < tear_heat)
         {
@@ -64,17 +133,20 @@ void Rift::update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowc
             changed = true;
         }
     }
-    //
+}
+
+void Rift::updateSize(const FlowCam& flowcam_a, const FlowCam& flowcam_b)
+{
     const ofPoint screen = ofPoint(ofGetWidth(), ofGetHeight());
     for (unsigned int i = 0; i < points.size(); i ++)
     {
         const ofPoint& cur = points[i];
-        ofPoint p = cur / screen;
-        ofPoint normal = points.getNormalAtIndex(i);
-        ofVec2f flow_a = flowcam_a.getFlowAtUnitPos(p.x, p.y);
-        ofVec2f flow_b = flowcam_b.getFlowAtUnitPos(p.x, p.y);
+        const ofPoint p = cur / screen;
+        const ofPoint normal = points.getNormalAtIndex(i);
+        const ofVec2f flow_a = flowcam_a.getFlowAtUnitPos(p.x, p.y);
+        const ofVec2f flow_b = flowcam_b.getFlowAtUnitPos(p.x, p.y);
         if ((flow_a.lengthSquared() > grow_min_flow_squared && flow_a.dot(normal) > 0) ||
-                (flow_b.lengthSquared() > grow_min_flow_squared && flow_b.dot(normal) > 0))
+            (flow_b.lengthSquared() > grow_min_flow_squared && flow_b.dot(normal) > 0))
         {
             heat[i] = MAX(heat[i], 2.0f);
             ofPoint moved = cur + normal * grow_speed * heat[i];
@@ -98,27 +170,6 @@ void Rift::update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowc
                 }
             }
         }
-    }
-    //
-    if (changed)
-    {
-        area = MAX(0.1, points.getArea());
-    }
-    if (area < fade_max_area && age > min_age)
-    {
-        fade = MAX(0.0, fade - delta_t / fade_time);
-    }
-    else
-    {
-        fade = MIN(1.0, fade + delta_t);
-    }
-    //
-    age += delta_t;
-    resample_timer += delta_t;
-    if (resample_timer > resample_time)
-    {
-        resample_timer = 0;
-        resample();
     }
 }
 
@@ -162,7 +213,7 @@ void Rift::drawLights(const vector<Light>& lights)
         ofMesh mesh;
         const Light& light = lights[li];
         int midx = 0;
-        for(int pidx = 0; pidx <= (int) points.size() - 1; pidx++ )
+        for(int pidx = 0; pidx <= (int) points.size(); pidx++ )
         {
             int pwrap = pidx % points.size();
             const ofPoint& n1 = points[pwrap];
@@ -208,6 +259,7 @@ void Rift::drawOutline()
     ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
     points.draw();
     ofSetColor(ofColor::white);
+    ofDisableBlendMode();
 }
 
 void Rift::drawInnerLight()

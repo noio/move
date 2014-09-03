@@ -16,15 +16,15 @@ public:
     VideoFeed(const VideoFeed&) = delete;            // no copy
     VideoFeed& operator=(const VideoFeed&) = delete; // no assign
 
-    void setAspectRatio(int new_width, int new_height)
+    void setAspectRatio(int in_width, int in_height)
     {
-        width = new_width;
-        height = new_height;
+        width = in_width;
+        height = in_height;
     }
 
-    void setFlip(int new_flip)
+    void setFlip(int in_flip)
     {
-        flip = new_flip;
+        flip = in_flip;
     }
 
     bool processFrame()
@@ -121,7 +121,7 @@ class VideoFeedImageUrl : public VideoFeed
 {
 public:
     ~VideoFeedImageUrl() { waitForThread(true); }
-    void setup(string new_url) ;
+    void setup(string in_url) ;
     void threadedFunction() ;
 private:
     string url;

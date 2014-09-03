@@ -26,7 +26,6 @@ void MaskedImage::draw(ofImage in_texture, ofImage in_mask)
     mask.getTextureReference().bind();
     //draw a quad the size of the frame
     glBegin(GL_QUADS);
-    //move the mask around with the mouse by modifying the texture coordinates
     glMultiTexCoord2d(GL_TEXTURE0_ARB, 0, 0);
     glMultiTexCoord2d(GL_TEXTURE1_ARB, 0, 0);
     glVertex2f( 0, 0);

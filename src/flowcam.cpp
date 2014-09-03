@@ -69,7 +69,6 @@ void FlowCam::update(cv::Mat frame, double delta_t)
         ofLogVerbose("FlowCam") << "Initialize flow data";
         flow = cv::Mat::zeros(frame_gray.rows, frame_gray.cols, CV_32FC2);
         flow_high_prev = cv::Mat::zeros(flow.rows, flow.cols, CV_8U);
-        flow_high_hist = cv::Mat::zeros(flow.rows, flow.cols, CV_8U);
         opticalflow.resetFlow();
         opticalflow.calcOpticalFlow(frame_gray);
     }
@@ -85,8 +84,13 @@ void FlowCam::update(cv::Mat frame, double delta_t)
     cv::erode(flow_high, flow_high, open_kernel);
     cv::dilate(flow_high, flow_high, open_kernel);
     // Update history
+    if (flow_high_hist.size() != flow_high.size())
+    {
+        flow_high_hist = cv::Mat::zeros(flow_high.rows, flow_high.cols, CV_8U);
+    }
     flow_high_hist += flow_high / 16;
     flow_high_hist -= 1;
+    ofxCv::blur(flow_high_hist, flow_high_hist, 3);
     //
     flow_high_new = flow_high & ~flow_high_prev;
     // Check for flow creep
