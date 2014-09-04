@@ -26,6 +26,10 @@ public:
     {
         flip = in_flip;
     }
+    
+    void setMaxFps(float in_fps){
+        wait_millis = 1000.0 / in_fps;
+    }
 
     bool processFrame()
     {
@@ -103,6 +107,7 @@ public:
 
 protected:
     int width, height, flip = 1;
+    float wait_millis = 1000.0f / 30.0f;
     bool needs_processing = false;
     unsigned long long frame_timestamp = 0;
     unsigned long long last_frame_returned = 0;

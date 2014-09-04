@@ -11,6 +11,7 @@ void VideoFeedStatic::setup(string path)
 void VideoFeedWebcam::setup(int device, int capture_width, int capture_height)
 {
     Poco::ScopedLock<ofMutex> lock(mutex);
+    waitForThread(true);
     if (camera.isInitialized())
     {
         camera.close();
@@ -27,6 +28,7 @@ void VideoFeedWebcam::threadedFunction()
     {
         if (camera.isInitialized())
         {
+            double fetch_start = ofGetElapsedTimeMillis();
             camera.update();
             if (camera.isFrameNew())
             {
@@ -34,7 +36,11 @@ void VideoFeedWebcam::threadedFunction()
                 pixels = camera.getPixelsRef();
                 needs_processing = true;
                 unlock();
-                ofSleepMillis(10);
+                double wait = wait_millis - (ofGetElapsedTimeMillis() - fetch_start);
+                if (wait > 0)
+                {
+                    ofSleepMillis(wait);
+                }
             }
         }
     }
@@ -53,6 +59,7 @@ void VideoFeedImageUrl::threadedFunction()
 {
     while (isThreadRunning())
     {
+        double fetch_start = ofGetElapsedTimeMillis();
         if (!loader.loadImage(url))
         {
             ofLogWarning("VideoFeedImageUrl") << "load fail (" << fail_count << ") " << url;
@@ -68,7 +75,11 @@ void VideoFeedImageUrl::threadedFunction()
             unlock();
             needs_processing = true;
             fail_count = 0;
-            ofSleepMillis(10);
+            double wait = wait_millis - (ofGetElapsedTimeMillis() - fetch_start);
+            if (wait > 0)
+            {
+                ofSleepMillis(wait);
+            }
         }
     }
 }
