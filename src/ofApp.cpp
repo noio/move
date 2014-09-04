@@ -75,7 +75,7 @@ void ofApp::setup()
     //
     //===== LOCAL CAMERA SETUP =====
     VideoFeedWebcam* rgb_here_p = new VideoFeedWebcam();
-    rgb_here_p->setup(0, 1280, 720);
+    rgb_here_p->setup(0, WEBCAM_RES_720);
 //    VideoFeedImageUrl* rgb_here_p = new VideoFeedImageUrl();
 //    rgb_here_p->setup("http://192.168.1.34:1338/color");
 //    VideoFeedStatic* rgb_here_p = new VideoFeedStatic();
@@ -83,7 +83,6 @@ void ofApp::setup()
     rgb_here_p->setAspectRatio(ofGetWidth(), ofGetHeight());
     rgb_here = ofPtr<VideoFeed>(rgb_here_p);
     //
-    contourfinder.setThreshold(1);
     contourfinder.setSimplify(true);
     contourfinder.setMinArea(80);
     contourfinder.getTracker().setSmoothingRate(0.2);

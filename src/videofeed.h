@@ -8,6 +8,12 @@ using namespace std;
 using namespace cv;
 using namespace ofxCv;
 
+enum VideoFeedWebcamResolution {
+    WEBCAM_RES_1080,
+    WEBCAM_RES_720,
+    WEBCAM_RES_480
+};
+
 class VideoFeed : public ofThread
 {
 
@@ -106,7 +112,8 @@ public:
     }
 
 protected:
-    int width, height, flip = 1;
+    int width, height;
+    char flip = 1;
     float wait_millis = 1000.0f / 30.0f;
     bool needs_processing = false;
     unsigned long long frame_timestamp = 0;
@@ -128,7 +135,7 @@ class VideoFeedWebcam : public VideoFeed
 {
 public:
     ~VideoFeedWebcam() { ofLogVerbose("VideoFeedImageWebcam") << "destroying"; waitForThread(true); }
-    void setup(int device, int capture_width, int capture_height) ;
+    void setup(int device, VideoFeedWebcamResolution res) ;
     void threadedFunction() ;
 private:
     ofVideoGrabber camera;
