@@ -14,13 +14,13 @@
 using namespace ofxCv;
 using namespace cv;
 
-enum DebugDrawFlow
+enum DebugOverlay
 {
-    DEBUGDRAW_FLOW_NONE,
-    DEBUGDRAW_FLOW_HERE,
-    DEBUGDRAW_FLOW_THERE,
-    DEBUGDRAW_FLOWHIST_HERE,
-    DEBUGDRAW_FLOWHIST_THERE,
+    DEBUGOVERLAY_NONE,
+    DEBUGOVERLAY_FLOW_HERE,
+    DEBUGOVERLAY_FLOW_THERE,
+    DEBUGOVERLAY_FLOWHIST_HERE,
+    DEBUGOVERLAY_FLOWHIST_THERE,
 };
 
 class ofApp : public ofBaseApp
@@ -62,7 +62,7 @@ public:
 
     bool draw_debug = true;
     bool disable_local_rgb = false;
-    DebugDrawFlow debug_draw_flow_mode = DEBUGDRAW_FLOW_NONE;
+    DebugOverlay debug_overlay = DEBUGOVERLAY_NONE;
 
     float create_rifts_time = 2.0f;
     int max_rifts = 3;

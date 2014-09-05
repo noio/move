@@ -99,7 +99,7 @@ void ofApp::setup()
     menuItems.push_back("FLOW_THERE");
     menuItems.push_back("FLOWHIST_HERE");
     menuItems.push_back("FLOWHIST_THERE");
-    OFX_REMOTEUI_SERVER_SHARE_ENUM_PARAM(debug_draw_flow_mode, 0, 4, menuItems);
+    OFX_REMOTEUI_SERVER_SHARE_ENUM_PARAM(debug_overlay, 0, 4, menuItems);
     OFX_REMOTEUI_SERVER_NEW_GROUP("Creation");
     OFX_REMOTEUI_SERVER_SHARE_PARAM(max_rifts, 0, 10);
     OFX_REMOTEUI_SERVER_SHARE_PARAM(new_rift_min_flow, 0, 255);
@@ -277,18 +277,18 @@ void ofApp::draw()
     {
         ofSetColor(255, 200);
         ofEnableAlphaBlending();
-        switch (debug_draw_flow_mode)
+        switch (debug_overlay)
         {
-        case DEBUGDRAW_FLOW_HERE:
+        case DEBUGOVERLAY_FLOW_HERE:
             drawMatFull(flowcam_here.getFlow());
             break;
-        case DEBUGDRAW_FLOW_THERE:
+        case DEBUGOVERLAY_FLOW_THERE:
             drawMatFull(flowcam_there.getFlow());
             break;
-        case DEBUGDRAW_FLOWHIST_HERE:
+        case DEBUGOVERLAY_FLOWHIST_HERE:
             drawMatFull(flowcam_here.getFLowHighHist());
             break;
-        case DEBUGDRAW_FLOWHIST_THERE:
+        case DEBUGOVERLAY_FLOWHIST_THERE:
             drawMatFull(flowcam_there.getFLowHighHist());
             break;
         default:

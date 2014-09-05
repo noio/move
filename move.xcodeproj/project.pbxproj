@@ -96,6 +96,8 @@
 		E288F8A319B76A6900125D36 /* lights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E288F8A119B76A6900125D36 /* lights.cpp */; };
 		E28B43091998BAFB0059F698 /* flowcam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28B43071998BAFB0059F698 /* flowcam.cpp */; };
 		E28B43121998DC3E0059F698 /* ofxShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28B43101998DC360059F698 /* ofxShader.cpp */; };
+		E2ADD22319B9A4880078BF10 /* flowcam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2ADD21F19B9A4880078BF10 /* flowcam.cpp */; };
+		E2ADD22419B9A4880078BF10 /* videofeed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2ADD22119B9A4880078BF10 /* videofeed.cpp */; };
 		E2CA4FD919B70B7B003FFFD0 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CA4FC719B70B68003FFFD0 /* jsoncpp.cpp */; };
 		E2CA4FDA19B70B7D003FFFD0 /* ofxJSONElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CA4FCB19B70B68003FFFD0 /* ofxJSONElement.cpp */; };
 		E2CA4FDD19B70E74003FFFD0 /* skeletonfeed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CA4FDB19B70E74003FFFD0 /* skeletonfeed.cpp */; };
@@ -444,6 +446,10 @@
 		E28B430E1998DC360059F698 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		E28B43101998DC360059F698 /* ofxShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxShader.cpp; sourceTree = "<group>"; };
 		E28B43111998DC360059F698 /* ofxShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxShader.h; sourceTree = "<group>"; };
+		E2ADD21F19B9A4880078BF10 /* flowcam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = flowcam.cpp; sourceTree = "<group>"; };
+		E2ADD22019B9A4880078BF10 /* flowcam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = flowcam.h; sourceTree = "<group>"; };
+		E2ADD22119B9A4880078BF10 /* videofeed.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = videofeed.cpp; sourceTree = "<group>"; };
+		E2ADD22219B9A4880078BF10 /* videofeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = videofeed.h; sourceTree = "<group>"; };
 		E2CA4FC419B70B68003FFFD0 /* json-forwards.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "json-forwards.h"; sourceTree = "<group>"; };
 		E2CA4FC519B70B68003FFFD0 /* json.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
 		E2CA4FC719B70B68003FFFD0 /* jsoncpp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = jsoncpp.cpp; sourceTree = "<group>"; };
@@ -984,6 +990,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				E2ADD21D19B9A4880078BF10 /* ofxDropstuff */,
 				E2CA4F8119B70B68003FFFD0 /* ofxJSON */,
 				E28B430D1998DC360059F698 /* ofxShader */,
 				480A780D8D0308AE4A368801 /* ofxGui */,
@@ -1267,6 +1274,26 @@
 			children = (
 				E28B43101998DC360059F698 /* ofxShader.cpp */,
 				E28B43111998DC360059F698 /* ofxShader.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		E2ADD21D19B9A4880078BF10 /* ofxDropstuff */ = {
+			isa = PBXGroup;
+			children = (
+				E2ADD21E19B9A4880078BF10 /* src */,
+			);
+			name = ofxDropstuff;
+			path = ../../../addons/ofxDropstuff;
+			sourceTree = "<group>";
+		};
+		E2ADD21E19B9A4880078BF10 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				E2ADD21F19B9A4880078BF10 /* flowcam.cpp */,
+				E2ADD22019B9A4880078BF10 /* flowcam.h */,
+				E2ADD22119B9A4880078BF10 /* videofeed.cpp */,
+				E2ADD22219B9A4880078BF10 /* videofeed.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -1611,6 +1638,7 @@
 				22030CBDCC25D815E7ED6757 /* ofxUIFPSSlider.cpp in Sources */,
 				3D4EA8E172D3E4A30FEFA969 /* ofxUIImage.cpp in Sources */,
 				7F2CD93F681F3C1547B3BF2C /* ofxUIImageButton.cpp in Sources */,
+				E2ADD22319B9A4880078BF10 /* flowcam.cpp in Sources */,
 				FBD0CD0AFE3849C14E829CAF /* ofxUIImageSampler.cpp in Sources */,
 				E28B43121998DC3E0059F698 /* ofxShader.cpp in Sources */,
 				26874B150C8535AEA0F24C8C /* ofxUIImageSlider.cpp in Sources */,
@@ -1625,6 +1653,7 @@
 				E3D59A6B55F05669B3FBF8BD /* ofxUINumberDialer.cpp in Sources */,
 				D60E54E7FD6E19BC8636E0D2 /* ofxUIRadio.cpp in Sources */,
 				1587708E3CAC72997E43504E /* ofxUIRangeSlider.cpp in Sources */,
+				E2ADD22419B9A4880078BF10 /* videofeed.cpp in Sources */,
 				59C5F2F5D7254C33C00F97CB /* ofxUIRectangle.cpp in Sources */,
 				FE0F1DB69ACCD163E9DA2A15 /* ofxUIRotarySlider.cpp in Sources */,
 				43BADBB2FE0F17D34B57A705 /* ofxUIScrollableCanvas.cpp in Sources */,

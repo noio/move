@@ -23,6 +23,6 @@
         <B>255</B>
         <A>255</A>
     </REMOTEUI_PARAM_COLOR>
-    <REMOTEUI_PARAM_ENUM paramName="debug_draw_flow_mode">0</REMOTEUI_PARAM_ENUM>
+    <REMOTEUI_PARAM_ENUM paramName="debug_overlay">0</REMOTEUI_PARAM_ENUM>
     <REMOTEUI_PARAM_BOOL paramName="draw_debug">0</REMOTEUI_PARAM_BOOL>
 </OFX_REMOTE_UI_PARAMS>
