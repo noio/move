@@ -1,8 +1,6 @@
 #pragma once
 
 #include "skeletonfeed.h"
-#include "videofeed.h"
-#include "flowcam.h"
 #include "rift.h"
 #include "lights.h"
 
