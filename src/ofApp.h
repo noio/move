@@ -6,6 +6,7 @@
 #include "rift.h"
 #include "lights.h"
 
+#include "ofxDropstuff.h"
 #include "ofxCv.h"
 #include "ofMain.h"
 
@@ -47,10 +48,10 @@ public:
     void createRifts();
 
     ofPtr<SkeletonFeed> skeletonfeed;
-    ofPtr<VideoFeed> rgb_there;
-    ofPtr<VideoFeed> rgb_here;
-    FlowCam flowcam_here;
-    FlowCam flowcam_there;
+    ofPtr<ofxDS::VideoFeed> rgb_there;
+    ofPtr<ofxDS::VideoFeed> rgb_here;
+    ofxDS::FlowCam flowcam_here;
+    ofxDS::FlowCam flowcam_there;
     Mat flow_hist_threshold, flow_here_hist, flow_there_hist;
     ContourFinder contourfinder;
 

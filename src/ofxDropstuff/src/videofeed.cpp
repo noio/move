@@ -1,5 +1,100 @@
 #include "videofeed.h"
 
+using namespace ofxDS;
+using namespace std;
+using namespace cv;
+using namespace ofxCv;
+
+void VideoFeed::setAspectRatio(int in_width, int in_height)
+{
+    width = in_width;
+    height = in_height;
+}
+
+void VideoFeed::setFlip(int in_flip)
+{
+    flip = in_flip;
+}
+
+void VideoFeed::setMaxFps(float in_fps){
+    wait_millis = 1000.0 / in_fps;
+}
+
+bool VideoFeed::processFrame()
+{
+    if (!needs_processing)
+    {
+        return false;
+    }
+    lock();
+    frame_im.setFromPixels(pixels);
+    unlock();
+    if (!frame_im.isAllocated())
+    {
+        frame = cv::Mat::zeros(width, height, CV_8UC3);
+        return false;
+    }
+    int capture_width = frame_im.getWidth();
+    int capture_height = frame_im.getHeight();
+    float ratio = (float)width / height;
+    int w = min(capture_width, static_cast<int>(round(capture_height * ratio)));
+    int h = min(capture_height, static_cast<int>(round(capture_width / ratio)));
+    roi = cv::Rect((capture_width - w) / 2, (capture_height - h) / 2, w, h);
+    frame_mat = toCv(frame_im);
+    if (flip < 2)
+    {
+        cv::flip(frame_mat(roi), frame, flip);
+    }
+    else
+    {
+        frame = frame_mat(roi).clone();
+    }
+    frame_timestamp = ofGetElapsedTimeMillis();
+    needs_processing = false;
+    return true;
+}
+
+/*
+ * Puts the latest frame into the given matrix,
+ * and returns whether this a fresher frame than
+ * the last time you called getMatrix.
+ * Therefore, if you depend on the return, use only
+ * once per loop.
+ */
+bool VideoFeed::getFrame(Mat& output_frame)
+{
+    processFrame();
+    output_frame = frame;
+    bool frame_is_fresh = frame_timestamp > last_frame_returned;
+    last_frame_returned = frame_timestamp;
+    return frame_is_fresh;
+}
+
+void VideoFeed::draw(float x, float y, float w, float h)
+{
+    processFrame();
+    if (frame_im.isAllocated())
+    {
+        if (flip == 1)
+        {
+            frame_im.drawSubsection(w, 0, -w, h, roi.x, roi.y, roi.width, roi.height);
+        }
+        else if (flip == 0)
+        {
+            frame_im.drawSubsection(0, h, w, -h, roi.x, roi.y, roi.width, roi.height);
+        }
+        else if (flip == -1)
+        {
+            frame_im.drawSubsection(w, h, -w, -h, roi.x, roi.y, roi.width, roi.height);
+        }
+        else
+        {
+            frame_im.drawSubsection(0, 0, w, h, roi.x, roi.y, roi.width, roi.height);
+        }
+    }
+}
+
+
 void VideoFeedStatic::setup(string path)
 {
     frame_im.loadImage(path);

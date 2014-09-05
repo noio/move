@@ -1,5 +1,8 @@
 #include "flowcam.h"
 
+using namespace ofxDS;
+using namespace std;
+using namespace cv;
 using namespace ofxCv;
 
 void FlowCam::setup(int max_flow_width)

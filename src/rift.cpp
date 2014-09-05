@@ -1,6 +1,9 @@
 #include "rift.h"
 #include "utilities.h"
 
+using namespace cv;
+using namespace ofxDS;
+
 float Rift::inner_light_strength = 1000;
 float Rift::fade_max_area = 300;
 float Rift::open_time = 1.0f;

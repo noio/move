@@ -7,7 +7,6 @@
 #include "ofMain.h"
 #include "ofxCv.h"
 
-using namespace cv;
 
 typedef struct PointMeta {
     bool is_tear;
@@ -27,10 +26,10 @@ public:
     void setup(const ofRectangle& bbox);
     void setup(ofPolyline initial);
 
-    void update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowcam_b);
+    void update(double delta_t, const ofxDS::FlowCam& flowcam_a, const ofxDS::FlowCam& flowcam_b);
     void updateOpen();
     void insertPoints(float insert_point_dist);
-    void updateSize(const FlowCam& flowcam_a, const FlowCam& flowcam_b);
+    void updateSize(const ofxDS::FlowCam& flowcam_a, const ofxDS::FlowCam& flowcam_b);
 
     void drawMask();
     void drawDebug();

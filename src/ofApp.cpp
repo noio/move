@@ -3,6 +3,8 @@
 #include "ofxRemoteUIServer.h"
 #include "utilities.h"
 
+using namespace ofxDS;
+
 void maskBeginAlpha()
 {
     ofFill();

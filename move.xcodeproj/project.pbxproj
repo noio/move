@@ -92,12 +92,10 @@
 		E212C821D1064B92DD953A42 /* ofxCvHaarFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9A16CBF2E8CFE43AF54FE6F5 /* ofxCvHaarFinder.cpp */; };
 		E2564CF7DDB3713772BB682E /* ofxUDPManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 35BB9BB90DBABFD3B39F8DB6 /* ofxUDPManager.cpp */; };
 		E261621F19A774960059DBDF /* rift.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E261621D19A774960059DBDF /* rift.cpp */; };
-		E286BED419A604CF002CD07E /* videofeed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E286BED219A604CF002CD07E /* videofeed.cpp */; };
 		E288F8A319B76A6900125D36 /* lights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E288F8A119B76A6900125D36 /* lights.cpp */; };
-		E28B43091998BAFB0059F698 /* flowcam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28B43071998BAFB0059F698 /* flowcam.cpp */; };
 		E28B43121998DC3E0059F698 /* ofxShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28B43101998DC360059F698 /* ofxShader.cpp */; };
-		E2ADD22319B9A4880078BF10 /* flowcam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2ADD21F19B9A4880078BF10 /* flowcam.cpp */; };
-		E2ADD22419B9A4880078BF10 /* videofeed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2ADD22119B9A4880078BF10 /* videofeed.cpp */; };
+		E2ADD22D19B9ADA80078BF10 /* flowcam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2ADD22819B9ADA80078BF10 /* flowcam.cpp */; };
+		E2ADD22E19B9ADA80078BF10 /* videofeed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2ADD22B19B9ADA80078BF10 /* videofeed.cpp */; };
 		E2CA4FD919B70B7B003FFFD0 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CA4FC719B70B68003FFFD0 /* jsoncpp.cpp */; };
 		E2CA4FDA19B70B7D003FFFD0 /* ofxJSONElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CA4FCB19B70B68003FFFD0 /* ofxJSONElement.cpp */; };
 		E2CA4FDD19B70E74003FFFD0 /* skeletonfeed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CA4FDB19B70E74003FFFD0 /* skeletonfeed.cpp */; };
@@ -437,19 +435,16 @@
 		E261621E19A774960059DBDF /* rift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rift.h; sourceTree = "<group>"; };
 		E261622219A77FE90059DBDF /* utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utilities.h; sourceTree = "<group>"; };
 		E2813E36CEFD8D1C1B70E600 /* ofxUIRangeSlider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIRangeSlider.cpp; path = ../../../addons/ofxUI/src/ofxUIRangeSlider.cpp; sourceTree = SOURCE_ROOT; };
-		E286BED219A604CF002CD07E /* videofeed.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = videofeed.cpp; sourceTree = "<group>"; };
-		E286BED319A604CF002CD07E /* videofeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = videofeed.h; sourceTree = "<group>"; };
 		E288F8A119B76A6900125D36 /* lights.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lights.cpp; sourceTree = "<group>"; };
 		E288F8A219B76A6900125D36 /* lights.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lights.h; sourceTree = "<group>"; };
-		E28B43071998BAFB0059F698 /* flowcam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = flowcam.cpp; sourceTree = "<group>"; };
-		E28B43081998BAFB0059F698 /* flowcam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = flowcam.h; sourceTree = "<group>"; };
 		E28B430E1998DC360059F698 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		E28B43101998DC360059F698 /* ofxShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxShader.cpp; sourceTree = "<group>"; };
 		E28B43111998DC360059F698 /* ofxShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxShader.h; sourceTree = "<group>"; };
-		E2ADD21F19B9A4880078BF10 /* flowcam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = flowcam.cpp; sourceTree = "<group>"; };
-		E2ADD22019B9A4880078BF10 /* flowcam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = flowcam.h; sourceTree = "<group>"; };
-		E2ADD22119B9A4880078BF10 /* videofeed.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = videofeed.cpp; sourceTree = "<group>"; };
-		E2ADD22219B9A4880078BF10 /* videofeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = videofeed.h; sourceTree = "<group>"; };
+		E2ADD22819B9ADA80078BF10 /* flowcam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = flowcam.cpp; sourceTree = "<group>"; };
+		E2ADD22919B9ADA80078BF10 /* flowcam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = flowcam.h; sourceTree = "<group>"; };
+		E2ADD22A19B9ADA80078BF10 /* ofxDropstuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDropstuff.h; sourceTree = "<group>"; };
+		E2ADD22B19B9ADA80078BF10 /* videofeed.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = videofeed.cpp; sourceTree = "<group>"; };
+		E2ADD22C19B9ADA80078BF10 /* videofeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = videofeed.h; sourceTree = "<group>"; };
 		E2CA4FC419B70B68003FFFD0 /* json-forwards.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "json-forwards.h"; sourceTree = "<group>"; };
 		E2CA4FC519B70B68003FFFD0 /* json.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
 		E2CA4FC719B70B68003FFFD0 /* jsoncpp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = jsoncpp.cpp; sourceTree = "<group>"; };
@@ -990,7 +985,6 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
-				E2ADD21D19B9A4880078BF10 /* ofxDropstuff */,
 				E2CA4F8119B70B68003FFFD0 /* ofxJSON */,
 				E28B430D1998DC360059F698 /* ofxShader */,
 				480A780D8D0308AE4A368801 /* ofxGui */,
@@ -1278,22 +1272,22 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		E2ADD21D19B9A4880078BF10 /* ofxDropstuff */ = {
+		E2ADD22619B9ADA80078BF10 /* ofxDropstuff */ = {
 			isa = PBXGroup;
 			children = (
-				E2ADD21E19B9A4880078BF10 /* src */,
+				E2ADD22719B9ADA80078BF10 /* src */,
 			);
-			name = ofxDropstuff;
-			path = ../../../addons/ofxDropstuff;
+			path = ofxDropstuff;
 			sourceTree = "<group>";
 		};
-		E2ADD21E19B9A4880078BF10 /* src */ = {
+		E2ADD22719B9ADA80078BF10 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				E2ADD21F19B9A4880078BF10 /* flowcam.cpp */,
-				E2ADD22019B9A4880078BF10 /* flowcam.h */,
-				E2ADD22119B9A4880078BF10 /* videofeed.cpp */,
-				E2ADD22219B9A4880078BF10 /* videofeed.h */,
+				E2ADD22819B9ADA80078BF10 /* flowcam.cpp */,
+				E2ADD22919B9ADA80078BF10 /* flowcam.h */,
+				E2ADD22A19B9ADA80078BF10 /* ofxDropstuff.h */,
+				E2ADD22B19B9ADA80078BF10 /* videofeed.cpp */,
+				E2ADD22C19B9ADA80078BF10 /* videofeed.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -1394,8 +1388,7 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				E28B43071998BAFB0059F698 /* flowcam.cpp */,
-				E28B43081998BAFB0059F698 /* flowcam.h */,
+				E2ADD22619B9ADA80078BF10 /* ofxDropstuff */,
 				E288F8A119B76A6900125D36 /* lights.cpp */,
 				E288F8A219B76A6900125D36 /* lights.h */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
@@ -1406,8 +1399,6 @@
 				E2CA4FDB19B70E74003FFFD0 /* skeletonfeed.cpp */,
 				E2CA4FDC19B70E74003FFFD0 /* skeletonfeed.h */,
 				E261622219A77FE90059DBDF /* utilities.h */,
-				E286BED219A604CF002CD07E /* videofeed.cpp */,
-				E286BED319A604CF002CD07E /* videofeed.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -1579,7 +1570,7 @@
 				250A95BA26587BE85DB0A353 /* ofxCvColorImage.cpp in Sources */,
 				1D5F3298C2FA073628012944 /* ofxCvContourFinder.cpp in Sources */,
 				169D3C72FDE6C5590A1616F5 /* ofxCvFloatImage.cpp in Sources */,
-				E286BED419A604CF002CD07E /* videofeed.cpp in Sources */,
+				E2ADD22E19B9ADA80078BF10 /* videofeed.cpp in Sources */,
 				FB09C6B2A1DA0EA217240CB8 /* ofxCvGrayscaleImage.cpp in Sources */,
 				E212C821D1064B92DD953A42 /* ofxCvHaarFinder.cpp in Sources */,
 				63020F16C7E8DED980111241 /* ofxCvImage.cpp in Sources */,
@@ -1602,7 +1593,6 @@
 				63B57AC5BF4EF088491E0317 /* ofxXmlSettings.cpp in Sources */,
 				933A2227713C720CEFF80FD9 /* tinyxml.cpp in Sources */,
 				9D44DC88EF9E7991B4A09951 /* tinyxmlerror.cpp in Sources */,
-				E28B43091998BAFB0059F698 /* flowcam.cpp in Sources */,
 				5A4349E9754D6FA14C0F2A3A /* tinyxmlparser.cpp in Sources */,
 				B6840996567E78436F7ECFAB /* ETF.cpp in Sources */,
 				F76B4A79BD8DE4854141CB47 /* fdog.cpp in Sources */,
@@ -1638,7 +1628,6 @@
 				22030CBDCC25D815E7ED6757 /* ofxUIFPSSlider.cpp in Sources */,
 				3D4EA8E172D3E4A30FEFA969 /* ofxUIImage.cpp in Sources */,
 				7F2CD93F681F3C1547B3BF2C /* ofxUIImageButton.cpp in Sources */,
-				E2ADD22319B9A4880078BF10 /* flowcam.cpp in Sources */,
 				FBD0CD0AFE3849C14E829CAF /* ofxUIImageSampler.cpp in Sources */,
 				E28B43121998DC3E0059F698 /* ofxShader.cpp in Sources */,
 				26874B150C8535AEA0F24C8C /* ofxUIImageSlider.cpp in Sources */,
@@ -1653,11 +1642,11 @@
 				E3D59A6B55F05669B3FBF8BD /* ofxUINumberDialer.cpp in Sources */,
 				D60E54E7FD6E19BC8636E0D2 /* ofxUIRadio.cpp in Sources */,
 				1587708E3CAC72997E43504E /* ofxUIRangeSlider.cpp in Sources */,
-				E2ADD22419B9A4880078BF10 /* videofeed.cpp in Sources */,
 				59C5F2F5D7254C33C00F97CB /* ofxUIRectangle.cpp in Sources */,
 				FE0F1DB69ACCD163E9DA2A15 /* ofxUIRotarySlider.cpp in Sources */,
 				43BADBB2FE0F17D34B57A705 /* ofxUIScrollableCanvas.cpp in Sources */,
 				740A58CBFDFE578C83A349AF /* ofxUISlider.cpp in Sources */,
+				E2ADD22D19B9ADA80078BF10 /* flowcam.cpp in Sources */,
 				ADE7C2AFC51E3F7E5E389026 /* ofxUISortableList.cpp in Sources */,
 				BFEFCE32DAFE10A8EB519F6C /* ofxUISpacer.cpp in Sources */,
 				E2CA4FDD19B70E74003FFFD0 /* skeletonfeed.cpp in Sources */,
