@@ -55,6 +55,13 @@ void drawMatFull(const Mat& matrix)
 void ofApp::setup()
 {
     ofSetLogLevel(OF_LOG_VERBOSE);
+    loadConfig();
+    //
+    setupUI();
+    // Window setup
+    ofSetWindowPosition(window_x, window_y);
+    ofSetWindowShape(window_width, window_height);
+    //
     skeletonfeed = ofPtr<SkeletonFeed>(new SkeletonFeed());
     skeletonfeed->setup("http://192.168.1.34:1338/activeskeletonsprojected");
     // Numbers below found by trial & error
@@ -64,67 +71,128 @@ void ofApp::setup()
     //
     flowcam_here.setup(160);
     flowcam_there.setup(160);
-    //
     //===== REMOTE CAM SETUP =====
-    VideoFeedStatic* rgb_there_p = new VideoFeedStatic();
-    rgb_there_p->setup("stockholm.jpg");
-//    VideoFeedWebcam* rgb_there_p = new VideoFeedWebcam();
-//    rgb_there_p->setup(1, 1280, 720);
-//    VideoFeedImageUrl* rgb_there_p = new VideoFeedImageUrl();
-//    rgb_there_p->setup("http://192.168.1.34:1338/color");
-    rgb_there_p->setAspectRatio(ofGetWidth(), ofGetHeight());
-    rgb_there = ofPtr<VideoFeed>(rgb_there_p);
-    //
+    rgb_there = ofPtr<VideoFeed>(setupVideoFeed(video_source_there));
     //===== LOCAL CAMERA SETUP =====
-//    VideoFeedWebcam* rgb_here_p = new VideoFeedWebcam();
-//    rgb_here_p->setup(0, WEBCAM_RES_720);
-    VideoFeedImageUrl* rgb_here_p = new VideoFeedImageUrl();
-    rgb_here_p->setup("http://192.168.1.34:1338/color");
-//    VideoFeedStatic* rgb_here_p = new VideoFeedStatic();
-//    rgb_here_p->setup("denhaag.jpg");
-    rgb_here_p->setAspectRatio(ofGetWidth(), ofGetHeight());
-    rgb_here = ofPtr<VideoFeed>(rgb_here_p);
+    rgb_here = ofPtr<VideoFeed>(setupVideoFeed(video_source_here));
     //
     contourfinder.setSimplify(true);
     contourfinder.setMinArea(80);
     contourfinder.getTracker().setSmoothingRate(0.2);
     //
     lights.setup(5);
+}
+
+void ofApp::loadConfig()
+{
+    const string configpath = ofBufferFromFile("configpath").getText();
+    if (!config.open(configpath))
+    {
+        ofLogError("ofApp") << "Failed to open config file";
+        ofSystemAlertDialog("Failed to load config file at " + configpath);
+    }
+    ofLogNotice("ofApp") << "Loaded config: \n" << config.toStyledString();
+}
+
+void ofApp::setupUI()
+{
     // SETUP UI
-    OFX_REMOTEUI_SERVER_SETUP(44040); //start server
-    OFX_REMOTEUI_SERVER_NEW_GROUP("Global");
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(draw_debug);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(disable_local_rgb);
+    RUI_SETUP(44040); //start server
+    RUI_NEW_GROUP("Reboot Required");
+    OFX_REMOTEUI_SERVER_SHARE_PARAM(window_x, 0, ofGetScreenWidth() / 2);
+    OFX_REMOTEUI_SERVER_SHARE_PARAM(window_y, 0, ofGetScreenHeight() / 2);
+    OFX_REMOTEUI_SERVER_SHARE_PARAM(window_width, 320, 1024);
+    OFX_REMOTEUI_SERVER_SHARE_PARAM(window_height, 240, 768);
     vector<string> menuItems;
+    menuItems.push_back("PLACEHOLDER,");
+    menuItems.push_back("WEBCAM0,");
+    menuItems.push_back("WEBCAM1,");
+    menuItems.push_back("SERVER_LOCAL,");
+    menuItems.push_back("SERVER_REMOTE");
+    RUI_SHARE_ENUM_PARAM(video_source_here, 0, 4, menuItems);
+    RUI_SHARE_ENUM_PARAM(video_source_there, 0, 4, menuItems);
+    RUI_NEW_GROUP("Global");
+    RUI_SHARE_PARAM(draw_debug);
+    RUI_SHARE_PARAM(disable_local_rgb);
+    menuItems.clear();
     menuItems.push_back("NONE");
     menuItems.push_back("FLOW_HERE");
     menuItems.push_back("FLOW_THERE");
     menuItems.push_back("FLOWHIST_HERE");
     menuItems.push_back("FLOWHIST_THERE");
-    OFX_REMOTEUI_SERVER_SHARE_ENUM_PARAM(debug_overlay, 0, 4, menuItems);
-    OFX_REMOTEUI_SERVER_NEW_GROUP("Creation");
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(max_rifts, 0, 10);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(new_rift_min_flow, 0, 255);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(create_rifts_time, 0, 10);
-    OFX_REMOTEUI_SERVER_NEW_GROUP("Graphics");
-    OFX_REMOTEUI_SERVER_SHARE_COLOR_PARAM(rgb_here_multiply);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(flow_hist_darkness, 0, 1.0);
-    OFX_REMOTEUI_SERVER_NEW_GROUP("Rift");
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::inner_light_strength, 0, 10000.0f);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::fade_max_area, 200, 500);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::fade_out_time, 5.0, 50);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::fade_in_time, 0.1, 5.0);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::resample_time, 2, 60.0);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::max_point_dist, 10, 100);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::grow_speed, 0, 2);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::grow_min_flow_squared, 0, 10);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::shrink_speed, 0, 2);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(Rift::shrink_delay, 0, 10);
-    OFX_REMOTEUI_SERVER_NEW_GROUP("Lights");
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(lights.ray_length, 0, 2.0f);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(lights.ray_rift_normal_bias, 0, 40.0f);
+    RUI_SHARE_ENUM_PARAM(debug_overlay, 0, 4, menuItems);
+    RUI_NEW_GROUP("Creation");
+    RUI_SHARE_PARAM(max_rifts, 0, 10);
+    RUI_SHARE_PARAM(new_rift_min_flow, 0, 255);
+    RUI_SHARE_PARAM(create_rifts_time, 0, 10);
+    RUI_NEW_GROUP("Graphics");
+    RUI_SHARE_COLOR_PARAM(rgb_here_multiply);
+    RUI_SHARE_PARAM(flow_hist_darkness, 0, 1.0);
+    RUI_NEW_GROUP("Rift");
+    RUI_SHARE_PARAM(Rift::inner_light_strength, 0, 10000.0f);
+    RUI_SHARE_PARAM(Rift::fade_max_area, 200, 500);
+    RUI_SHARE_PARAM(Rift::fade_out_time, 5.0, 50);
+    RUI_SHARE_PARAM(Rift::fade_in_time, 0.1, 5.0);
+    RUI_SHARE_PARAM(Rift::open_time, 1, 10);
+    RUI_SHARE_PARAM(Rift::resample_time, 2, 60.0);
+    RUI_SHARE_PARAM(Rift::max_point_dist, 10, 100);
+    RUI_SHARE_PARAM(Rift::grow_speed, 0, 4);
+    RUI_SHARE_PARAM(Rift::grow_min_flow_squared, 0, 10);
+    RUI_SHARE_PARAM(Rift::shrink_speed, 0, 4);
+    RUI_SHARE_PARAM(Rift::shrink_delay, 0, 10);
+    RUI_NEW_GROUP("Lights");
+    RUI_SHARE_PARAM(lights.ray_length, 0, 2.0f);
+    RUI_SHARE_PARAM(lights.ray_rift_normal_bias, 0, 40.0f);
     //load values from XML, as they were last saved (if they were)
-    OFX_REMOTEUI_SERVER_LOAD_FROM_XML();
+    RUI_LOAD_FROM_XML();
+}
+
+VideoFeed* ofApp::setupVideoFeed(VideoSource source)
+{
+    VideoFeed* feed;
+    switch (source) {
+        case VIDEO_SOURCE_PLACEHOLDER:
+        {
+            feed = new VideoFeedStatic();
+            ((VideoFeedStatic *)feed)->setup("stockholm.jpg");
+            break;
+        }
+            
+        case VIDEO_SOURCE_WEBCAM0:
+        {
+            feed = new VideoFeedWebcam();
+            ((VideoFeedWebcam *)feed)->setup(0, WEBCAM_RES_720);
+            break;
+        }
+            
+        case VIDEO_SOURCE_WEBCAM1:
+        {
+            feed = new VideoFeedWebcam();
+            ((VideoFeedWebcam *)feed)->setup(1, WEBCAM_RES_720);
+            break;
+        }
+            
+        case VIDEO_SOURCE_SERVER_LOCAL:
+        {
+            VideoFeedImageUrl* f = new VideoFeedImageUrl();
+            f->setup(config["local_server"].asString() + "/color");
+            feed = f;
+            break;
+        }
+            
+        case VIDEO_SOURCE_SERVER_REMOTE:
+        {
+            VideoFeedImageUrl* f = new VideoFeedImageUrl();
+            f->setup(config["local_server"].asString() + "/remotecolor");
+            feed = f;
+            break;
+        }
+            
+        default:
+            break;
+    }
+    feed->setAspectRatio(ofGetWidth(), ofGetHeight());
+    return feed;
 }
 
 //--------------------------------------------------------------
@@ -365,6 +433,9 @@ void ofApp::mouseReleased(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h)
 {
+    ofLogNotice("ofApp") << "resized " << w << "x" << h;
+    window_width = w;
+    window_height = h;
     rgb_here->setAspectRatio(ofGetWidth(), ofGetHeight());
     rgb_there->setAspectRatio(ofGetWidth(), ofGetHeight());
 }

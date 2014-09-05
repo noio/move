@@ -1,5 +1,4 @@
-#ifndef MOVE_SKELETONFEED_H_
-#define MOVE_SKELETONFEED_H_
+#pragma once
 
 #include "ofMain.h"
 #include "ofxJSON.h"
@@ -54,5 +53,3 @@ private:
     float wait_millis = 1000.0f / 30.0f;
 };
 
-
-#endif /* defined(MOVE_SKELETONFEED_H_) */

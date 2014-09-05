@@ -74,7 +74,12 @@ void SkeletonFeed::threadedFunction()
     while (isThreadRunning())
     {
         double fetch_start = ofGetElapsedTimeMillis();
-        if (json.open(url))
+        if (!json.open(url))
+        {
+            ofLogWarning("SkeletonFeed") << "load fail";
+            ofSleepMillis(1000);
+        }
+        else
         {
             if (json.isMember("Skeletons") && json["Skeletons"].isArray())
             {

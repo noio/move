@@ -26,15 +26,28 @@ void Lights::setup(int num_lights)
 
 void Lights::update(double delta_t, const vector<Skeleton>& skeletons)
 {
-    for (int i = 0; i < lights.size(); i ++)
+    if (skeletons.size())
     {
-        Light& light = lights[i];
-        light.velocity += ofPoint(ofRandomf(), ofRandomf()) * delta_t * 30;
-        light.velocity += .001 * (ofPoint(ofGetWidth() * .5, ofGetHeight() * .5) - light.position);
-        light.position += light.velocity * delta_t;
-        light.position.x = ofClamp(light.position.x, 0, ofGetWidth());
-        light.position.y = ofClamp(light.position.y, 0, ofGetHeight());
-        light.rotation += .1;
+        for (int i = 0; i < lights.size(); i ++)
+        {
+            Light& light = lights[i];
+            light.velocity.set(0);
+            light.position += .1 * (skeletons[i % skeletons.size()].head - light.position);
+            light.rotation += .1;
+        }
+    }
+    else
+    {
+        for (int i = 0; i < lights.size(); i ++)
+        {
+            Light& light = lights[i];
+            light.velocity += ofPoint(ofRandomf(), ofRandomf()) * delta_t * 30;
+            light.velocity += .001 * (ofPoint(ofGetWidth() * .5, ofGetHeight() * .5) - light.position);
+            light.position += light.velocity * delta_t;
+            light.position.x = ofClamp(light.position.x, 0, ofGetWidth());
+            light.position.y = ofClamp(light.position.y, 0, ofGetHeight());
+            light.rotation += .01;
+        }
     }
 }
 

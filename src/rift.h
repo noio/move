@@ -1,5 +1,4 @@
-#ifndef MOVE_RIFT_H_
-#define MOVE_RIFT_H_
+#pragma once
 
 #include "lights.h"
 #include "flowcam.h"
@@ -68,5 +67,3 @@ private:
 
 };
 
-
-#endif /* defined(MOVE_RIFT_H_) */

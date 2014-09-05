@@ -6,6 +6,7 @@
 
 #include "ofxDropstuff.h"
 #include "ofxCv.h"
+#include "ofxJSON.h"
 #include "ofMain.h"
 
 #include <deque>
@@ -22,6 +23,15 @@ enum DebugOverlay
     DEBUGOVERLAY_FLOWHIST_THERE,
 };
 
+enum VideoSource
+{
+    VIDEO_SOURCE_PLACEHOLDER,
+    VIDEO_SOURCE_WEBCAM0,
+    VIDEO_SOURCE_WEBCAM1,
+    VIDEO_SOURCE_SERVER_LOCAL,
+    VIDEO_SOURCE_SERVER_REMOTE
+};
+
 class ofApp : public ofBaseApp
 {
 
@@ -29,9 +39,12 @@ public:
     void setup();
     void update();
     void draw();
+    
+    void loadConfig();
+    void setupUI();
+    ofxDS::VideoFeed* setupVideoFeed(VideoSource source);
 
     void exit();
-
     void keyPressed(int key);
     void keyReleased(int key);
     void mouseMoved(int x, int y );
@@ -44,6 +57,8 @@ public:
 
     void updateFlowHist();
     void createRifts();
+    
+    ofxJSONElement config;
 
     ofPtr<SkeletonFeed> skeletonfeed;
     ofPtr<ofxDS::VideoFeed> rgb_there;
@@ -60,6 +75,11 @@ public:
     float delta_t;
     double create_rifts_timer;
 
+    // Settings
+    int window_x = 20, window_y = 100, window_width = 896, window_height = 288;
+    VideoSource video_source_here = VIDEO_SOURCE_WEBCAM0;
+    VideoSource video_source_there = VIDEO_SOURCE_PLACEHOLDER;
+    
     bool draw_debug = true;
     bool disable_local_rgb = false;
     DebugOverlay debug_overlay = DEBUGOVERLAY_NONE;

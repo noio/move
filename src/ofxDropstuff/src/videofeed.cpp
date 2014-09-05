@@ -190,7 +190,7 @@ void VideoFeedImageUrl_<PixelType>::threadedFunction()
             // When loading fails, the ofImage resets bUseTexture to true
             loader.setUseTexture(false);
             fail_count ++;
-            ofSleepMillis(fail_count < 60 ? 10 : 1000);
+            ofSleepMillis(1000);
         }
         else
         {
