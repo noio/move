@@ -5,22 +5,26 @@ using namespace std;
 using namespace cv;
 using namespace ofxCv;
 
-void VideoFeed::setAspectRatio(int in_width, int in_height)
+template<typename PixelType>
+void VideoFeed_<PixelType>::setAspectRatio(int in_width, int in_height)
 {
     width = in_width;
     height = in_height;
 }
 
-void VideoFeed::setFlip(int in_flip)
+template<typename PixelType>
+void VideoFeed_<PixelType>::setFlip(int in_flip)
 {
     flip = in_flip;
 }
 
-void VideoFeed::setMaxFps(float in_fps){
+template<typename PixelType>
+void VideoFeed_<PixelType>::setMaxFps(float in_fps){
     wait_millis = 1000.0 / in_fps;
 }
 
-bool VideoFeed::processFrame()
+template<typename PixelType>
+bool VideoFeed_<PixelType>::processFrame()
 {
     if (!needs_processing)
     {
@@ -61,7 +65,8 @@ bool VideoFeed::processFrame()
  * Therefore, if you depend on the return, use only
  * once per loop.
  */
-bool VideoFeed::getFrame(Mat& output_frame)
+template<typename PixelType>
+bool VideoFeed_<PixelType>::getFrame(Mat& output_frame)
 {
     processFrame();
     output_frame = frame;
@@ -70,7 +75,8 @@ bool VideoFeed::getFrame(Mat& output_frame)
     return frame_is_fresh;
 }
 
-void VideoFeed::draw(float x, float y, float w, float h)
+template<typename PixelType>
+void VideoFeed_<PixelType>::draw(float x, float y, float w, float h)
 {
     processFrame();
     if (frame_im.isAllocated())
@@ -161,18 +167,21 @@ void VideoFeedWebcam::threadedFunction()
     }
 }
 
-void VideoFeedImageUrl::setup(string in_url)
+
+template<typename PixelType>
+void VideoFeedImageUrl_<PixelType>::setup(string in_url)
 {
     url = in_url;
     fail_count = 0;
-    setFlip(2);
+    this->setFlip(2);
     loader.setUseTexture(false);
-    startThread(true, false);
+    this->startThread(true, false);
 }
 
-void VideoFeedImageUrl::threadedFunction()
+template<typename PixelType>
+void VideoFeedImageUrl_<PixelType>::threadedFunction()
 {
-    while (isThreadRunning())
+    while (this->isThreadRunning())
     {
         double fetch_start = ofGetElapsedTimeMillis();
         if (!loader.loadImage(url))
@@ -185,12 +194,12 @@ void VideoFeedImageUrl::threadedFunction()
         }
         else
         {
-            lock();
-            pixels = loader.getPixelsRef();
-            unlock();
-            needs_processing = true;
+            this->lock();
+            this->pixels = this->loader.getPixelsRef();
+            this->unlock();
+            this->needs_processing = true;
             fail_count = 0;
-            double wait = wait_millis - (ofGetElapsedTimeMillis() - fetch_start);
+            double wait = this->wait_millis - (ofGetElapsedTimeMillis() - fetch_start);
             if (wait > 0)
             {
                 ofSleepMillis(wait);
@@ -198,3 +207,9 @@ void VideoFeedImageUrl::threadedFunction()
         }
     }
 }
+
+template class VideoFeed_<unsigned char>;
+template class VideoFeed_<unsigned short>;
+
+template class VideoFeedImageUrl_<unsigned char>;
+template class VideoFeedImageUrl_<unsigned short>;

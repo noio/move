@@ -53,6 +53,7 @@ public:
     ofxDS::FlowCam flowcam_here;
     ofxDS::FlowCam flowcam_there;
     Mat flow_hist_threshold, flow_here_hist, flow_there_hist;
+    
     ContourFinder contourfinder;
 
     vector<Rift> rifts;

@@ -76,10 +76,10 @@ void ofApp::setup()
     rgb_there = ofPtr<VideoFeed>(rgb_there_p);
     //
     //===== LOCAL CAMERA SETUP =====
-    VideoFeedWebcam* rgb_here_p = new VideoFeedWebcam();
-    rgb_here_p->setup(0, WEBCAM_RES_720);
-//    VideoFeedImageUrl* rgb_here_p = new VideoFeedImageUrl();
-//    rgb_here_p->setup("http://192.168.1.34:1338/color");
+//    VideoFeedWebcam* rgb_here_p = new VideoFeedWebcam();
+//    rgb_here_p->setup(0, WEBCAM_RES_720);
+    VideoFeedImageUrl* rgb_here_p = new VideoFeedImageUrl();
+    rgb_here_p->setup("http://192.168.1.34:1338/color");
 //    VideoFeedStatic* rgb_here_p = new VideoFeedStatic();
 //    rgb_here_p->setup("denhaag.jpg");
     rgb_here_p->setAspectRatio(ofGetWidth(), ofGetHeight());

@@ -1,5 +1,4 @@
-#ifndef MOVE_VIDEOFEED_H_
-#define MOVE_VIDEOFEED_H_
+#pragma once
 
 #include "ofMain.h"
 #include "ofxCv.h"
@@ -13,13 +12,14 @@ namespace ofxDS
         WEBCAM_RES_480
     };
 
-    class VideoFeed : public ofThread
+    template<typename PixelType>
+    class VideoFeed_ : public ofThread
     {
 
     public:
-        VideoFeed() {};
-        VideoFeed(const VideoFeed&) = delete;            // no copy
-        VideoFeed& operator=(const VideoFeed&) = delete; // no assign
+        VideoFeed_() {};
+        VideoFeed_(const VideoFeed_&) = delete;            // no copy
+        VideoFeed_& operator=(const VideoFeed_&) = delete; // no assign
 
         void setAspectRatio(int in_width, int in_height);
         void setFlip(int in_flip);
@@ -37,7 +37,7 @@ namespace ofxDS
         void draw(float x, float y, float w, float h);
 
     protected:
-        int width, height;
+        int width = 640, height = 480;
         char flip = 1;
         float wait_millis = 1000.0f / 30.0f;
         bool needs_processing = false;
@@ -45,10 +45,13 @@ namespace ofxDS
         unsigned long long last_frame_returned = 0;
         cv::Mat frame_mat;
         cv::Mat frame;
-        ofImage frame_im;
-        ofPixels pixels;
+        ofImage_<PixelType> frame_im;
+        ofPixels_<PixelType> pixels;
         cv::Rect roi;
     };
+    
+    typedef VideoFeed_<unsigned char> VideoFeed;
+    typedef VideoFeed_<unsigned short> VideoFeed16Bit;
 
     class VideoFeedStatic : public VideoFeed
     {
@@ -59,26 +62,30 @@ namespace ofxDS
     class VideoFeedWebcam : public VideoFeed
     {
     public:
-        ~VideoFeedWebcam() { ofLogVerbose("VideoFeedImageWebcam") << "destroying"; waitForThread(true); }
+        ~VideoFeedWebcam() { waitForThread(true); }
         void setup(int device, VideoFeedWebcamResolution res) ;
         void threadedFunction() ;
     private:
         ofVideoGrabber camera;
     };
 
-    class VideoFeedImageUrl : public VideoFeed
+    template<typename PixelType>
+    class VideoFeedImageUrl_ : public VideoFeed_<PixelType>
     {
     public:
-        ~VideoFeedImageUrl() { waitForThread(true); }
+        ~VideoFeedImageUrl_() { this->waitForThread(true); }
         void setup(string in_url) ;
         void threadedFunction() ;
     private:
         string url;
-        ofImage loader;
+        ofImage_<PixelType> loader;
         int fail_count;
 
     };
 
+    typedef VideoFeedImageUrl_<unsigned char> VideoFeedImageUrl;
+    typedef VideoFeedImageUrl_<unsigned short> VideoFeed16BitImageUrl;
 }
 
-#endif /* defined(MOVE_VIDEOFEED_H_) */
+
+

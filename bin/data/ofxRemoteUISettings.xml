@@ -4,7 +4,7 @@
     <REMOTEUI_PARAM_FLOAT paramName="Rift::fade_out_time">10.000000000</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_FLOAT paramName="Rift::grow_min_flow_squared">1.966274738</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_FLOAT paramName="Rift::grow_speed">1.479098439</REMOTEUI_PARAM_FLOAT>
-    <REMOTEUI_PARAM_FLOAT paramName="Rift::inner_light_strength">2773.630859375</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="Rift::inner_light_strength">1125.654418945</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_FLOAT paramName="Rift::max_point_dist">80.794593811</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_FLOAT paramName="Rift::resample_time">7.203086376</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_FLOAT paramName="Rift::shrink_delay">3.000000000</REMOTEUI_PARAM_FLOAT>
@@ -24,5 +24,5 @@
         <A>255</A>
     </REMOTEUI_PARAM_COLOR>
     <REMOTEUI_PARAM_ENUM paramName="debug_overlay">0</REMOTEUI_PARAM_ENUM>
-    <REMOTEUI_PARAM_BOOL paramName="draw_debug">0</REMOTEUI_PARAM_BOOL>
+    <REMOTEUI_PARAM_BOOL paramName="draw_debug">1</REMOTEUI_PARAM_BOOL>
 </OFX_REMOTE_UI_PARAMS>

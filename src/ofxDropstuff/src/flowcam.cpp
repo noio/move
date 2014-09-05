@@ -55,7 +55,14 @@ void FlowCam::update(Mat frame)
                                        cv::Size(2 * flow_erosion_size + 1, 2 * flow_erosion_size + 1),
                                        cv::Point(flow_erosion_size, flow_erosion_size));
     float delta_t = ofGetElapsedTimef() - last_update;
-    cvtColor(frame, frame_gray, CV_BGR2GRAY);
+    if (frame.channels() > 1)
+    {
+        cvtColor(frame, frame_gray, CV_RGB2GRAY);
+    }
+    else
+    {
+        frame_gray = frame;
+    }
     while (frame_gray.cols > max_flow_width)
     {
         pyrDown(frame_gray, frame_gray);
