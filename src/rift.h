@@ -1,8 +1,7 @@
 #pragma once
 
 #include "lights.h"
-#include "flowcam.h"
-
+#include "ofxDropstuff.h"
 #include "ofMain.h"
 #include "ofxCv.h"
 

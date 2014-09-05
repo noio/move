@@ -14,7 +14,9 @@ typedef struct Skeleton
     ofPoint spine;
 } Skeleton;
 
-class SkeletonFeed : public ofThread
+class SkeletonFeed
+
+: public ofThread
 {
 
 public:
@@ -52,4 +54,3 @@ private:
     string url;
     float wait_millis = 1000.0f / 30.0f;
 };
-
