@@ -15,7 +15,9 @@ typedef struct Skeleton
     ofPoint spine;
 } Skeleton;
 
-class SkeletonFeed : public ofThread
+class SkeletonFeed
+
+: public ofThread
 {
 
 public:

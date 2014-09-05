@@ -2,8 +2,7 @@
 #define MOVE_RIFT_H_
 
 #include "lights.h"
-#include "flowcam.h"
-
+#include "ofxDropstuff.h"
 #include "ofMain.h"
 #include "ofxCv.h"
 

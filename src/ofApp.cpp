@@ -54,6 +54,7 @@ void drawMatFull(const Mat& matrix)
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+    ofSetFrameRate(60);
     ofSetLogLevel(OF_LOG_VERBOSE);
     skeletonfeed = ofPtr<SkeletonFeed>(new SkeletonFeed());
     skeletonfeed->setup("http://192.168.1.34:1338/activeskeletonsprojected");
