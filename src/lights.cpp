@@ -26,7 +26,7 @@ void Lights::setup(int num_lights)
 
 void Lights::update(double delta_t, const vector<Skeleton>& skeletons)
 {
-    if (skeletons.size())
+    if (skeletons.size() && false)
     {
         for (int i = 0; i < lights.size(); i ++)
         {

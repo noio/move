@@ -64,7 +64,7 @@ void ofApp::setup()
     ofSetWindowShape(window_width, window_height);
     //
     skeletonfeed = ofPtr<SkeletonFeed>(new SkeletonFeed());
-    skeletonfeed->setup("http://192.168.1.34:1338/activeskeletonsprojected");
+    skeletonfeed->setup(config["local_server"].asString() + "/activeskeletonsprojected");
     // Numbers below found by trial & error
     // Frameworks till does crazy squishing at non-standard resolutions
     // so there is no making sense of this.
@@ -158,37 +158,38 @@ VideoFeed* ofApp::setupVideoFeed(VideoSource source)
             ((VideoFeedStatic *)feed)->setup("stockholm.jpg");
             break;
         }
-            
+
         case VIDEO_SOURCE_WEBCAM0:
         {
             feed = new VideoFeedWebcam();
             ((VideoFeedWebcam *)feed)->setup(0, WEBCAM_RES_720);
             break;
         }
-            
+
         case VIDEO_SOURCE_WEBCAM1:
         {
             feed = new VideoFeedWebcam();
             ((VideoFeedWebcam *)feed)->setup(1, WEBCAM_RES_720);
             break;
         }
-            
+
         case VIDEO_SOURCE_SERVER_LOCAL:
         {
             VideoFeedImageUrl* f = new VideoFeedImageUrl();
             f->setup(config["local_server"].asString() + "/color");
+            f->setFlip(1);
             feed = f;
             break;
         }
-            
+
         case VIDEO_SOURCE_SERVER_REMOTE:
         {
             VideoFeedImageUrl* f = new VideoFeedImageUrl();
-            f->setup(config["local_server"].asString() + "/remotecolor");
+            f->setup(config["remote_server"].asString() + "/color");
             feed = f;
             break;
         }
-            
+
         default:
             break;
     }
