@@ -147,8 +147,8 @@ void Rift::updateSize(const FlowCam& flowcam_a, const FlowCam& flowcam_b)
         const ofPoint& cur = points[i];
         const ofPoint p = cur / screen;
         const ofPoint normal = points.getNormalAtIndex(i);
-        const ofVec2f flow_a = flowcam_a.getFlowAtUnitPos(p.x, p.y);
-        const ofVec2f flow_b = flowcam_b.getFlowAtUnitPos(p.x, p.y);
+        const ofVec2f flow_a = flowcam_a.getFlowAtUnitPos(ofClamp(p.x, 0, 1), ofClamp(p.y, 0, 1));
+        const ofVec2f flow_b = flowcam_b.getFlowAtUnitPos(ofClamp(p.x, 0, 1), ofClamp(p.y, 0, 1));
         if ((flow_a.lengthSquared() > grow_min_flow_squared && flow_a.dot(normal) > 0) ||
                 (flow_b.lengthSquared() > grow_min_flow_squared && flow_b.dot(normal) > 0))
         {
