@@ -29,7 +29,8 @@ enum VideoSource
     VIDEO_SOURCE_WEBCAM0,
     VIDEO_SOURCE_WEBCAM1,
     VIDEO_SOURCE_SERVER_LOCAL,
-    VIDEO_SOURCE_SERVER_REMOTE
+    VIDEO_SOURCE_SERVER_REMOTE,
+    VIDEO_SOURCE_CUSTOM_URL,
 };
 
 class ofApp : public ofBaseApp
@@ -79,6 +80,10 @@ public:
     int window_x = 20, window_y = 100, window_width = 896, window_height = 288;
     VideoSource video_source_here = VIDEO_SOURCE_WEBCAM0;
     VideoSource video_source_there = VIDEO_SOURCE_PLACEHOLDER;
+    int flip_here = 1;
+    int flip_there = 2;
+    std::string video_custom_url = "http://192.168.1.14/color";
+    bool use_skeletons = false;
     
     bool draw_debug = true;
     bool disable_local_rgb = false;

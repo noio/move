@@ -22,7 +22,7 @@ namespace ofxDS
         VideoFeed_& operator=(const VideoFeed_&) = delete; // no assign
 
         void setAspectRatio(int in_width, int in_height);
-        void setFlip(int in_flip);
+        void setFlip(char in_flip);
         void setMaxFps(float in_fps);
         bool processFrame();
         

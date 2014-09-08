@@ -13,7 +13,7 @@ void VideoFeed_<PixelType>::setAspectRatio(int in_width, int in_height)
 }
 
 template<typename PixelType>
-void VideoFeed_<PixelType>::setFlip(int in_flip)
+void VideoFeed_<PixelType>::setFlip(char in_flip)
 {
     flip = in_flip;
 }

@@ -59,12 +59,20 @@ void ofApp::setup()
     loadConfig();
     //
     setupUI();
+    //===== REMOTE CAM SETUP =====
+    rgb_there = ofPtr<VideoFeed>(setupVideoFeed(video_source_there));
+    rgb_there->setFlip(flip_there);
+    //===== LOCAL CAMERA SETUP =====
+    rgb_here = ofPtr<VideoFeed>(setupVideoFeed(video_source_here));
+    rgb_here->setFlip(flip_here);
     // Window setup
     ofSetWindowPosition(window_x, window_y);
     ofSetWindowShape(window_width, window_height);
     //
     skeletonfeed = ofPtr<SkeletonFeed>(new SkeletonFeed());
-    skeletonfeed->setup(config["local_server"].asString() + "/activeskeletonsprojected");
+    if (use_skeletons) {
+        skeletonfeed->setup(config["local_server"].asString() + "/activeskeletonsprojected");
+    }
     // Numbers below found by trial & error
     // Frameworks till does crazy squishing at non-standard resolutions
     // so there is no making sense of this.
@@ -72,10 +80,6 @@ void ofApp::setup()
     //
     flowcam_here.setup(160);
     flowcam_there.setup(160);
-    //===== REMOTE CAM SETUP =====
-    rgb_there = ofPtr<VideoFeed>(setupVideoFeed(video_source_there));
-    //===== LOCAL CAMERA SETUP =====
-    rgb_here = ofPtr<VideoFeed>(setupVideoFeed(video_source_here));
     //
     contourfinder.setSimplify(true);
     contourfinder.setMinArea(80);
@@ -100,19 +104,24 @@ void ofApp::setupUI()
     // SETUP UI
     RUI_SETUP(44040); //start server
     RUI_NEW_GROUP("Reboot Required");
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(window_x, 0, ofGetScreenWidth() / 2);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(window_y, 0, ofGetScreenHeight() / 2);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(window_width, 320, 1024);
-    OFX_REMOTEUI_SERVER_SHARE_PARAM(window_height, 240, 768);
+    RUI_SHARE_PARAM(window_x, 0, ofGetScreenWidth() / 2);
+    RUI_SHARE_PARAM(window_y, 0, ofGetScreenHeight() / 2);
+    RUI_SHARE_PARAM(window_width, 320, 1024);
+    RUI_SHARE_PARAM(window_height, 240, 768);
     vector<string> menuItems;
-    menuItems.push_back("PLACEHOLDER,");
-    menuItems.push_back("WEBCAM0,");
-    menuItems.push_back("WEBCAM1,");
-    menuItems.push_back("SERVER_LOCAL,");
-    menuItems.push_back("SERVER_REMOTE");
+    menuItems.push_back("Placeholder,");
+    menuItems.push_back("Webcam 0,");
+    menuItems.push_back("Webcam 1,");
+    menuItems.push_back("Local / color,");
+    menuItems.push_back("Local / remotecolor");
     RUI_SHARE_ENUM_PARAM(video_source_here, 0, 4, menuItems);
     RUI_SHARE_ENUM_PARAM(video_source_there, 0, 4, menuItems);
-    RUI_NEW_GROUP("Global");
+    RUI_SHARE_PARAM(video_custom_url);
+    RUI_SHARE_PARAM(use_skeletons);
+    RUI_NEW_GROUP("Capture");
+    RUI_SHARE_PARAM(flip_here, -1, 2);
+    RUI_SHARE_PARAM(flip_there, -1, 2);
+    RUI_NEW_GROUP("Debug");
     RUI_SHARE_PARAM(draw_debug);
     RUI_SHARE_PARAM(disable_local_rgb);
     menuItems.clear();
@@ -129,8 +138,8 @@ void ofApp::setupUI()
     RUI_NEW_GROUP("Graphics");
     RUI_SHARE_COLOR_PARAM(rgb_here_multiply);
     RUI_SHARE_PARAM(flow_hist_darkness, 0, 1.0);
-    RUI_NEW_GROUP("Rift");
     RUI_SHARE_PARAM(Rift::inner_light_strength, 0, 10000.0f);
+    RUI_NEW_GROUP("Rift");
     RUI_SHARE_PARAM(Rift::fade_max_area, 200, 500);
     RUI_SHARE_PARAM(Rift::fade_out_time, 5.0, 50);
     RUI_SHARE_PARAM(Rift::fade_in_time, 0.1, 5.0);
@@ -177,7 +186,6 @@ VideoFeed* ofApp::setupVideoFeed(VideoSource source)
         {
             VideoFeedImageUrl* f = new VideoFeedImageUrl();
             f->setup(config["local_server"].asString() + "/color");
-            f->setFlip(1);
             feed = f;
             break;
         }
@@ -185,7 +193,15 @@ VideoFeed* ofApp::setupVideoFeed(VideoSource source)
         case VIDEO_SOURCE_SERVER_REMOTE:
         {
             VideoFeedImageUrl* f = new VideoFeedImageUrl();
-            f->setup(config["remote_server"].asString() + "/color");
+            f->setup(config["local_server"].asString() + "/remotecolor");
+            feed = f;
+            break;
+        }
+            
+        case VIDEO_SOURCE_CUSTOM_URL:
+        {
+            VideoFeedImageUrl* f = new VideoFeedImageUrl();
+            f->setup(video_custom_url);
             feed = f;
             break;
         }
