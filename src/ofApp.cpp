@@ -106,8 +106,8 @@ void ofApp::setupUI()
     RUI_NEW_GROUP("Reboot Required");
     RUI_SHARE_PARAM(window_x, 0, ofGetScreenWidth() / 2);
     RUI_SHARE_PARAM(window_y, 0, ofGetScreenHeight() / 2);
-    RUI_SHARE_PARAM(window_width, 320, 1024);
-    RUI_SHARE_PARAM(window_height, 240, 768);
+    RUI_SHARE_PARAM(window_width, 320, 1920);
+    RUI_SHARE_PARAM(window_height, 240, 1080);
     vector<string> menuItems;
     menuItems.push_back("PLACEHOLDER");
     menuItems.push_back("WEBCAM0");
