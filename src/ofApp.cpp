@@ -60,11 +60,13 @@ void ofApp::setup()
     //
     setupUI();
     //===== REMOTE CAM SETUP =====
-    rgb_there = ofPtr<VideoFeed>(setupVideoFeed(video_source_there));
-    rgb_there->setFlip(flip_there);
+    rgb_there = ofPtr<VideoFeed>(setupVideoFeed(rgb_there_source));
+    rgb_there->setFlip(rgb_there_flip);
+    rgb_there->setMaxFps(rgb_there_fps);
     //===== LOCAL CAMERA SETUP =====
-    rgb_here = ofPtr<VideoFeed>(setupVideoFeed(video_source_here));
-    rgb_here->setFlip(flip_here);
+    rgb_here = ofPtr<VideoFeed>(setupVideoFeed(rgb_here_source));
+    rgb_here->setFlip(rgb_here_flip);
+    rgb_here->setMaxFps(rgb_there_fps);
     // Window setup
     ofSetWindowPosition(window_x, window_y);
     ofSetWindowShape(window_width, window_height);
@@ -115,13 +117,14 @@ void ofApp::setupUI()
     menuItems.push_back("SERVER_LOCAL");
     menuItems.push_back("SERVER_REMOTE");
     menuItems.push_back("CUSTOM_URL");
-    RUI_SHARE_ENUM_PARAM(video_source_here, 0, 5, menuItems);
-    RUI_SHARE_ENUM_PARAM(video_source_there, 0, 5, menuItems);
-    RUI_SHARE_PARAM(video_custom_url);
+    RUI_SHARE_ENUM_PARAM(rgb_here_source, 0, 5, menuItems);
+    RUI_SHARE_ENUM_PARAM(rgb_there_source, 0, 5, menuItems);
+    RUI_SHARE_PARAM(source_custom_url);
     RUI_SHARE_PARAM(use_skeletons);
-    RUI_NEW_GROUP("Capture");
-    RUI_SHARE_PARAM(flip_here, -1, 2);
-    RUI_SHARE_PARAM(flip_there, -1, 2);
+    RUI_SHARE_PARAM(rgb_here_flip, -1, 2);
+    RUI_SHARE_PARAM(rgb_there_flip, -1, 2);
+    RUI_SHARE_PARAM(rgb_here_fps, 1, 30);
+    RUI_SHARE_PARAM(rgb_there_fps, 1, 30);
     RUI_NEW_GROUP("Debug");
     RUI_SHARE_PARAM(draw_debug);
     RUI_SHARE_PARAM(disable_local_rgb);
@@ -198,11 +201,11 @@ VideoFeed* ofApp::setupVideoFeed(VideoSource source)
             feed = f;
             break;
         }
-            
+
         case VIDEO_SOURCE_CUSTOM_URL:
         {
             VideoFeedImageUrl* f = new VideoFeedImageUrl();
-            f->setup(video_custom_url);
+            f->setup(source_custom_url);
             feed = f;
             break;
         }

@@ -40,7 +40,7 @@ public:
     void setup();
     void update();
     void draw();
-    
+
     void loadConfig();
     void setupUI();
     ofxDS::VideoFeed* setupVideoFeed(VideoSource source);
@@ -58,7 +58,7 @@ public:
 
     void updateFlowHist();
     void createRifts();
-    
+
     ofxJSONElement config;
 
     ofPtr<SkeletonFeed> skeletonfeed;
@@ -67,7 +67,7 @@ public:
     ofxDS::FlowCam flowcam_here;
     ofxDS::FlowCam flowcam_there;
     Mat flow_hist_threshold, flow_here_hist, flow_there_hist;
-    
+
     ContourFinder contourfinder;
 
     vector<Rift> rifts;
@@ -78,13 +78,14 @@ public:
 
     // Settings
     int window_x = 20, window_y = 100, window_width = 896, window_height = 288;
-    VideoSource video_source_here = VIDEO_SOURCE_WEBCAM0;
-    VideoSource video_source_there = VIDEO_SOURCE_PLACEHOLDER;
-    int flip_here = 1;
-    int flip_there = 2;
-    std::string video_custom_url = "http://192.168.1.14/color";
+    int rgb_here_fps = 30, rgb_there_fps = 30;
+    VideoSource rgb_here_source = VIDEO_SOURCE_WEBCAM0;
+    VideoSource rgb_there_source = VIDEO_SOURCE_PLACEHOLDER;
+    int rgb_here_flip = 1;
+    int rgb_there_flip = 2;
+    std::string source_custom_url = "http://192.168.1.14/color";
     bool use_skeletons = false;
-    
+
     bool draw_debug = true;
     bool disable_local_rgb = false;
     DebugOverlay debug_overlay = DEBUGOVERLAY_NONE;
