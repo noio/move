@@ -1,6 +1,9 @@
 #include "skeletonfeed.h"
 
+using namespace ofxDS;
+
 const int SkeletonFeed::SPINE = 1;
+const int SkeletonFeed::SHOULDER_CENTER = 2;
 const int SkeletonFeed::HEAD = 3;
 const int SkeletonFeed::HAND_LEFT = 7;
 const int SkeletonFeed::HAND_RIGHT = 11;
@@ -58,6 +61,7 @@ void SkeletonFeed::setup(string in_url)
     url = in_url;
     setInputScale(640, 480);
     setOutputFillScreen();
+    loader.setup(in_url);
     startThread(true, false);
 }
 
@@ -74,7 +78,7 @@ void SkeletonFeed::threadedFunction()
     while (isThreadRunning())
     {
         double fetch_start = ofGetElapsedTimeMillis();
-        if (!json.open(url))
+        if (!json.parse(loader.loadURL(url).data))
         {
             ofLogWarning("SkeletonFeed") << "load fail";
             ofSleepMillis(1000);
@@ -92,7 +96,7 @@ void SkeletonFeed::threadedFunction()
                     skeletons[i].head = getPoint(joints[HEAD]);
                     skeletons[i].hand_left = getPoint(joints[HAND_LEFT]);
                     skeletons[i].hand_right = getPoint(joints[HAND_RIGHT]);
-                    skeletons[i].spine = getPoint(joints[SPINE]);
+                    skeletons[i].shoulder_center = getPoint(joints[SHOULDER_CENTER]);
                 }
                 unlock();
             }

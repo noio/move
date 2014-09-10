@@ -95,11 +95,11 @@
 		E288F8A319B76A6900125D36 /* lights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E288F8A119B76A6900125D36 /* lights.cpp */; };
 		E28B43121998DC3E0059F698 /* ofxShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28B43101998DC360059F698 /* ofxShader.cpp */; };
 		E2A0F96E19C0569E00E59E28 /* fileloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2A0F96C19C0569E00E59E28 /* fileloader.cpp */; };
+		E2A82EDA19C0768F00338E70 /* skeletonfeed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2A82ED819C0768F00338E70 /* skeletonfeed.cpp */; };
 		E2ADD22D19B9ADA80078BF10 /* flowcam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2ADD22819B9ADA80078BF10 /* flowcam.cpp */; };
 		E2ADD22E19B9ADA80078BF10 /* videofeed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2ADD22B19B9ADA80078BF10 /* videofeed.cpp */; };
 		E2CA4FD919B70B7B003FFFD0 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CA4FC719B70B68003FFFD0 /* jsoncpp.cpp */; };
 		E2CA4FDA19B70B7D003FFFD0 /* ofxJSONElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CA4FCB19B70B68003FFFD0 /* ofxJSONElement.cpp */; };
-		E2CA4FDD19B70E74003FFFD0 /* skeletonfeed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CA4FDB19B70E74003FFFD0 /* skeletonfeed.cpp */; };
 		E3A1109F67D711D6C256031E /* ofxUIToggleMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 702A2528CA64B397E9B91ABE /* ofxUIToggleMatrix.cpp */; };
 		E3D59A6B55F05669B3FBF8BD /* ofxUINumberDialer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D6768C572B6CA49227C29EA /* ofxUINumberDialer.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
@@ -443,6 +443,8 @@
 		E28B43111998DC360059F698 /* ofxShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxShader.h; sourceTree = "<group>"; };
 		E2A0F96C19C0569E00E59E28 /* fileloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fileloader.cpp; sourceTree = "<group>"; };
 		E2A0F96D19C0569E00E59E28 /* fileloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fileloader.h; sourceTree = "<group>"; };
+		E2A82ED819C0768F00338E70 /* skeletonfeed.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = skeletonfeed.cpp; sourceTree = "<group>"; };
+		E2A82ED919C0768F00338E70 /* skeletonfeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = skeletonfeed.h; sourceTree = "<group>"; };
 		E2ADD22819B9ADA80078BF10 /* flowcam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = flowcam.cpp; sourceTree = "<group>"; };
 		E2ADD22919B9ADA80078BF10 /* flowcam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = flowcam.h; sourceTree = "<group>"; };
 		E2ADD22A19B9ADA80078BF10 /* ofxDropstuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDropstuff.h; sourceTree = "<group>"; };
@@ -455,8 +457,6 @@
 		E2CA4FCA19B70B68003FFFD0 /* ofxJSON.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxJSON.h; sourceTree = "<group>"; };
 		E2CA4FCB19B70B68003FFFD0 /* ofxJSONElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxJSONElement.cpp; sourceTree = "<group>"; };
 		E2CA4FCC19B70B68003FFFD0 /* ofxJSONElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxJSONElement.h; sourceTree = "<group>"; };
-		E2CA4FDB19B70E74003FFFD0 /* skeletonfeed.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = skeletonfeed.cpp; sourceTree = "<group>"; };
-		E2CA4FDC19B70E74003FFFD0 /* skeletonfeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = skeletonfeed.h; sourceTree = "<group>"; };
 		E354468911BA093791076DD7 /* gpumat.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = gpumat.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/gpu/gpumat.hpp; sourceTree = SOURCE_ROOT; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E4385429A1E63ACEDC39A612 /* operations.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = operations.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/core/operations.hpp; sourceTree = SOURCE_ROOT; };
@@ -1286,6 +1286,8 @@
 		E2ADD22719B9ADA80078BF10 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E2A82ED819C0768F00338E70 /* skeletonfeed.cpp */,
+				E2A82ED919C0768F00338E70 /* skeletonfeed.h */,
 				E2A0F96C19C0569E00E59E28 /* fileloader.cpp */,
 				E2A0F96D19C0569E00E59E28 /* fileloader.h */,
 				E2ADD22819B9ADA80078BF10 /* flowcam.cpp */,
@@ -1401,8 +1403,6 @@
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				E261621D19A774960059DBDF /* rift.cpp */,
 				E261621E19A774960059DBDF /* rift.h */,
-				E2CA4FDB19B70E74003FFFD0 /* skeletonfeed.cpp */,
-				E2CA4FDC19B70E74003FFFD0 /* skeletonfeed.h */,
 				E261622219A77FE90059DBDF /* utilities.h */,
 			);
 			path = src;
@@ -1557,6 +1557,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2A82EDA19C0768F00338E70 /* skeletonfeed.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				856AA354D08AB4B323081444 /* ofxBaseGui.cpp in Sources */,
@@ -1655,7 +1656,6 @@
 				E2ADD22D19B9ADA80078BF10 /* flowcam.cpp in Sources */,
 				ADE7C2AFC51E3F7E5E389026 /* ofxUISortableList.cpp in Sources */,
 				BFEFCE32DAFE10A8EB519F6C /* ofxUISpacer.cpp in Sources */,
-				E2CA4FDD19B70E74003FFFD0 /* skeletonfeed.cpp in Sources */,
 				52AFF80A869790144ACCC9BA /* ofxUISpectrum.cpp in Sources */,
 				1DAAC3FB4B98B08AE63F4687 /* ofxUISuperCanvas.cpp in Sources */,
 				5AE95ADB5549701423B6DA48 /* ofxUITabBar.cpp in Sources */,

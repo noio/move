@@ -34,7 +34,7 @@
     <REMOTEUI_PARAM_STRING paramName="source_custom_url">http://192.168.1.14/color</REMOTEUI_PARAM_STRING>
     <REMOTEUI_PARAM_INT paramName="window_height">331</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_INT paramName="new_rift_min_flow">219</REMOTEUI_PARAM_INT>
-    <REMOTEUI_PARAM_BOOL paramName="use_skeletons">0</REMOTEUI_PARAM_BOOL>
+    <REMOTEUI_PARAM_BOOL paramName="use_skeletons">1</REMOTEUI_PARAM_BOOL>
     <REMOTEUI_PARAM_INT paramName="rgb_there_fps">30</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_INT paramName="window_x">20</REMOTEUI_PARAM_INT>
 </OFX_REMOTE_UI_PARAMS>

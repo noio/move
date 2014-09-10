@@ -61,7 +61,7 @@ public:
 
     ofxJSONElement config;
 
-    ofPtr<SkeletonFeed> skeletonfeed;
+    ofPtr<ofxDS::SkeletonFeed> skeletonfeed;
     ofPtr<ofxDS::VideoFeed> rgb_there;
     ofPtr<ofxDS::VideoFeed> rgb_here;
     ofxDS::FlowCam flowcam_here;

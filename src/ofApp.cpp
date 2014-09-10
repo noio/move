@@ -74,7 +74,7 @@ void ofApp::setup()
     skeletonfeed = ofPtr<SkeletonFeed>(new SkeletonFeed());
     if (use_skeletons)
     {
-        skeletonfeed->setup(config["local"]["server"].asString() + "/activeskeletonsprojected");
+        skeletonfeed->setup("http://" + config["local"]["server"].asString() + "/activeskeletonsprojected");
     }
     // Numbers below found by trial & error
     // Frameworks till does crazy squishing at non-standard resolutions

@@ -1,9 +1,12 @@
 #pragma once
 
+#include "fileloader.h"
 #include "ofMain.h"
 #include "ofxJSON.h"
 
 using namespace std;
+
+namespace ofxDS{
 
 typedef struct Skeleton
 {
@@ -11,7 +14,7 @@ typedef struct Skeleton
     ofPoint head;
     ofPoint hand_left;
     ofPoint hand_right;
-    ofPoint spine;
+    ofPoint shoulder_center;
 } Skeleton;
 
 class SkeletonFeed
@@ -25,8 +28,10 @@ public:
     SkeletonFeed& operator=(const SkeletonFeed&) = delete; // no assign
     ~SkeletonFeed() { waitForThread(true); }
 
-    static const int SPINE;
+
     static const int HEAD;
+    static const int SHOULDER_CENTER;
+    static const int SPINE;
     static const int HAND_LEFT;
     static const int HAND_RIGHT;
 
@@ -48,9 +53,12 @@ private:
     ofPoint getPoint(Json::Value point);
 
     vector<Skeleton> skeletons;
+    FileLoaderSession loader;
     ofxJSONElement json;
 
     ofPoint input_scale, output_scale, output_offset;
     string url;
     float wait_millis = 1000.0f / 30.0f;
 };
+    
+}

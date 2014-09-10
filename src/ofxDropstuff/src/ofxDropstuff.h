@@ -10,3 +10,4 @@
 
 #include "videofeed.h"
 #include "flowcam.h"
+#include "fileloader.h"

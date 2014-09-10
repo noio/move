@@ -21,7 +21,7 @@ public:
     Lights() {};
 
     void setup(int num_lights);
-    void update(double delta_t, const vector<Skeleton>& skeletons);
+    void update(double delta_t, const vector<ofxDS::Skeleton>& skeletons);
     void draw();
     void drawDebug();
 

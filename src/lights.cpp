@@ -24,7 +24,7 @@ void Lights::setup(int num_lights)
     }
 }
 
-void Lights::update(double delta_t, const vector<Skeleton>& skeletons)
+void Lights::update(double delta_t, const vector<ofxDS::Skeleton>& skeletons)
 {
     if (skeletons.size())
     {

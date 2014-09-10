@@ -189,8 +189,6 @@ void VideoFeedImageURL_<PixelType>::threadedFunction()
     while (this->isThreadRunning())
     {
         double fetch_start = ofGetElapsedTimeMillis();
-//        if (!ofLoadImage(pix_load, ofLoadURL(url).data))
-        ofURLFileLoader * a = new ofURLFileLoader();
         if (!ofLoadImage(pix_load, loader.loadURL(url).data))
         {
             ofLogWarning("VideoFeedImageURL") << "load fail (" << fail_count << ") " << url;

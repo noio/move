@@ -8,6 +8,7 @@
 #include "Poco/URI.h"
 #include "Poco/Exception.h"
 
+using namespace ofxDS;
 using namespace std;
 using namespace Poco::Net;
 using namespace Poco;

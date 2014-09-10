@@ -1,7 +1,7 @@
 {
   "local": {"id": 1,                         // Consistente ID, e.g. NL is altijd 0
             "name": "Stockholm",             // 'Display' naam van de locatie
-            "server": "192.168.1.60:1338",      // De KinectServer incl. poort
+            "server": "192.168.1.61:1338",      // De KinectServer incl. poort
           	"game": "localhost"},            // IP van machine waar de game draait
 
   "remote": {"id": 0,
