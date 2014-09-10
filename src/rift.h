@@ -6,7 +6,8 @@
 #include "ofxCv.h"
 
 
-typedef struct PointMeta {
+typedef struct PointMeta
+{
     bool is_tear;
     float last_grown;
 } PointMeta;

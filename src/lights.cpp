@@ -68,7 +68,8 @@ void Lights::draw()
 
 void Lights::drawDebug()
 {
-    for (int i = 0; i < lights.size(); i ++){
+    for (int i = 0; i < lights.size(); i ++)
+    {
         Light& light = lights[i];
         ofSetColor(light.color, 255);
         ofCircle(light.position, 10);

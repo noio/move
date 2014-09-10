@@ -70,7 +70,8 @@ void ofApp::setup()
     ofSetWindowShape(window_width, window_height);
     //
     skeletonfeed = ofPtr<SkeletonFeed>(new SkeletonFeed());
-    if (use_skeletons) {
+    if (use_skeletons)
+    {
         skeletonfeed->setup(config["local_server"].asString() + "/activeskeletonsprojected");
     }
     // Numbers below found by trial & error
@@ -161,52 +162,47 @@ void ofApp::setupUI()
 VideoFeed* ofApp::setupVideoFeed(VideoSource source)
 {
     VideoFeed* feed;
-    switch (source) {
+    switch (source)
+    {
         case VIDEO_SOURCE_PLACEHOLDER:
         {
             feed = new VideoFeedStatic();
             ((VideoFeedStatic *)feed)->setup("stockholm.jpg");
             break;
         }
-
         case VIDEO_SOURCE_WEBCAM0:
         {
             feed = new VideoFeedWebcam();
             ((VideoFeedWebcam *)feed)->setup(0, WEBCAM_RES_720);
             break;
         }
-
         case VIDEO_SOURCE_WEBCAM1:
         {
             feed = new VideoFeedWebcam();
             ((VideoFeedWebcam *)feed)->setup(1, WEBCAM_RES_720);
             break;
         }
-
         case VIDEO_SOURCE_SERVER_LOCAL:
         {
-            VideoFeedImageUrl* f = new VideoFeedImageUrl();
+            VideoFeedImageURL* f = new VideoFeedImageURL();
             f->setup(config["local_server"].asString() + "/color");
             feed = f;
             break;
         }
-
         case VIDEO_SOURCE_SERVER_REMOTE:
         {
-            VideoFeedImageUrl* f = new VideoFeedImageUrl();
+            VideoFeedImageURL* f = new VideoFeedImageURL();
             f->setup(config["local_server"].asString() + "/remotecolor");
             feed = f;
             break;
         }
-            
         case VIDEO_SOURCE_CUSTOM_URL:
         {
-            VideoFeedImageUrl* f = new VideoFeedImageUrl();
+            VideoFeedImageURL* f = new VideoFeedImageURL();
             f->setup(video_custom_url);
             feed = f;
             break;
         }
-
         default:
             break;
     }
@@ -368,20 +364,20 @@ void ofApp::draw()
         ofEnableAlphaBlending();
         switch (debug_overlay)
         {
-        case DEBUGOVERLAY_FLOW_HERE:
-            drawMatFull(flowcam_here.getFlow());
-            break;
-        case DEBUGOVERLAY_FLOW_THERE:
-            drawMatFull(flowcam_there.getFlow());
-            break;
-        case DEBUGOVERLAY_FLOWHIST_HERE:
-            drawMatFull(flowcam_here.getFLowHighHist());
-            break;
-        case DEBUGOVERLAY_FLOWHIST_THERE:
-            drawMatFull(flowcam_there.getFLowHighHist());
-            break;
-        default:
-            break;
+            case DEBUGOVERLAY_FLOW_HERE:
+                drawMatFull(flowcam_here.getFlow());
+                break;
+            case DEBUGOVERLAY_FLOW_THERE:
+                drawMatFull(flowcam_there.getFlow());
+                break;
+            case DEBUGOVERLAY_FLOWHIST_HERE:
+                drawMatFull(flowcam_here.getFLowHighHist());
+                break;
+            case DEBUGOVERLAY_FLOWHIST_THERE:
+                drawMatFull(flowcam_there.getFLowHighHist());
+                break;
+            default:
+                break;
         }
         ofDisableAlphaBlending();
         for (int i = 0; i < rifts.size(); i ++)
@@ -416,11 +412,11 @@ void ofApp::keyPressed(int key)
 {
     switch (key)
     {
-    case 'd':
-        draw_debug = !draw_debug;
-        break;
-    default:
-        break;
+        case 'd':
+            draw_debug = !draw_debug;
+            break;
+        default:
+            break;
     }
 }
 

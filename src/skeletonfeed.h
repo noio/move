@@ -16,7 +16,7 @@ typedef struct Skeleton
 
 class SkeletonFeed
 
-: public ofThread
+    : public ofThread
 {
 
 public:

@@ -19,7 +19,8 @@ void VideoFeed_<PixelType>::setFlip(char in_flip)
 }
 
 template<typename PixelType>
-void VideoFeed_<PixelType>::setMaxFps(float in_fps){
+void VideoFeed_<PixelType>::setMaxFps(float in_fps)
+{
     wait_millis = 1000.0 / in_fps;
 }
 
@@ -119,22 +120,20 @@ void VideoFeedWebcam::setup(int device, VideoFeedWebcamResolution res)
     }
     camera.setDeviceID(device);
     int capture_width, capture_height;
-    switch (res) {
+    switch (res)
+    {
         case WEBCAM_RES_480:
             capture_width = 640;
             capture_height = 480;
             break;
-            
         case WEBCAM_RES_720:
             capture_width = 1280;
             capture_height = 720;
             break;
-            
         case WEBCAM_RES_1080:
             capture_width = 1920;
             capture_height = 1080;
             break;
-            
         default:
             break;
     }
@@ -169,7 +168,7 @@ void VideoFeedWebcam::threadedFunction()
 
 
 template<typename PixelType>
-void VideoFeedImageUrl_<PixelType>::setup(string in_url)
+void VideoFeedImageURL_<PixelType>::setup(string in_url)
 {
     url = in_url;
     fail_count = 0;
@@ -179,14 +178,14 @@ void VideoFeedImageUrl_<PixelType>::setup(string in_url)
 }
 
 template<typename PixelType>
-void VideoFeedImageUrl_<PixelType>::threadedFunction()
+void VideoFeedImageURL_<PixelType>::threadedFunction()
 {
     while (this->isThreadRunning())
     {
         double fetch_start = ofGetElapsedTimeMillis();
         if (!loader.loadImage(url))
         {
-            ofLogWarning("VideoFeedImageUrl") << "load fail (" << fail_count << ") " << url;
+            ofLogWarning("VideoFeedImageURL") << "load fail (" << fail_count << ") " << url;
             // When loading fails, the ofImage resets bUseTexture to true
             loader.setUseTexture(false);
             fail_count ++;
@@ -211,5 +210,5 @@ void VideoFeedImageUrl_<PixelType>::threadedFunction()
 template class VideoFeed_<unsigned char>;
 template class VideoFeed_<unsigned short>;
 
-template class VideoFeedImageUrl_<unsigned char>;
-template class VideoFeedImageUrl_<unsigned short>;
+template class VideoFeedImageURL_<unsigned char>;
+template class VideoFeedImageURL_<unsigned short>;

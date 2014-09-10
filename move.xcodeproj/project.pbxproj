@@ -94,6 +94,7 @@
 		E261621F19A774960059DBDF /* rift.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E261621D19A774960059DBDF /* rift.cpp */; };
 		E288F8A319B76A6900125D36 /* lights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E288F8A119B76A6900125D36 /* lights.cpp */; };
 		E28B43121998DC3E0059F698 /* ofxShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28B43101998DC360059F698 /* ofxShader.cpp */; };
+		E2A0F96E19C0569E00E59E28 /* fileloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2A0F96C19C0569E00E59E28 /* fileloader.cpp */; };
 		E2ADD22D19B9ADA80078BF10 /* flowcam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2ADD22819B9ADA80078BF10 /* flowcam.cpp */; };
 		E2ADD22E19B9ADA80078BF10 /* videofeed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2ADD22B19B9ADA80078BF10 /* videofeed.cpp */; };
 		E2CA4FD919B70B7B003FFFD0 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CA4FC719B70B68003FFFD0 /* jsoncpp.cpp */; };
@@ -440,6 +441,8 @@
 		E28B430E1998DC360059F698 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		E28B43101998DC360059F698 /* ofxShader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxShader.cpp; sourceTree = "<group>"; };
 		E28B43111998DC360059F698 /* ofxShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxShader.h; sourceTree = "<group>"; };
+		E2A0F96C19C0569E00E59E28 /* fileloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fileloader.cpp; sourceTree = "<group>"; };
+		E2A0F96D19C0569E00E59E28 /* fileloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fileloader.h; sourceTree = "<group>"; };
 		E2ADD22819B9ADA80078BF10 /* flowcam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = flowcam.cpp; sourceTree = "<group>"; };
 		E2ADD22919B9ADA80078BF10 /* flowcam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = flowcam.h; sourceTree = "<group>"; };
 		E2ADD22A19B9ADA80078BF10 /* ofxDropstuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDropstuff.h; sourceTree = "<group>"; };
@@ -1283,6 +1286,8 @@
 		E2ADD22719B9ADA80078BF10 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E2A0F96C19C0569E00E59E28 /* fileloader.cpp */,
+				E2A0F96D19C0569E00E59E28 /* fileloader.h */,
 				E2ADD22819B9ADA80078BF10 /* flowcam.cpp */,
 				E2ADD22919B9ADA80078BF10 /* flowcam.h */,
 				E2ADD22A19B9ADA80078BF10 /* ofxDropstuff.h */,
@@ -1634,6 +1639,7 @@
 				FB8AA9FA6535767BE31806BC /* ofxUIImageToggle.cpp in Sources */,
 				7C3DC84C9BFCBD2866DB2B6C /* ofxUILabel.cpp in Sources */,
 				FFD1EBFCA24DFB4E4427B4FE /* ofxUILabelButton.cpp in Sources */,
+				E2A0F96E19C0569E00E59E28 /* fileloader.cpp in Sources */,
 				C30B3A2A37F8F32EE7318718 /* ofxUILabelToggle.cpp in Sources */,
 				9A83D1B3FB64456BC907667F /* ofxUIMinimalSlider.cpp in Sources */,
 				F440B307990F8F5CE40B9111 /* ofxUIMovingGraph.cpp in Sources */,

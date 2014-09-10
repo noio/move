@@ -6,7 +6,7 @@
 
 using namespace std;
 
-typedef struct Light 
+typedef struct Light
 {
     ofColor color;
     ofPoint position;
@@ -24,7 +24,7 @@ public:
     void update(double delta_t, const vector<Skeleton>& skeletons);
     void draw();
     void drawDebug();
-    
+
     vector<Light> lights;
 
     float ray_length = 0.2;
