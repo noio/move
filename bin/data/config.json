@@ -1,24 +1,19 @@
 {
-  "local": {"id": 1,                         // Consistente ID, e.g. NL is altijd 0
-            "name": "Stockholm",             // 'Display' naam van de locatie
-            "server": "192.168.1.61:1338",      // De KinectServer incl. poort
-          	"game": "localhost"},            // IP van machine waar de game draait
+  "local": {"id": 1,
+            "name": "Stockholm",
+            "server": "192.168.1.61:1338",
+            "game": "localhost"},
 
   "remote": {"id": 0,
              "name": "Den Haag",
              "server": "213.127.157.20:1338",
              "game": "213.127.157.20"},
 
-  // Is de lokale machine de "master" server [y/n]
-  // Je kan ook naar de id kijken
   "is_master": true, 
   
   "specs": {
-    // Resolutie van de RGB feed 
     "color_res": {"width": 1024, "height": 330},
-    // Resolutie van de depth feed en projected skeletons
     "depth_res": {"width": 160, "height": 120},
-    // De rechthoek in (of buiten) de color feed die correspondeert met de depth feed
     "depth_mapping": {"x": 200, "y": -10, "width": 624, "height": 350 }
   }
 }
