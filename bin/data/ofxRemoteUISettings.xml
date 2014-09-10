@@ -15,7 +15,7 @@
     <REMOTEUI_PARAM_FLOAT paramName="Rift::open_time">1.000000000</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_BOOL paramName="draw_debug">0</REMOTEUI_PARAM_BOOL>
     <REMOTEUI_PARAM_FLOAT paramName="Rift::fade_out_time">10.000000000</REMOTEUI_PARAM_FLOAT>
-    <REMOTEUI_PARAM_INT paramName="flip_there">2</REMOTEUI_PARAM_INT>
+    <REMOTEUI_PARAM_INT paramName="rgb_here_flip">1</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_INT paramName="window_width">1086</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_COLOR paramName="rgb_here_multiply">
         <R>255</R>
@@ -23,16 +23,18 @@
         <B>255</B>
         <A>255</A>
     </REMOTEUI_PARAM_COLOR>
-    <REMOTEUI_PARAM_ENUM paramName="video_source_here">3</REMOTEUI_PARAM_ENUM>
+    <REMOTEUI_PARAM_ENUM paramName="rgb_there_source">4</REMOTEUI_PARAM_ENUM>
     <REMOTEUI_PARAM_BOOL paramName="disable_local_rgb">0</REMOTEUI_PARAM_BOOL>
     <REMOTEUI_PARAM_ENUM paramName="debug_overlay">0</REMOTEUI_PARAM_ENUM>
-    <REMOTEUI_PARAM_ENUM paramName="video_source_there">3</REMOTEUI_PARAM_ENUM>
+    <REMOTEUI_PARAM_ENUM paramName="rgb_here_source">3</REMOTEUI_PARAM_ENUM>
+    <REMOTEUI_PARAM_INT paramName="rgb_there_flip">2</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_INT paramName="max_rifts">3</REMOTEUI_PARAM_INT>
+    <REMOTEUI_PARAM_INT paramName="rgb_here_fps">30</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_INT paramName="window_y">100</REMOTEUI_PARAM_INT>
+    <REMOTEUI_PARAM_STRING paramName="source_custom_url">http://192.168.1.14/color</REMOTEUI_PARAM_STRING>
     <REMOTEUI_PARAM_INT paramName="window_height">331</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_INT paramName="new_rift_min_flow">219</REMOTEUI_PARAM_INT>
-    <REMOTEUI_PARAM_STRING paramName="video_custom_url">http://192.168.1.14/color</REMOTEUI_PARAM_STRING>
-    <REMOTEUI_PARAM_INT paramName="flip_here">1</REMOTEUI_PARAM_INT>
-    <REMOTEUI_PARAM_INT paramName="window_x">20</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_BOOL paramName="use_skeletons">0</REMOTEUI_PARAM_BOOL>
+    <REMOTEUI_PARAM_INT paramName="rgb_there_fps">30</REMOTEUI_PARAM_INT>
+    <REMOTEUI_PARAM_INT paramName="window_x">20</REMOTEUI_PARAM_INT>
 </OFX_REMOTE_UI_PARAMS>

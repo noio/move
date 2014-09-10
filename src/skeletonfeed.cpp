@@ -6,7 +6,7 @@ const int SkeletonFeed::HAND_LEFT = 7;
 const int SkeletonFeed::HAND_RIGHT = 11;
 
 
-void SkeletonFeed::setMaxFps(float in_fps)
+void SkeletonFeed::setMaxFPS(float in_fps)
 {
     lock();
     wait_millis = 1000.0 / in_fps;

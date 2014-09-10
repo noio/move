@@ -10,7 +10,7 @@ public:
     ofHttpResponse loadURL(string url);
 private:
 
-    bool session_
+    bool session_connected;
     ofPtr<Poco::Net::HTTPSession> session;
 };
 

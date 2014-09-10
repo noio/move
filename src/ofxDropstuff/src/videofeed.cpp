@@ -8,8 +8,10 @@ using namespace ofxCv;
 template<typename PixelType>
 void VideoFeed_<PixelType>::setAspectRatio(int in_width, int in_height)
 {
+    lock();
     width = in_width;
     height = in_height;
+    unlock();
 }
 
 template<typename PixelType>
@@ -19,9 +21,10 @@ void VideoFeed_<PixelType>::setFlip(char in_flip)
 }
 
 template<typename PixelType>
-void VideoFeed_<PixelType>::setMaxFps(float in_fps)
-{
+void VideoFeed_<PixelType>::setMaxFPS(float in_fps){
+    lock();
     wait_millis = 1000.0 / in_fps;
+    unlock();
 }
 
 template<typename PixelType>
@@ -126,14 +129,17 @@ void VideoFeedWebcam::setup(int device, VideoFeedWebcamResolution res)
             capture_width = 640;
             capture_height = 480;
             break;
+
         case WEBCAM_RES_720:
             capture_width = 1280;
             capture_height = 720;
             break;
+
         case WEBCAM_RES_1080:
             capture_width = 1920;
             capture_height = 1080;
             break;
+
         default:
             break;
     }

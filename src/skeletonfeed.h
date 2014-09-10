@@ -30,7 +30,7 @@ public:
     static const int HAND_LEFT;
     static const int HAND_RIGHT;
 
-    void setMaxFps(float in_fps);
+    void setMaxFPS(float in_fps);
     void setInputScale(float scale_x, float scale_y);
     void setInputScale(ofPoint scale);
     void setOutputScaleAndOffset(ofPoint scale, ofPoint offset);

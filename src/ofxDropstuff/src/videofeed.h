@@ -24,7 +24,7 @@ public:
 
     void setAspectRatio(int in_width, int in_height);
     void setFlip(char in_flip);
-    void setMaxFps(float in_fps);
+    void setMaxFPS(float in_fps);
     bool processFrame();
 
     /*
