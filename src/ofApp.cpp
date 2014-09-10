@@ -74,7 +74,7 @@ void ofApp::setup()
     skeletonfeed = ofPtr<SkeletonFeed>(new SkeletonFeed());
     if (use_skeletons)
     {
-        skeletonfeed->setup(config["local_server"].asString() + "/activeskeletonsprojected");
+        skeletonfeed->setup(config["local"]["server"].asString() + "/activeskeletonsprojected");
     }
     // Numbers below found by trial & error
     // Frameworks till does crazy squishing at non-standard resolutions
@@ -99,7 +99,11 @@ void ofApp::loadConfig()
         ofLogError("ofApp") << "Failed to open config file";
         ofSystemAlertDialog("Failed to load config file at " + configpath);
     }
-    ofLogNotice("ofApp") << "Loaded config: \n" << config.toStyledString();
+    else
+    {
+        ofLogNotice("ofApp") << "Loaded config: \n" << config.toStyledString();
+    }
+
 }
 
 void ofApp::setupUI()
@@ -188,14 +192,14 @@ VideoFeed* ofApp::setupVideoFeed(VideoSource source)
         case VIDEO_SOURCE_SERVER_LOCAL:
         {
             VideoFeedImageURL* f = new VideoFeedImageURL();
-            f->setup(config["local_server"].asString() + "/color");
+            f->setup("http://" + config["local"]["server"].asString() + "/color");
             feed = f;
             break;
         }
         case VIDEO_SOURCE_SERVER_REMOTE:
         {
             VideoFeedImageURL* f = new VideoFeedImageURL();
-            f->setup(config["local_server"].asString() + "/remotecolor");
+            f->setup("http://" + config["local"]["server"].asString() + "/color");
             feed = f;
             break;
         }

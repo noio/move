@@ -1,5 +1,6 @@
 #pragma once
 
+#include "fileloader.h"
 #include "ofMain.h"
 #include "ofxCv.h"
 
@@ -79,7 +80,9 @@ public:
     void threadedFunction() ;
 private:
     string url;
-    ofImage_<PixelType> loader;
+    
+    ofPixels_<PixelType> pix_load;
+    FileLoaderSession loader;
     int fail_count;
 
 };

@@ -179,7 +179,7 @@ void VideoFeedImageURL_<PixelType>::setup(string in_url)
     url = in_url;
     fail_count = 0;
     this->setFlip(2);
-    loader.setUseTexture(false);
+    loader.setup(url);
     this->startThread(true, false);
 }
 
@@ -189,18 +189,19 @@ void VideoFeedImageURL_<PixelType>::threadedFunction()
     while (this->isThreadRunning())
     {
         double fetch_start = ofGetElapsedTimeMillis();
-        if (!loader.loadImage(url))
+//        if (!ofLoadImage(pix_load, ofLoadURL(url).data))
+        ofURLFileLoader * a = new ofURLFileLoader();
+        if (!ofLoadImage(pix_load, loader.loadURL(url).data))
         {
             ofLogWarning("VideoFeedImageURL") << "load fail (" << fail_count << ") " << url;
             // When loading fails, the ofImage resets bUseTexture to true
-            loader.setUseTexture(false);
             fail_count ++;
             ofSleepMillis(1000);
         }
         else
         {
             this->lock();
-            this->pixels = this->loader.getPixelsRef();
+            this->pixels.swap(pix_load);
             this->unlock();
             this->needs_processing = true;
             fail_count = 0;

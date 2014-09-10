@@ -8,14 +8,31 @@
 #include "Poco/URI.h"
 #include "Poco/Exception.h"
 
+using namespace std;
 using namespace Poco::Net;
 using namespace Poco;
+
+void FileLoaderSession::setup(string url)
+{
+    URI uri(url);
+    setup(uri.getHost(), uri.getPort());
+}
+
+void FileLoaderSession::setup(string in_host, unsigned short in_port)
+{
+    host = in_host;
+    port = in_port;
+    
+    session = ofPtr<HTTPClientSession>(new HTTPClientSession(host, port));
+    session->setKeepAlive(true);
+    session->setTimeout(Timespan(20, 0));
+}
 
 /*
  * This is a copy of ofURLFileLoader.handleRequest that allows re-use of an
  * existing session.
  */
-ofHttpResponse loadRequest(ofHttpRequest request, ofPtr<HTTPSession> session)
+ofHttpResponse FileLoaderSession::loadRequest(ofHttpRequest request)
 {
     try
     {
@@ -27,17 +44,11 @@ ofHttpResponse loadRequest(ofHttpRequest request, ofPtr<HTTPSession> session)
         istream * rs;
         if(uri.getScheme() == "https")
         {
-            ofLogError("loadRequest") << "Cannot load HTTPS.";
+            ofLogError("FileLoaderSession") << "Cannot load HTTPS.";
             return ofHttpResponse(request, -1, "HTTPS not supported");
         }
-        else
-        {
-            HTTPClientSession * httpSession = new HTTPClientSession(uri.getHost(), uri.getPort());
-            httpSession->setTimeout(Poco::Timespan(20, 0));
-            httpSession->sendRequest(req);
-            rs = &httpSession->receiveResponse(res);
-            session = ofPtr<HTTPSession>(httpSession);
-        }
+        session->sendRequest(req);
+        rs = &session->receiveResponse(res);
         if(!request.saveTo)
         {
             return ofHttpResponse(request, *rs, res.getStatus(), res.getReason());
@@ -64,18 +75,22 @@ ofHttpResponse loadRequest(ofHttpRequest request, ofPtr<HTTPSession> session)
     }
     catch (const Poco::Exception& exc)
     {
-        ofLogError("ofURLFileLoader") << "(): " + exc.displayText();
+        ofLogError("FileLoaderSession") << "(): " + exc.displayText();
         return ofHttpResponse(request, -1, exc.displayText());
+        session->reset();
     }
     catch (...)
     {
         return ofHttpResponse(request, -1, "ofURLFileLoader: fatal error, couldn't catch Exception");
+        session->reset();
     }
     return ofHttpResponse(request, -1, "ofURLFileLoader: fatal error, couldn't catch Exception");
 }
 
-ofHttpResponse loadURL(string url, ofPtr<HTTPSession> session)
+ofHttpResponse FileLoaderSession::loadURL(string url)
 {
     ofHttpRequest request(url, url);
-    return loadRequest(request, session);
+    return loadRequest(request);
 }
+
+
