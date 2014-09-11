@@ -55,7 +55,7 @@ void drawMatFull(const Mat& matrix)
 void ofApp::setup()
 {
     ofSetFrameRate(60);
-    ofSetLogLevel(OF_LOG_VERBOSE);
+    ofSetLogLevel(OF_LOG_NOTICE);
     loadConfig();
     //
     setupUI();

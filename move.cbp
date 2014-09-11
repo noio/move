@@ -736,15 +736,17 @@
 		<Unit filename="src/ofApp.h">
 			<Option virtualFolder="src" />
 		</Unit>
+		<Unit filename="src/ofxDropstuff/src/fileloader.cpp" />
+		<Unit filename="src/ofxDropstuff/src/fileloader.h" />
 		<Unit filename="src/ofxDropstuff/src/flowcam.cpp" />
 		<Unit filename="src/ofxDropstuff/src/flowcam.h" />
 		<Unit filename="src/ofxDropstuff/src/ofxDropstuff.h" />
+		<Unit filename="src/ofxDropstuff/src/skeletonfeed.cpp" />
+		<Unit filename="src/ofxDropstuff/src/skeletonfeed.h" />
 		<Unit filename="src/ofxDropstuff/src/videofeed.cpp" />
 		<Unit filename="src/ofxDropstuff/src/videofeed.h" />
 		<Unit filename="src/rift.cpp" />
 		<Unit filename="src/rift.h" />
-		<Unit filename="src/skeletonfeed.cpp" />
-		<Unit filename="src/skeletonfeed.h" />
 		<Unit filename="src/utilities.h" />
 		<Extensions>
 			<code_completion />
