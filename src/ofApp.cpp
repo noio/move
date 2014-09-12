@@ -74,7 +74,7 @@ void ofApp::setup()
     skeletonfeed = ofPtr<SkeletonFeed>(new SkeletonFeed());
     if (use_skeletons)
     {
-        skeletonfeed->setup("http://" + config["local"]["server"].asString() + "/activeskeletonsprojected");
+        skeletonfeed->setup("http://" + config["locations"][ config["local_idx"].asInt() ]["server"].asString() + "/activeskeletonsprojected");
     }
     // Numbers below found by trial & error
     // Frameworks till does crazy squishing at non-standard resolutions
@@ -192,14 +192,14 @@ VideoFeed* ofApp::setupVideoFeed(VideoSource source)
         case VIDEO_SOURCE_SERVER_LOCAL:
         {
             VideoFeedImageURL* f = new VideoFeedImageURL();
-            f->setup("http://" + config["local"]["server"].asString() + "/color");
+            f->setup("http://" + config["locations"][ config["local_idx"].asInt() ]["server"].asString() + "/color");
             feed = f;
             break;
         }
         case VIDEO_SOURCE_SERVER_REMOTE:
         {
             VideoFeedImageURL* f = new VideoFeedImageURL();
-            f->setup("http://" + config["local"]["server"].asString() + "/color");
+            f->setup("http://" + config["locations"][ config["local_idx"].asInt() ]["server"].asString() + "/color");
             feed = f;
             break;
         }
