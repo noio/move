@@ -368,12 +368,12 @@ void ofApp::draw()
     //
     if (draw_debug)
     {
-        ofSetColor(255, 200);
+        ofSetColor(255, 255);
         ofEnableAlphaBlending();
         switch (debug_overlay)
         {
             case DEBUGOVERLAY_FLOW_HERE:
-                drawMatFull(flowcam_here.getFlow());
+                drawMatFull(flowcam_here.getFlowHigh());
                 break;
             case DEBUGOVERLAY_FLOW_THERE:
                 drawMatFull(flowcam_there.getFlow());
