@@ -24,8 +24,8 @@
         <A>255</A>
     </REMOTEUI_PARAM_COLOR>
     <REMOTEUI_PARAM_ENUM paramName="rgb_there_source">5</REMOTEUI_PARAM_ENUM>
-    <REMOTEUI_PARAM_BOOL paramName="draw_debug">0</REMOTEUI_PARAM_BOOL>
-    <REMOTEUI_PARAM_ENUM paramName="debug_overlay">0</REMOTEUI_PARAM_ENUM>
+    <REMOTEUI_PARAM_BOOL paramName="draw_debug">1</REMOTEUI_PARAM_BOOL>
+    <REMOTEUI_PARAM_ENUM paramName="debug_overlay">5</REMOTEUI_PARAM_ENUM>
     <REMOTEUI_PARAM_ENUM paramName="rgb_here_source">3</REMOTEUI_PARAM_ENUM>
     <REMOTEUI_PARAM_INT paramName="rgb_there_flip">2</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_INT paramName="max_rifts">3</REMOTEUI_PARAM_INT>

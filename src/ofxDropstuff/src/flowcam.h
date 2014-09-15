@@ -27,7 +27,12 @@ public:
     cv::Mat getFlowHigh() const { return flow_high; };
     cv::Mat getFLowHighHist() const { return flow_high_hist; };
     ofVec2f getFlowAt(float x, float y) const { return ofxCv::toOf(flow.at<cv::Vec2f>(y, x)); };
-    ofVec2f getFlowAtUnitPos(float x, float y) const { return ofxCv::toOf(flow.at<cv::Vec2f>( y * flow.rows, x * flow.cols) ); };
+    ofVec2f getFlowAtUnitPos (const ofPoint p) const { return getFlowAtUnitPos(p.x, p.y); };
+    ofVec2f getFlowAtUnitPos (float x, float y) const {
+            return ofxCv::toOf(flow.at<cv::Vec2f>(
+            MAX(0, MIN(flow.rows - 1, y * flow.rows)),
+            MAX(0, MIN(flow.cols - 1, x * flow.cols))));
+        };
 
     bool hasData() const { return has_data; };
 

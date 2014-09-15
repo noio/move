@@ -75,6 +75,7 @@ void Rift::update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowc
     int i = 0;
     ofLogVerbose("Rift") << i++;
     changed = false;
+
     if (do_open && age < open_time)
     {
         updateOpen();
@@ -116,6 +117,7 @@ void Rift::update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowc
 
 void Rift::updateOpen()
 {
+    ofLogVerbose("Rift") << "updateOpen";
     const float f = 0.5 + 0.5 * age / open_time;
     ofPoint a = initial_line.getPointAtPercent(f);
     ofPoint b = initial_line.getPointAtPercent(1 - f);
@@ -124,10 +126,12 @@ void Rift::updateOpen()
     points[nearestIndex] = a;
     points.getClosestPoint(b, &nearestIndex);
     points[nearestIndex] = b;
+    ofLogVerbose("Rift") << "updateOpen return";
 }
 
 void Rift::insertPoints(float insert_point_dist)
 {
+    ofLogVerbose("Rift") << "insertPoints";
     const float max_dist_squared = insert_point_dist * insert_point_dist;
     for (int i = 0; i < points.size(); i ++)
     {
@@ -142,10 +146,13 @@ void Rift::insertPoints(float insert_point_dist)
             changed = true;
         }
     }
+    ofLogVerbose("Rift") << "insertPoints end";
 }
 
 void Rift::updateSize(const FlowCam& flowcam_a, const FlowCam& flowcam_b)
 {
+    ofLogVerbose("Rift") << "updateSize " << ofGetWidth() << "x" << ofGetHeight();
+    ofLogVerbose("Rift") << "a_data: " << flowcam_a.hasData() << "  b_data: " << flowcam_b.hasData();
     const ofPoint screen = ofPoint(ofGetWidth(), ofGetHeight());
     float current_time = ofGetElapsedTimef();
     for (unsigned int i = 0; i < points.size(); i ++)
@@ -155,16 +162,17 @@ void Rift::updateSize(const FlowCam& flowcam_a, const FlowCam& flowcam_b)
         const ofPoint normal = points.getNormalAtIndex(i);
         ofVec2f flow_a;
         if (flowcam_a.hasData()) {
-            flow_a =  flowcam_a.getFlowAtUnitPos(ofClamp(p.x, 0, 1), ofClamp(p.y, 0, 1));
+            flow_a =  flowcam_a.getFlowAtUnitPos(p);
         }
         ofVec2f flow_b;
         if (flowcam_b.hasData()) {
-            flow_b = flowcam_b.getFlowAtUnitPos(ofClamp(p.x, 0, 1), ofClamp(p.y, 0, 1));
+            flow_b = flowcam_b.getFlowAtUnitPos(p);
         }
         if ((flow_a.lengthSquared() > grow_min_flow_squared && (!grow_directional || flow_a.dot(normal) > 0)) ||
             (flow_b.lengthSquared() > grow_min_flow_squared && (!grow_directional || flow_b.dot(normal) > 0)))
         {
             float gs = grow_speed;
+            ofLogVerbose("Rift") << "grow " << i << " by " << gs;
             if (meta[i].is_tear)
             {
                 gs *= 4;
@@ -191,6 +199,7 @@ void Rift::updateSize(const FlowCam& flowcam_a, const FlowCam& flowcam_b)
             }
         }
     }
+    ofLogVerbose("Rift") << "updateSize returns";
 }
 
 void Rift::resample()
