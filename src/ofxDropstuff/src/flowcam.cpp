@@ -100,6 +100,7 @@ void FlowCam::update(Mat frame)
     flow_high_hist += flow_high * (delta_t * 2);
     flow_high_hist -= 1;
     blur(flow_high_hist, flow_high_hist, 3);
+    has_data = true;
     //
     // Check for flow creep
     global_flow = sum(flow_high)[0] / 255 / (float)(flow_high.cols * flow_high.rows);
@@ -116,6 +117,5 @@ void FlowCam::update(Mat frame)
     {
         flow_creep_counter = MAX(0, flow_creep_counter - 1);
     }
-    has_data = true;
     last_update = ofGetElapsedTimef();
 }

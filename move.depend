@@ -2634,7 +2634,7 @@
 	"ofMain.h"
 	"ofApp.h"
 
-1410438098 c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofapp.h
+1410776882 c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofapp.h
 	"skeletonfeed.h"
 	"rift.h"
 	"lights.h"
@@ -2644,7 +2644,7 @@
 	"ofMain.h"
 	<deque>
 
-1410438098 c:\users\tom\projects\openframeworks\apps\myapps\move\src\rift.h
+1410775794 c:\users\tom\projects\openframeworks\apps\myapps\move\src\rift.h
 	"lights.h"
 	"ofxDropstuff.h"
 	"ofMain.h"
@@ -2655,17 +2655,17 @@
 	"flowcam.h"
 	"fileloader.h"
 
-1410438098 c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofxdropstuff\src\videofeed.h
+1410775163 c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofxdropstuff\src\videofeed.h
 	"fileloader.h"
 	"ofMain.h"
 	"ofxCv.h"
 
-1410438098 c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofxdropstuff\src\flowcam.h
+1410780023 c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofxdropstuff\src\flowcam.h
 	"ofMain.h"
 	"ofxCv.h"
 	<iostream>
 
-1410527679 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofapp.cpp
+1410780612 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofapp.cpp
 	"ofApp.h"
 	"ofxCv.h"
 	"ofxRemoteUIServer.h"
@@ -2673,13 +2673,14 @@
 
 1410438098 c:\users\tom\projects\openframeworks\apps\myapps\move\src\utilities.h
 
-1410438098 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofxdropstuff\src\flowcam.cpp
+1410777867 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofxdropstuff\src\flowcam.cpp
 	"flowcam.h"
 
-1410438098 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofxdropstuff\src\videofeed.cpp
+1410776141 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofxdropstuff\src\videofeed.cpp
 	"videofeed.h"
+	"utilities.h"
 
-1410438098 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\rift.cpp
+1410780744 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\rift.cpp
 	"rift.h"
 	"utilities.h"
 

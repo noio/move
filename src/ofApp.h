@@ -26,12 +26,13 @@ enum DebugOverlay
 
 enum VideoSource
 {
-    VIDEO_SOURCE_PLACEHOLDER,
-    VIDEO_SOURCE_WEBCAM0,
-    VIDEO_SOURCE_WEBCAM1,
-    VIDEO_SOURCE_SERVER_LOCAL,
-    VIDEO_SOURCE_SERVER_REMOTE,
-    VIDEO_SOURCE_CUSTOM_URL,
+    VID_PLACEHOLDER,
+    VID_WEBCAM0,
+    VID_WEBCAM1,
+    VID_LOCAL_FEED,
+    VID_REMOTE_FEED,
+    VID_REMOTE_SERVER,
+    VID_CUSTOM_URL
 };
 
 class ofApp : public ofBaseApp
@@ -81,8 +82,9 @@ public:
     // Settings
     int window_x = 20, window_y = 100, window_width = 896, window_height = 288;
     int rgb_here_fps = 30, rgb_there_fps = 30;
-    VideoSource rgb_here_source = VIDEO_SOURCE_WEBCAM0;
-    VideoSource rgb_there_source = VIDEO_SOURCE_PLACEHOLDER;
+    bool use_jpg_feed = false;
+    VideoSource rgb_here_source = VID_WEBCAM0;
+    VideoSource rgb_there_source = VID_PLACEHOLDER;
     std::string rgb_here_source_string, rgb_there_source_string;
     int rgb_here_flip = 1;
     int rgb_there_flip = 2;

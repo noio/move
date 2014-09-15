@@ -55,7 +55,8 @@ void drawMatFull(const Mat& matrix)
 void ofApp::setup()
 {
     ofSetFrameRate(60);
-    ofSetLogLevel(OF_LOG_NOTICE);
+    ofSetLogLevel(OF_LOG_VERBOSE);
+    ofSetLogLevel("ofThread", OF_LOG_NOTICE);
     loadConfig();
     //
     setupUI();
@@ -125,11 +126,13 @@ void ofApp::setupUI()
     menuItems.push_back("PLACEHOLDER");
     menuItems.push_back("WEBCAM0");
     menuItems.push_back("WEBCAM1");
-    menuItems.push_back("SERVER_LOCAL");
+    menuItems.push_back("FEED_LOCAL");
+    menuItems.push_back("FEED_REMOTE");
     menuItems.push_back("SERVER_REMOTE");
     menuItems.push_back("CUSTOM_URL");
-    RUI_SHARE_ENUM_PARAM(rgb_here_source, 0, 5, menuItems);
-    RUI_SHARE_ENUM_PARAM(rgb_there_source, 0, 5, menuItems);
+    RUI_SHARE_ENUM_PARAM(rgb_here_source, 0, 6, menuItems);
+    RUI_SHARE_ENUM_PARAM(rgb_there_source, 0, 6, menuItems);
+    RUI_SHARE_PARAM(use_jpg_feed);
     RUI_SHARE_PARAM(source_custom_url);
     RUI_SHARE_PARAM(use_skeletons);
     RUI_SHARE_PARAM(rgb_here_flip, -1, 2);
@@ -178,45 +181,56 @@ VideoFeed* ofApp::setupVideoFeed(VideoSource source, string& description)
     VideoFeed* feed;
     switch (source)
     {
-        case VIDEO_SOURCE_PLACEHOLDER:
+        case VID_PLACEHOLDER:
         {
             feed = new VideoFeedStatic();
             ((VideoFeedStatic *)feed)->setup("stockholm.jpg");
             description = "static: stockholm.jpg";
             break;
         }
-        case VIDEO_SOURCE_WEBCAM0:
+        case VID_WEBCAM0:
         {
             feed = new VideoFeedWebcam();
             ((VideoFeedWebcam *)feed)->setup(0, WEBCAM_RES_720);
             description = "webcam: id0";
             break;
         }
-        case VIDEO_SOURCE_WEBCAM1:
+        case VID_WEBCAM1:
         {
             feed = new VideoFeedWebcam();
             ((VideoFeedWebcam *)feed)->setup(1, WEBCAM_RES_720);
             description = "webcam: id1";
             break;
         }
-        case VIDEO_SOURCE_SERVER_LOCAL:
+        case VID_LOCAL_FEED:
         {
             VideoFeedImageURL* f = new VideoFeedImageURL();
-            f->setup("http://" + config["locations"][ config["local_idx"].asInt() ]["server"].asString() + "/color");
+            string colorfeed = use_jpg_feed ? "/colorjpg" : "/color";
+            f->setup("http://" + config["locations"][ config["local_idx"].asInt() ]["server"].asString() + colorfeed);
             feed = f;
-            description = "local: " + f->getURL();
+            description = "local feed: " + f->getURL();
             break;
         }
-        case VIDEO_SOURCE_SERVER_REMOTE:
+        case VID_REMOTE_FEED:
         {
             VideoFeedImageURL* f = new VideoFeedImageURL();
-            f->setup("http://" + config["locations"][ config["local_idx"].asInt() ]["server"].asString() + "/color");
+            string colorfeed = use_jpg_feed ? "/remotecolorjpg" : "/remotecolor";
+            f->setup("http://" + config["locations"][ config["local_idx"].asInt() ]["server"].asString() + colorfeed);
             feed = f;
-            description = "remote: " + f->getURL();
+            description = "remote feed: " + f->getURL();
+            break;
+        }
+        case VID_REMOTE_SERVER:
+        {
+            VideoFeedImageURL* f = new VideoFeedImageURL();
+            string colorfeed = use_jpg_feed ? "/colorjpg" : "/color";
+            f->setup("http://" + config["locations"][ config["remote_idx"].asInt() ]["server"].asString() + colorfeed);
+            feed = f;
+            description = "remote server: " + f->getURL();
             break;
         }
 
-        case VIDEO_SOURCE_CUSTOM_URL:
+        case VID_CUSTOM_URL:
         {
             VideoFeedImageURL* f = new VideoFeedImageURL();
             f->setup(source_custom_url);
@@ -411,7 +425,7 @@ void ofApp::draw()
                 dframe = (dframe - (min)) / (max-min);
                 drawMatFull(dframe);
             }
-            
+
             default:
                 break;
         }

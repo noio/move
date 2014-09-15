@@ -13,6 +13,7 @@ float Rift::resample_time = 20.0f;
 float Rift::max_point_dist = 40;
 float Rift::grow_speed = 0.4f;
 float Rift::grow_min_flow_squared = 1600;
+bool Rift::grow_directional = false;
 float Rift::shrink_speed = 0.1f;
 float Rift::shrink_delay = 3.0f;
 
@@ -71,6 +72,8 @@ void Rift::setup(ofPolyline initial)
 
 void Rift::update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowcam_b)
 {
+    int i = 0;
+    ofLogVerbose("Rift") << i++;
     changed = false;
     if (do_open && age < open_time)
     {
@@ -85,6 +88,7 @@ void Rift::update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowc
             insertPoints(max_point_dist);
         }
     }
+    ofLogVerbose("Rift") << i++;
     if (changed)
     {
         area = MAX(0.1, points.getArea());
@@ -101,11 +105,13 @@ void Rift::update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowc
     age += delta_t;
     time_since_grow += delta_t;
     resample_timer += delta_t;
+    ofLogVerbose("Rift") << i++;
     if (resample_timer > resample_time)
     {
         resample_timer = 0;
         resample();
     }
+    ofLogVerbose("Rift") << i++;
 }
 
 void Rift::updateOpen()
@@ -147,10 +153,16 @@ void Rift::updateSize(const FlowCam& flowcam_a, const FlowCam& flowcam_b)
         const ofPoint& cur = points[i];
         const ofPoint p = cur / screen;
         const ofPoint normal = points.getNormalAtIndex(i);
-        const ofVec2f flow_a = flowcam_a.getFlowAtUnitPos(ofClamp(p.x, 0, 1), ofClamp(p.y, 0, 1));
-        const ofVec2f flow_b = flowcam_b.getFlowAtUnitPos(ofClamp(p.x, 0, 1), ofClamp(p.y, 0, 1));
-        if ((flow_a.lengthSquared() > grow_min_flow_squared && flow_a.dot(normal) > 0) ||
-                (flow_b.lengthSquared() > grow_min_flow_squared && flow_b.dot(normal) > 0))
+        ofVec2f flow_a;
+        if (flowcam_a.hasData()) {
+            flow_a =  flowcam_a.getFlowAtUnitPos(ofClamp(p.x, 0, 1), ofClamp(p.y, 0, 1));
+        }
+        ofVec2f flow_b;
+        if (flowcam_b.hasData()) {
+            flow_b = flowcam_b.getFlowAtUnitPos(ofClamp(p.x, 0, 1), ofClamp(p.y, 0, 1));
+        }
+        if ((flow_a.lengthSquared() > grow_min_flow_squared && (!grow_directional || flow_a.dot(normal) > 0)) ||
+            (flow_b.lengthSquared() > grow_min_flow_squared && (!grow_directional || flow_b.dot(normal) > 0)))
         {
             float gs = grow_speed;
             if (meta[i].is_tear)

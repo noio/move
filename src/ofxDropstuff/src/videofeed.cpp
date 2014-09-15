@@ -10,8 +10,8 @@ template<typename PixelType>
 void VideoFeed_<PixelType>::setAspectRatio(int in_width, int in_height)
 {
     lock();
-    width = in_width;
-    height = in_height;
+    width = MAX(1, in_width);
+    height = MAX(1, in_height);
     unlock();
 }
 

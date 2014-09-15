@@ -46,6 +46,7 @@ public:
     static float resample_time;
     static float max_point_dist;
     static float grow_min_flow_squared;
+    static bool grow_directional;
     static float grow_speed;
     static float shrink_speed;
     static float shrink_delay;

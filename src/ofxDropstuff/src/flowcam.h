@@ -29,7 +29,7 @@ public:
     ofVec2f getFlowAt(float x, float y) const { return ofxCv::toOf(flow.at<cv::Vec2f>(y, x)); };
     ofVec2f getFlowAtUnitPos(float x, float y) const { return ofxCv::toOf(flow.at<cv::Vec2f>( y * flow.rows, x * flow.cols) ); };
 
-    bool hasData() { return has_data; };
+    bool hasData() const { return has_data; };
 
     float flow_threshold_low = 0.1f;
     float flow_threshold_high = 0.5f;
