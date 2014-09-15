@@ -21,6 +21,7 @@ enum DebugOverlay
     DEBUGOVERLAY_FLOW_THERE,
     DEBUGOVERLAY_FLOWHIST_HERE,
     DEBUGOVERLAY_FLOWHIST_THERE,
+    DEBUGOVERLAY_DEPTH
 };
 
 enum VideoSource
@@ -43,7 +44,7 @@ public:
 
     void loadConfig();
     void setupUI();
-    ofxDS::VideoFeed* setupVideoFeed(VideoSource source);
+    ofxDS::VideoFeed* setupVideoFeed(VideoSource source, std::string& description);
 
     void exit();
     void keyPressed(int key);
@@ -64,6 +65,7 @@ public:
     ofPtr<ofxDS::SkeletonFeed> skeletonfeed;
     ofPtr<ofxDS::VideoFeed> rgb_there;
     ofPtr<ofxDS::VideoFeed> rgb_here;
+    ofPtr<ofxDS::VideoFeed16Bit> depth;
     ofxDS::FlowCam flowcam_here;
     ofxDS::FlowCam flowcam_there;
     Mat flow_hist_threshold, flow_here_hist, flow_there_hist;
@@ -81,6 +83,7 @@ public:
     int rgb_here_fps = 30, rgb_there_fps = 30;
     VideoSource rgb_here_source = VIDEO_SOURCE_WEBCAM0;
     VideoSource rgb_there_source = VIDEO_SOURCE_PLACEHOLDER;
+    std::string rgb_here_source_string, rgb_there_source_string;
     int rgb_here_flip = 1;
     int rgb_there_flip = 2;
     std::string source_custom_url = "http://192.168.1.14/color";

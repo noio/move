@@ -60,13 +60,19 @@ void ofApp::setup()
     //
     setupUI();
     //===== REMOTE CAM SETUP =====
-    rgb_there = ofPtr<VideoFeed>(setupVideoFeed(rgb_there_source));
+    rgb_there = ofPtr<VideoFeed>(setupVideoFeed(rgb_there_source, rgb_there_source_string));
     rgb_there->setFlip(rgb_there_flip);
     rgb_there->setMaxFPS(rgb_there_fps);
     //===== LOCAL CAMERA SETUP =====
-    rgb_here = ofPtr<VideoFeed>(setupVideoFeed(rgb_here_source));
+    rgb_here = ofPtr<VideoFeed>(setupVideoFeed(rgb_here_source ,rgb_here_source_string));
     rgb_here->setFlip(rgb_here_flip);
     rgb_here->setMaxFPS(rgb_there_fps);
+    //
+//    ((VideoFeedStatic *)feed)->setup("stockholm.jpg");
+    VideoFeed16BitImageURL * depth_p = new VideoFeed16BitImageURL();
+    depth_p->setup("http://" + config["locations"][ config["local_idx"].asInt() ]["server"].asString() + "/depth");
+    depth = ofPtr<VideoFeed16Bit>( depth_p );
+    depth->setAspectRatio(160,120);
     // Window setup
     ofSetWindowPosition(window_x, window_y);
     ofSetWindowShape(window_width, window_height);
@@ -139,7 +145,8 @@ void ofApp::setupUI()
     menuItems.push_back("FLOW_THERE");
     menuItems.push_back("FLOWHIST_HERE");
     menuItems.push_back("FLOWHIST_THERE");
-    RUI_SHARE_ENUM_PARAM(debug_overlay, 0, 4, menuItems);
+    menuItems.push_back("DEPTH");
+    RUI_SHARE_ENUM_PARAM(debug_overlay, 0, 5, menuItems);
     RUI_NEW_GROUP("Creation");
     RUI_SHARE_PARAM(max_rifts, 0, 10);
     RUI_SHARE_PARAM(new_rift_min_flow, 0, 255);
@@ -166,7 +173,7 @@ void ofApp::setupUI()
     RUI_LOAD_FROM_XML();
 }
 
-VideoFeed* ofApp::setupVideoFeed(VideoSource source)
+VideoFeed* ofApp::setupVideoFeed(VideoSource source, string& description)
 {
     VideoFeed* feed;
     switch (source)
@@ -175,18 +182,21 @@ VideoFeed* ofApp::setupVideoFeed(VideoSource source)
         {
             feed = new VideoFeedStatic();
             ((VideoFeedStatic *)feed)->setup("stockholm.jpg");
+            description = "static: stockholm.jpg";
             break;
         }
         case VIDEO_SOURCE_WEBCAM0:
         {
             feed = new VideoFeedWebcam();
             ((VideoFeedWebcam *)feed)->setup(0, WEBCAM_RES_720);
+            description = "webcam: id0";
             break;
         }
         case VIDEO_SOURCE_WEBCAM1:
         {
             feed = new VideoFeedWebcam();
             ((VideoFeedWebcam *)feed)->setup(1, WEBCAM_RES_720);
+            description = "webcam: id1";
             break;
         }
         case VIDEO_SOURCE_SERVER_LOCAL:
@@ -194,6 +204,7 @@ VideoFeed* ofApp::setupVideoFeed(VideoSource source)
             VideoFeedImageURL* f = new VideoFeedImageURL();
             f->setup("http://" + config["locations"][ config["local_idx"].asInt() ]["server"].asString() + "/color");
             feed = f;
+            description = "local: " + f->getURL();
             break;
         }
         case VIDEO_SOURCE_SERVER_REMOTE:
@@ -201,6 +212,7 @@ VideoFeed* ofApp::setupVideoFeed(VideoSource source)
             VideoFeedImageURL* f = new VideoFeedImageURL();
             f->setup("http://" + config["locations"][ config["local_idx"].asInt() ]["server"].asString() + "/color");
             feed = f;
+            description = "remote: " + f->getURL();
             break;
         }
 
@@ -209,6 +221,7 @@ VideoFeed* ofApp::setupVideoFeed(VideoSource source)
             VideoFeedImageURL* f = new VideoFeedImageURL();
             f->setup(source_custom_url);
             feed = f;
+            description = "custom: " + f->getURL();
             break;
         }
         default:
@@ -369,6 +382,7 @@ void ofApp::draw()
     if (draw_debug)
     {
         ofSetColor(255, 255);
+        ofPoint nextline(3, 13);
         ofEnableAlphaBlending();
         switch (debug_overlay)
         {
@@ -384,6 +398,20 @@ void ofApp::draw()
             case DEBUGOVERLAY_FLOWHIST_THERE:
                 drawMatFull(flowcam_there.getFLowHighHist());
                 break;
+            case DEBUGOVERLAY_DEPTH:
+            {
+                cv::Mat dframe;
+                depth->getFrame(dframe);
+
+                dframe.convertTo(dframe, CV_32F, 1.0f / 4000);
+//                dframe = 1 - dframe;
+//                cv::threshold(1.0 - dframe, dframe, 0.98, 1, CV_THRESH_TOZERO_INV);
+                float max = 1.0;
+                float min = 0.0;
+                dframe = (dframe - (min)) / (max-min);
+                drawMatFull(dframe);
+            }
+            
             default:
                 break;
         }
@@ -393,8 +421,13 @@ void ofApp::draw()
             rifts[i].drawDebug();
         }
         lights.drawDebug();
-        ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate(), 0) + "fps (r11)", ofPoint(3, 13));
-        ofDrawBitmapStringHighlight("[d]ebug view", ofPoint(3, 33));
+        ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate(), 0) + "fps (r11)", nextline);
+        nextline += ofPoint(0, 20);
+        ofDrawBitmapStringHighlight("[d]ebug view", nextline);
+        nextline += ofPoint(0, 20);
+        ofDrawBitmapStringHighlight("here: " + rgb_here_source_string, nextline);
+        nextline += ofPoint(0, 20);
+        ofDrawBitmapStringHighlight("there: " + rgb_there_source_string, nextline);
         float scale_flow_to_game = ofGetWidth() / (float)flowcam_here.getFlowHigh().cols;
         ofPushMatrix();
         ofScale(scale_flow_to_game, scale_flow_to_game);
@@ -412,6 +445,7 @@ void ofApp::exit()
 {
     rgb_here.reset();
     rgb_there.reset();
+    depth.reset();
     skeletonfeed.reset();
 }
 

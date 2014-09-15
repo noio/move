@@ -1,4 +1,5 @@
 #include "videofeed.h"
+#include "utilities.h"
 
 using namespace ofxDS;
 using namespace std;

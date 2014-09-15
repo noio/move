@@ -78,6 +78,7 @@ public:
     ~VideoFeedImageURL_() { this->waitForThread(true); }
     void setup(string in_url) ;
     void threadedFunction() ;
+    std::string getURL() const {return url;};
 private:
     string url;
     
@@ -88,7 +89,7 @@ private:
 };
 
 typedef VideoFeedImageURL_<unsigned char> VideoFeedImageURL;
-typedef VideoFeedImageURL_<unsigned short> VideoFeed16BitImageUrl;
+typedef VideoFeedImageURL_<unsigned short> VideoFeed16BitImageURL;
 }
 
 
