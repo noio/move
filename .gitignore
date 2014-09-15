@@ -4,3 +4,4 @@ xcshareddata/
 xcuserdata/
 bin/
 obj/
+*.layout
