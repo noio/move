@@ -71,7 +71,7 @@ void ofApp::setup()
     //
 //    ((VideoFeedStatic *)feed)->setup("stockholm.jpg");
     VideoFeed16BitImageURL * depth_p = new VideoFeed16BitImageURL();
-    depth_p->setup("http://" + config["locations"][ config["local_idx"].asInt() ]["server"].asString() + "/depth");
+    depth_p->setup("http://" + config["locations"][ config["remote_idx"].asInt() ]["server"].asString() + "/depth");
     depth = ofPtr<VideoFeed16Bit>( depth_p );
     depth->setAspectRatio(160,120);
     // Window setup
@@ -417,13 +417,25 @@ void ofApp::draw()
                 cv::Mat dframe;
                 depth->getFrame(dframe);
 
-                dframe.convertTo(dframe, CV_32F, 1.0f / 4000);
+                //dframe.convertTo(dframe, CV_32F, 1.0f / 4000);
+                //float max = 1.0;
+                //float min = 0.0;
+                //dframe = (dframe - (min)) / (max-min);
+
+                cv::Mat r = dframe > 1000 & dframe < 2000;
+                cv::Mat g = dframe > 2000 & dframe < 3000;
+                cv::Mat b = dframe > 3000 & dframe < 4000;
+                vector<cv::Mat> channels;
+                cv::Mat rgb;
+                channels.push_back(r);
+                channels.push_back(g);
+                channels.push_back(b);
+                cv::merge(channels, rgb);
 //                dframe = 1 - dframe;
 //                cv::threshold(1.0 - dframe, dframe, 0.98, 1, CV_THRESH_TOZERO_INV);
-                float max = 1.0;
-                float min = 0.0;
-                dframe = (dframe - (min)) / (max-min);
-                drawMatFull(dframe);
+
+
+                drawMatFull(rgb);
             }
 
             default:
