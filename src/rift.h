@@ -49,6 +49,7 @@ public:
     static float grow_min_flow_squared;
     static bool grow_directional;
     static float grow_speed;
+    static float max_size_padding;
     static float shrink_speed;
     static float shrink_delay;
 

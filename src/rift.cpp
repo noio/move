@@ -12,6 +12,7 @@ float Rift::fade_in_time = 1.0f;
 float Rift::fade_out_time = 10.0f;
 float Rift::resample_time = 20.0f;
 float Rift::max_point_dist = 40;
+float Rift::max_size_padding = 0.05;
 float Rift::grow_speed = 0.4f;
 float Rift::grow_min_flow_squared = 1600;
 bool Rift::grow_directional = false;
@@ -158,6 +159,9 @@ void Rift::updateSize(const FlowCam& flowcam_a, const FlowCam& flowcam_b)
     ofLogVerbose("Rift") << "a_data: " << flowcam_a.hasData() << "  b_data: " << flowcam_b.hasData();
     const ofPoint screen = ofPoint(ofGetWidth(), ofGetHeight());
     float current_time = ofGetElapsedTimef();
+    float margin = max_size_padding * MIN(ofGetWidth(), ofGetHeight());
+    float margin_right = ofGetWidth() - margin;
+    float margin_bottom = ofGetHeight() - margin;
     for (unsigned int i = 0; i < points.size(); i ++)
     {
         const ofPoint& cur = points[i];
@@ -181,7 +185,7 @@ void Rift::updateSize(const FlowCam& flowcam_a, const FlowCam& flowcam_b)
                 gs *= 4;
             }
             ofPoint moved = cur + normal * gs;
-            moved = ofPoint(ofClamp(moved.x, 0, ofGetWidth()), ofClamp(moved.y, 0, ofGetHeight()));
+            moved = ofPoint(ofClamp(moved.x, margin, margin_right), ofClamp(moved.y, margin, margin_bottom));
             if (!points.inside(moved))
             {
                 points[i] = moved;
@@ -193,7 +197,7 @@ void Rift::updateSize(const FlowCam& flowcam_a, const FlowCam& flowcam_b)
         else if (current_time - meta[i].last_grown >= shrink_delay)
         {
             ofPoint moved = cur - shrink_speed * points.getNormalAtIndex(i);
-            moved = ofPoint(ofClamp(moved.x, 0, ofGetWidth()), ofClamp(moved.y, 0, ofGetHeight()));
+            moved = ofPoint(ofClamp(moved.x, margin, margin_right), ofClamp(moved.y, margin, margin_bottom));
             if (points.inside(moved))
             {
                 points[i] = moved;

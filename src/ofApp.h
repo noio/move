@@ -91,6 +91,7 @@ public:
     std::string source_custom_url = "http://192.168.1.14/color";
     bool use_skeletons = false;
 
+    bool remoteui_draw_notif = false;
     bool draw_debug = true;
     bool disable_local_rgb = false;
     DebugOverlay debug_overlay = DEBUGOVERLAY_NONE;

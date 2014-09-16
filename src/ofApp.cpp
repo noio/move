@@ -117,6 +117,7 @@ void ofApp::setupUI()
 {
     // SETUP UI
     RUI_SETUP(44040); //start server
+    RUI_SET_DRAWS_NOTIF(remoteui_draw_notif);
     RUI_NEW_GROUP("Reboot Required");
     RUI_SHARE_PARAM(window_x, 0, ofGetScreenWidth() / 2);
     RUI_SHARE_PARAM(window_y, 0, ofGetScreenHeight() / 2);
@@ -142,6 +143,7 @@ void ofApp::setupUI()
     RUI_NEW_GROUP("Triggers");
     RUI_SHARE_PARAM(trigger_remove_all);
     RUI_NEW_GROUP("Debug");
+    RUI_SHARE_PARAM(remoteui_draw_notif);
     RUI_SHARE_PARAM(draw_debug);
     RUI_SHARE_PARAM(disable_local_rgb);
     menuItems.clear();
@@ -169,6 +171,7 @@ void ofApp::setupUI()
     RUI_SHARE_PARAM(Rift::max_point_dist, 10, 100);
     RUI_SHARE_PARAM(Rift::grow_speed, 0, 4);
     RUI_SHARE_PARAM(Rift::grow_min_flow_squared, 0, 10);
+    RUI_SHARE_PARAM(Rift::max_size_padding, 0, 0.3);
     RUI_SHARE_PARAM(Rift::shrink_speed, 0, 4);
     RUI_SHARE_PARAM(Rift::shrink_delay, 0, 10);
     RUI_NEW_GROUP("Lights");
