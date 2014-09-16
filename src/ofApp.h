@@ -1,8 +1,8 @@
 #pragma once
 
 #include "skeletonfeed.h"
-#include "rift.h"
 #include "lights.h"
+#include "rift.h"
 
 #include "ofxDropstuff.h"
 #include "ofxCv.h"
@@ -94,6 +94,8 @@ public:
     bool draw_debug = true;
     bool disable_local_rgb = false;
     DebugOverlay debug_overlay = DEBUGOVERLAY_NONE;
+    
+    bool trigger_remove_all = false;
 
     float create_rifts_time = 2.0f;
     int max_rifts = 3;

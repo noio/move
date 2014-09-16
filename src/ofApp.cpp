@@ -139,6 +139,8 @@ void ofApp::setupUI()
     RUI_SHARE_PARAM(rgb_there_flip, -1, 2);
     RUI_SHARE_PARAM(rgb_here_fps, 1, 30);
     RUI_SHARE_PARAM(rgb_there_fps, 1, 30);
+    RUI_NEW_GROUP("Triggers");
+    RUI_SHARE_PARAM(trigger_remove_all);
     RUI_NEW_GROUP("Debug");
     RUI_SHARE_PARAM(draw_debug);
     RUI_SHARE_PARAM(disable_local_rgb);
@@ -249,6 +251,11 @@ VideoFeed* ofApp::setupVideoFeed(VideoSource source, string& description)
 void ofApp::update()
 {
     delta_t = ofGetLastFrameTime();
+    if (trigger_remove_all){
+        rifts.clear();
+        trigger_remove_all = false;
+        RUI_PUSH_TO_CLIENT();
+    }
     cv::Mat frame;
     if (rgb_here->getFrame(frame))
     {
@@ -345,6 +352,7 @@ void ofApp::createRifts()
             Rift r;
             r.setup(bbc);
             rifts.push_back(r);
+            lights.retarget(rifts);
         }
     }
 }
@@ -377,7 +385,7 @@ void ofApp::draw()
     //
     for (int i = 0; i < rifts.size(); i ++)
     {
-        rifts[i].drawLights(lights);
+        rifts[i].drawLights(&lights);
     }
     maskBeginAlpha();
     for (int i = 0; i < rifts.size(); i ++)

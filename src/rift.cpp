@@ -1,4 +1,5 @@
 #include "rift.h"
+#include "lights.h"
 #include "utilities.h"
 
 using namespace cv;
@@ -112,7 +113,9 @@ void Rift::update(double delta_t, const FlowCam& flowcam_a, const FlowCam& flowc
         resample_timer = 0;
         resample();
     }
-    ofLogVerbose("Rift") << i++;
+    if (changed) {
+        tessellator.tessellateToMesh(points, OF_POLY_WINDING_POSITIVE, shape);
+    }
 }
 
 void Rift::updateOpen()
@@ -217,6 +220,7 @@ void Rift::resample()
             points.getClosestPoint(ofPoint(ofGetWidth(), ofGetHeight() * .5), &nearestIndex);
             meta[nearestIndex].is_tear = true;
         }
+        changed = true;
     }
 }
 
@@ -224,30 +228,26 @@ void Rift::resample()
 void Rift::drawMask()
 {
     ofSetColor(255, 255);
-    ofBeginShape();
-    for(int j = 0; j < points.size(); j++)
-    {
-        ofVertex(points[j]);
-    }
-    ofEndShape();
+    shape.draw();
 }
 
-void Rift::drawLights(Lights lights)
+void Rift::drawLights(Lights* lights)
 {
     ofEnableBlendMode(OF_BLENDMODE_ADD);
-    for (int li = 0; li < lights.lights.size(); li ++)
+    for (int li = 0; li < lights->lights.size(); li ++)
     {
         ofMesh mesh;
-        const Light& light = lights.lights[li];
+        const Light& light = lights->lights[li];
         int midx = 0;
         for(int pidx = 0; pidx <= (int) points.size(); pidx++ )
         {
             int pwrap = pidx % points.size();
             const ofPoint& n1 = points[pwrap];
-            ofPoint ray = (n1 - light.position) * lights.ray_length;
-            ofPoint n2 = n1 + ray * .5 + points.getNormalAtIndex(pwrap) * lights.ray_rift_normal_bias;
+            ofPoint ray = (n1 - light.position) * lights->ray_length;
+            ofPoint n2 = n1 + ray * .5 + points.getNormalAtIndex(pwrap) * lights->ray_rift_normal_bias;
             ofPoint n3 = n1 + ray;
             int alpha = MIN(255, 10 * 255 * 255 / n1.squareDistance(light.position)) * fade;
+            //alpha *= MAX(0, points.getNormalAtIndex(pwrap).dot(ray.normalized()));
             alpha *= fade;
             mesh.addVertex(n1);
             mesh.addColor(ofColor(light.color, alpha));
@@ -294,14 +294,46 @@ void Rift::drawInnerLight()
     ofEnableAlphaBlending();
     int alpha = MIN(255 * inner_light_strength / area, 255);
     ofSetColor(fade * 255, alpha);
-    ofBeginShape();
-    for(int j = 0; j < points.size(); j++)
-    {
-        ofVertex(points[j]);
-    }
-    ofEndShape();
+    ofFill();
+    shape.draw();
     ofSetColor(ofColor::white);
     ofDisableAlphaBlending();
+    // INNER GLOW
+//    ofEnableBlendMode(OF_BLENDMODE_ADD);
+//    for (int li = 0; li < lights.lights.size(); li ++)
+//    {
+//        ofMesh mesh;
+//        const Light& light = lights.lights[li];
+//        int midx = 0;
+//        for(int pidx = 0; pidx <= (int) points.size(); pidx++ )
+//        {
+//            int pwrap = pidx % points.size();
+//            const ofPoint& n1 = points[pwrap];
+////            ofPoint ray = (n1 - light.position) * lights.ray_length;
+//            ofPoint n2 = n1 - 20 * points.getNormalAtIndex(pwrap);
+//            int alpha = MIN(255, 10 * 255 * 255 / n1.squareDistance(light.position)) * fade;
+//            alpha *= fade;
+//            mesh.addVertex(n1);
+//            mesh.addColor(ofColor(light.color, alpha));
+//            int n1idx = midx;
+//            int p1idx = midx - 2;
+//            mesh.addVertex(n2);
+//            mesh.addColor(ofColor(light.color, 0));
+//            int n2idx = midx + 1;
+//            int p2idx = midx - 1;
+//            midx += 2;
+//            if (pidx > 0)
+//            {
+//                // Short ray
+//                mesh.addTriangle(p1idx, n1idx, n2idx);
+//                mesh.addTriangle(p1idx, n2idx, p2idx);
+//            }
+//        }
+//        mesh.draw();
+//    }
+//    ofDisableBlendMode();
+//    ofSetColor(255, 255, 255, 255);
+
 }
 
 void Rift::drawDebug()

@@ -40,14 +40,26 @@ void Lights::update(double delta_t, const vector<ofxDS::Skeleton>& skeletons)
     {
         for (int i = 0; i < lights.size(); i ++)
         {
-            Light& light = lights[i];
-            light.velocity += ofPoint(ofRandomf(), ofRandomf()) * delta_t * 30;
-            light.velocity += .001 * (ofPoint(ofGetWidth() * .5, ofGetHeight() * .5) - light.position);
-            light.position += light.velocity * delta_t;
-            light.position.x = ofClamp(light.position.x, 0, ofGetWidth());
-            light.position.y = ofClamp(light.position.y, 0, ofGetHeight());
-            light.rotation += .01;
+            orbit(delta_t, lights[i]);
         }
+    }
+}
+
+void Lights::orbit(double delta_t, Light& light){
+    light.velocity += ofPoint(ofRandomf(), ofRandomf()) * delta_t * 30;
+    light.velocity += .001 * (light.target - light.position);
+    light.position += light.velocity * delta_t;
+    light.position.x = ofClamp(light.position.x, 0, ofGetWidth());
+    light.position.y = ofClamp(light.position.y, 0, ofGetHeight());
+    light.rotation += .01;
+
+}
+
+void Lights::retarget(const std::vector<Rift>& rifts)
+{
+    for (int i = 0; i < lights.size(); i ++)
+    {
+        lights[i].target = rifts[i % rifts.size()].getCenter();
     }
 }
 
@@ -73,6 +85,7 @@ void Lights::drawDebug()
         Light& light = lights[i];
         ofSetColor(light.color, 255);
         ofCircle(light.position, 10);
+        ofLine(light.position, light.target);
         ofSetColor(ofColor::white);
     }
 }

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "lights.h"
 #include "ofxDropstuff.h"
 #include "ofMain.h"
 #include "ofxCv.h"
@@ -12,6 +11,7 @@ typedef struct PointMeta
     float last_grown;
 } PointMeta;
 
+class Lights;
 class Rift
 {
 
@@ -32,11 +32,12 @@ public:
 
     void drawMask();
     void drawDebug();
-    void drawLights(Lights lights);
+    void drawLights(Lights* lights);
     void drawOutline();
     void drawInnerLight();
 
-    ofRectangle getBoundingBox() { return points.getBoundingBox(); };
+    ofRectangle getBoundingBox() const { return points.getBoundingBox(); };
+    ofPoint getCenter() const { return points.getBoundingBox().getCenter(); };
 
     static float inner_light_strength;
     static float fade_max_area;
@@ -60,6 +61,8 @@ public:
 
 private:
     ofPolyline initial_line, points;
+    ofMesh shape;
+    ofTessellator tessellator;
     vector<PointMeta> meta;
 
     double resample_timer;

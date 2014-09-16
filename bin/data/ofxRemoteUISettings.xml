@@ -1,17 +1,17 @@
 <OFX_REMOTE_UI_PARAMS>
     <REMOTEUI_PARAM_FLOAT paramName="Rift::resample_time">7.203086376</REMOTEUI_PARAM_FLOAT>
-    <REMOTEUI_PARAM_FLOAT paramName="Rift::inner_light_strength">1125.654418945</REMOTEUI_PARAM_FLOAT>
-    <REMOTEUI_PARAM_FLOAT paramName="flow_hist_darkness">0.602045953</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="Rift::inner_light_strength">7198.952636719</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="flow_hist_darkness">0.746073306</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_FLOAT paramName="Rift::max_point_dist">80.794593811</REMOTEUI_PARAM_FLOAT>
-    <REMOTEUI_PARAM_FLOAT paramName="Rift::shrink_speed">0.071859531</REMOTEUI_PARAM_FLOAT>
-    <REMOTEUI_PARAM_FLOAT paramName="lights.ray_rift_normal_bias">10.000000000</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="Rift::shrink_speed">0.073298432</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="lights.ray_rift_normal_bias">40.000000000</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_FLOAT paramName="Rift::fade_in_time">1.000000000</REMOTEUI_PARAM_FLOAT>
-    <REMOTEUI_PARAM_FLOAT paramName="create_rifts_time">2.475440979</REMOTEUI_PARAM_FLOAT>
-    <REMOTEUI_PARAM_FLOAT paramName="Rift::grow_speed">1.479098439</REMOTEUI_PARAM_FLOAT>
-    <REMOTEUI_PARAM_FLOAT paramName="Rift::shrink_delay">0.000000000</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="create_rifts_time">0.777773261</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="Rift::grow_speed">0.931937158</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="Rift::shrink_delay">2.172774792</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_FLOAT paramName="Rift::fade_max_area">300.000000000</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_FLOAT paramName="Rift::grow_min_flow_squared">1.387434602</REMOTEUI_PARAM_FLOAT>
-    <REMOTEUI_PARAM_FLOAT paramName="lights.ray_length">2.000000000</REMOTEUI_PARAM_FLOAT>
+    <REMOTEUI_PARAM_FLOAT paramName="lights.ray_length">1.497627616</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_FLOAT paramName="Rift::open_time">1.000000000</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_BOOL paramName="use_jpg_feed">1</REMOTEUI_PARAM_BOOL>
     <REMOTEUI_PARAM_FLOAT paramName="Rift::fade_out_time">10.000000000</REMOTEUI_PARAM_FLOAT>
@@ -24,9 +24,9 @@
         <A>255</A>
     </REMOTEUI_PARAM_COLOR>
     <REMOTEUI_PARAM_ENUM paramName="rgb_there_source">5</REMOTEUI_PARAM_ENUM>
-    <REMOTEUI_PARAM_BOOL paramName="draw_debug">0</REMOTEUI_PARAM_BOOL>
+    <REMOTEUI_PARAM_BOOL paramName="trigger_remove_all">0</REMOTEUI_PARAM_BOOL>
     <REMOTEUI_PARAM_ENUM paramName="debug_overlay">5</REMOTEUI_PARAM_ENUM>
-    <REMOTEUI_PARAM_ENUM paramName="rgb_here_source">3</REMOTEUI_PARAM_ENUM>
+    <REMOTEUI_PARAM_ENUM paramName="rgb_here_source">1</REMOTEUI_PARAM_ENUM>
     <REMOTEUI_PARAM_INT paramName="rgb_there_flip">2</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_INT paramName="max_rifts">3</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_INT paramName="rgb_here_fps">30</REMOTEUI_PARAM_INT>
@@ -34,8 +34,9 @@
     <REMOTEUI_PARAM_STRING paramName="source_custom_url">http://192.168.1.14/color</REMOTEUI_PARAM_STRING>
     <REMOTEUI_PARAM_INT paramName="window_height">288</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_INT paramName="new_rift_min_flow">219</REMOTEUI_PARAM_INT>
-    <REMOTEUI_PARAM_BOOL paramName="disable_local_rgb">0</REMOTEUI_PARAM_BOOL>
+    <REMOTEUI_PARAM_BOOL paramName="draw_debug">0</REMOTEUI_PARAM_BOOL>
     <REMOTEUI_PARAM_INT paramName="rgb_there_fps">30</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_INT paramName="window_x">30</REMOTEUI_PARAM_INT>
+    <REMOTEUI_PARAM_BOOL paramName="disable_local_rgb">0</REMOTEUI_PARAM_BOOL>
     <REMOTEUI_PARAM_BOOL paramName="use_skeletons">0</REMOTEUI_PARAM_BOOL>
 </OFX_REMOTE_UI_PARAMS>
