@@ -2,8 +2,8 @@
 {
   "locations" : 
   [
-    {"name": "Den Haag", "server": "192.168.1.34:1338", "game": "localhost"},
-    {"name": "Stockholm", "server": "213.127.157.20:1338", "game": "213.127.157.20"}
+    {"name": "Den Haag", "server": "localhost:1338", "game": "localhost"},
+    {"name": "Stockholm", "server": "192.168.1.34:1338", "game": "213.127.157.20"}
   ],
   
   "local_idx": 0,
