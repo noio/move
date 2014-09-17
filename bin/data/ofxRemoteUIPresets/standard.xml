@@ -10,7 +10,7 @@
         <B>255</B>
         <A>255</A>
     </REMOTEUI_PARAM_COLOR>
-    <REMOTEUI_PARAM_ENUM paramName="rgb_there_source">5</REMOTEUI_PARAM_ENUM>
+    <REMOTEUI_PARAM_ENUM paramName="rgb_there_source">4</REMOTEUI_PARAM_ENUM>
     <REMOTEUI_PARAM_INT paramName="rgb_here_flip">1</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_INT paramName="window_width">896</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_FLOAT paramName="Rift::max_size_padding">0.103836715</REMOTEUI_PARAM_FLOAT>
@@ -18,7 +18,7 @@
     <REMOTEUI_PARAM_ENUM paramName="debug_overlay">5</REMOTEUI_PARAM_ENUM>
     <REMOTEUI_PARAM_FLOAT paramName="Rift::shrink_speed">0.073298432</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_FLOAT paramName="lights.ray_rift_normal_bias">40.000000000</REMOTEUI_PARAM_FLOAT>
-    <REMOTEUI_PARAM_ENUM paramName="rgb_here_source">1</REMOTEUI_PARAM_ENUM>
+    <REMOTEUI_PARAM_ENUM paramName="rgb_here_source">3</REMOTEUI_PARAM_ENUM>
     <REMOTEUI_PARAM_FLOAT paramName="Rift::fade_in_time">1.000000000</REMOTEUI_PARAM_FLOAT>
     <REMOTEUI_PARAM_INT paramName="rgb_there_flip">2</REMOTEUI_PARAM_INT>
     <REMOTEUI_PARAM_INT paramName="max_rifts">3</REMOTEUI_PARAM_INT>

@@ -55,7 +55,7 @@ void drawMatFull(const Mat& matrix)
 void ofApp::setup()
 {
     ofSetFrameRate(60);
-    ofSetLogLevel(OF_LOG_VERBOSE);
+    ofSetLogLevel(OF_LOG_NOTICE);
     ofSetLogLevel("ofThread", OF_LOG_NOTICE);
     loadConfig();
     //
@@ -70,10 +70,10 @@ void ofApp::setup()
     rgb_here->setMaxFPS(rgb_there_fps);
     //
 //    ((VideoFeedStatic *)feed)->setup("stockholm.jpg");
-    VideoFeed16BitImageURL * depth_p = new VideoFeed16BitImageURL();
-    depth_p->setup("http://" + config["locations"][ config["remote_idx"].asInt() ]["server"].asString() + "/depth");
-    depth = ofPtr<VideoFeed16Bit>( depth_p );
-    depth->setAspectRatio(160,120);
+    //VideoFeed16BitImageURL * depth_p = new VideoFeed16BitImageURL();
+    //depth_p->setup("http://" + config["locations"][ config["remote_idx"].asInt() ]["server"].asString() + "/depth");
+    //depth = ofPtr<VideoFeed16Bit>( depth_p );
+    //depth->setAspectRatio(160,120);
     // Window setup
     ofSetWindowPosition(window_x, window_y);
     ofSetWindowShape(window_width, window_height);
@@ -425,31 +425,31 @@ void ofApp::draw()
                 break;
             case DEBUGOVERLAY_DEPTH:
             {
-                cv::Mat dframe;
-                depth->getFrame(dframe);
+//                cv::Mat dframe;
+//                depth->getFrame(dframe);
+//
+//                //dframe.convertTo(dframe, CV_32F, 1.0f / 4000);
+//                //float max = 1.0;
+//                //float min = 0.0;
+//                //dframe = (dframe - (min)) / (max-min);
+//
+//                if (!dframe.empty()){
+//                    cv::Mat r = (dframe > 1000) & (dframe < 2000);
+//                    cv::Mat g = dframe > 2000 & dframe < 3000;
+//                    cv::Mat b = dframe > 3000 & dframe < 4000;
+//                    vector<cv::Mat> channels;
+//                    cv::Mat rgb;
+//                    channels.push_back(r);
+//                    channels.push_back(g);
+//                    channels.push_back(b);
+//                    cv::merge(channels, rgb);
+//                    //                dframe = 1 - dframe;
+//                    //                cv::threshold(1.0 - dframe, dframe, 0.98, 1, CV_THRESH_TOZERO_INV);
+//
+//
+//                    drawMatFull(rgb);
+//                }
 
-                //dframe.convertTo(dframe, CV_32F, 1.0f / 4000);
-                //float max = 1.0;
-                //float min = 0.0;
-                //dframe = (dframe - (min)) / (max-min);
-                
-                if (!dframe.empty()){
-                    cv::Mat r = (dframe > 1000) & (dframe < 2000);
-                    cv::Mat g = dframe > 2000 & dframe < 3000;
-                    cv::Mat b = dframe > 3000 & dframe < 4000;
-                    vector<cv::Mat> channels;
-                    cv::Mat rgb;
-                    channels.push_back(r);
-                    channels.push_back(g);
-                    channels.push_back(b);
-                    cv::merge(channels, rgb);
-                    //                dframe = 1 - dframe;
-                    //                cv::threshold(1.0 - dframe, dframe, 0.98, 1, CV_THRESH_TOZERO_INV);
-                    
-                    
-                    drawMatFull(rgb);
-                }
-      
             }
 
             default:
@@ -485,7 +485,7 @@ void ofApp::exit()
 {
     rgb_here.reset();
     rgb_there.reset();
-    depth.reset();
+    //depth.reset();
     skeletonfeed.reset();
 }
 

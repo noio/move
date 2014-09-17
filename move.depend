@@ -2615,10 +2615,11 @@
 	"ofLog.h"
 	"ofURLFileLoader.h"
 
-1410438098 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\lights.cpp
+1410904939 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\lights.cpp
 	"lights.h"
 
-1410438098 c:\users\tom\projects\openframeworks\apps\myapps\move\src\lights.h
+1410904939 c:\users\tom\projects\openframeworks\apps\myapps\move\src\lights.h
+	"rift.h"
 	"skeletonfeed.h"
 	"ofMain.h"
 
@@ -2634,18 +2635,17 @@
 	"ofMain.h"
 	"ofApp.h"
 
-1410776882 c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofapp.h
+1410904940 c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofapp.h
 	"skeletonfeed.h"
-	"rift.h"
 	"lights.h"
+	"rift.h"
 	"ofxDropstuff.h"
 	"ofxCv.h"
 	"ofxJSON.h"
 	"ofMain.h"
 	<deque>
 
-1410775794 c:\users\tom\projects\openframeworks\apps\myapps\move\src\rift.h
-	"lights.h"
+1410904940 c:\users\tom\projects\openframeworks\apps\myapps\move\src\rift.h
 	"ofxDropstuff.h"
 	"ofMain.h"
 	"ofxCv.h"
@@ -2665,7 +2665,7 @@
 	"ofxCv.h"
 	<iostream>
 
-1410799046 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofapp.cpp
+1410970563 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofapp.cpp
 	"ofApp.h"
 	"ofxCv.h"
 	"ofxRemoteUIServer.h"
@@ -2673,15 +2673,16 @@
 
 1410438098 c:\users\tom\projects\openframeworks\apps\myapps\move\src\utilities.h
 
-1410777867 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofxdropstuff\src\flowcam.cpp
+1410970100 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofxdropstuff\src\flowcam.cpp
 	"flowcam.h"
 
 1410776141 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofxdropstuff\src\videofeed.cpp
 	"videofeed.h"
 	"utilities.h"
 
-1410793891 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\rift.cpp
+1410904940 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\rift.cpp
 	"rift.h"
+	"lights.h"
 	"utilities.h"
 
 1410170617 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\skeletonfeed.cpp
@@ -2771,7 +2772,7 @@
 	"Poco/Net/Net.h"
 	"Poco/Net/SocketDefs.h"
 
-1410438098 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofxdropstuff\src\fileloader.cpp
+1410904940 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\ofxdropstuff\src\fileloader.cpp
 	"fileloader.h"
 	"Poco/Net/HTTPSession.h"
 	"Poco/Net/HTTPClientSession.h"
