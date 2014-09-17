@@ -90,8 +90,8 @@ void FlowCam::update(Mat frame)
     //
     // Compute the high speed mask
     flow_high = magnitude > flow_threshold_high;
-    dilate(flow_low, flow_low, kernel);
-    erode(flow_low, flow_low, kernel);
+    dilate(flow_high, flow_high, kernel);
+    erode(flow_high, flow_high, kernel);
     // Update history
     if (flow_high_hist.size() != flow_high.size())
     {
