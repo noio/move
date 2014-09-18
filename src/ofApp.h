@@ -73,6 +73,7 @@ public:
     Mat flow_hist_threshold, flow_here_hist, flow_there_hist;
 
     ContourFinder contourfinder;
+    
 
     vector<Rift> rifts;
     Lights lights;
@@ -91,6 +92,10 @@ public:
     int rgb_there_flip = 2;
     std::string source_custom_url = "http://192.168.1.14/color";
     bool use_skeletons = false;
+    bool overlay_fade = false;
+    ofColor overlay_color = ofColor(0,0,0);
+    float overlay_alpha = 0.0;
+    float overlay_fade_time = 20.0;
 
     bool remoteui_draw_notif = false;
     bool draw_debug = true;

@@ -140,8 +140,12 @@ void ofApp::setupUI()
     RUI_SHARE_PARAM(rgb_there_flip, -1, 2);
     RUI_SHARE_PARAM(rgb_here_fps, 1, 30);
     RUI_SHARE_PARAM(rgb_there_fps, 1, 30);
-    RUI_NEW_GROUP("Triggers");
+    RUI_NEW_GROUP("Global");
     RUI_SHARE_PARAM(trigger_remove_all);
+    RUI_SHARE_COLOR_PARAM(overlay_color);
+    RUI_SHARE_PARAM(overlay_fade);
+//    RUI_SHARE_PARAM(overlay_alpha, 0, 1);
+    RUI_SHARE_PARAM(overlay_fade_time, 0.1, 30);
     RUI_NEW_GROUP("Debug");
     RUI_SHARE_PARAM(remoteui_draw_notif);
     RUI_SHARE_PARAM(draw_debug);
@@ -287,6 +291,11 @@ void ofApp::update()
         createRifts();
         create_rifts_timer = 0;
     }
+    if (overlay_fade && overlay_alpha < 1) {
+        overlay_alpha = ofClamp(overlay_alpha + delta_t / overlay_fade_time, 0, 1);
+    } else if (overlay_alpha > 0){
+        overlay_alpha = ofClamp(overlay_alpha - delta_t / overlay_fade_time, 0, 1);
+    }
     vector<Skeleton> skeletons = skeletonfeed->getSkeletons();
     lights.update(delta_t, skeletons);
 }
@@ -371,6 +380,7 @@ void ofApp::draw()
     }
     else
     {
+        ofSetColor(255, 255 ,255);
         rgb_there->draw(0, 0, ofGetWidth(), ofGetHeight());
     }
     if (!flow_here_hist.empty())
@@ -405,6 +415,13 @@ void ofApp::draw()
         rifts[i].drawInnerLight();
     }
     //
+    if (overlay_alpha > 0) {
+        ofEnableAlphaBlending();
+        ofSetColor(overlay_color, overlay_alpha * 255);
+        ofRect(0, 0, ofGetWidth(), ofGetHeight());
+        ofDisableAlphaBlending();
+    }
+    
     if (draw_debug)
     {
         ofSetColor(255, 255);
@@ -499,6 +516,31 @@ void ofApp::keyPressed(int key)
     {
         case 'd':
             draw_debug = !draw_debug;
+            break;
+        case '1':
+            ofxRemoteUIServer::instance()->loadFromXML("ofxRemoteUIPresets/p1.xml");
+            ofLogNotice("ofApp") << "Load preset 1";
+            RUI_PUSH_TO_CLIENT();
+            break;
+        case '2':
+            ofxRemoteUIServer::instance()->loadFromXML("ofxRemoteUIPresets/p2.xml");
+            ofLogNotice("ofApp") << "Load preset 2";
+            RUI_PUSH_TO_CLIENT();
+            break;
+        case '3':
+            ofxRemoteUIServer::instance()->loadFromXML("ofxRemoteUIPresets/p3.xml");
+            ofLogNotice("ofApp") << "Load preset 3";
+            RUI_PUSH_TO_CLIENT();
+            break;
+        case '4':
+            ofxRemoteUIServer::instance()->loadFromXML("ofxRemoteUIPresets/p4.xml");
+            ofLogNotice("ofApp") << "Load preset 4";
+            RUI_PUSH_TO_CLIENT();
+            break;
+        case '5':
+            ofxRemoteUIServer::instance()->loadFromXML("ofxRemoteUIPresets/p5.xml");
+            ofLogNotice("ofApp") << "Load preset 5";
+            RUI_PUSH_TO_CLIENT();
             break;
         default:
             break;
