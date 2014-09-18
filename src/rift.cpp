@@ -13,6 +13,7 @@ float Rift::fade_out_time = 10.0f;
 float Rift::resample_time = 20.0f;
 float Rift::max_point_dist = 40;
 float Rift::max_size_padding = 0.05;
+bool Rift::allow_grow = true;
 float Rift::grow_speed = 0.4f;
 float Rift::grow_min_flow_squared = 1600;
 bool Rift::grow_directional = false;
@@ -175,8 +176,9 @@ void Rift::updateSize(const FlowCam& flowcam_a, const FlowCam& flowcam_b)
         if (flowcam_b.hasData()) {
             flow_b = flowcam_b.getFlowAtUnitPos(p);
         }
-        if ((flow_a.lengthSquared() > grow_min_flow_squared && (!grow_directional || flow_a.dot(normal) > 0)) ||
-            (flow_b.lengthSquared() > grow_min_flow_squared && (!grow_directional || flow_b.dot(normal) > 0)))
+        if (allow_grow && (
+            (flow_a.lengthSquared() > grow_min_flow_squared && (!grow_directional || flow_a.dot(normal) > 0)) ||
+            (flow_b.lengthSquared() > grow_min_flow_squared && (!grow_directional || flow_b.dot(normal) > 0))))
         {
             float gs = grow_speed;
             ofLogVerbose("Rift") << "grow " << i << " by " << gs;

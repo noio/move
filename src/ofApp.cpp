@@ -100,7 +100,7 @@ void ofApp::setup()
 
 void ofApp::loadConfig()
 {
-    const string configpath = ofBufferFromFile("configpath").getText();
+    configpath = ofBufferFromFile("configpath").getText();
     if (!config.open(configpath))
     {
         ofLogError("ofApp") << "Failed to open config file";
@@ -169,6 +169,7 @@ void ofApp::setupUI()
     RUI_SHARE_PARAM(Rift::open_time, 1, 10);
     RUI_SHARE_PARAM(Rift::resample_time, 2, 60.0);
     RUI_SHARE_PARAM(Rift::max_point_dist, 10, 100);
+    RUI_SHARE_PARAM(Rift::allow_grow);
     RUI_SHARE_PARAM(Rift::grow_speed, 0, 4);
     RUI_SHARE_PARAM(Rift::grow_min_flow_squared, 0, 10);
     RUI_SHARE_PARAM(Rift::max_size_padding, 0, 0.3);
@@ -464,6 +465,8 @@ void ofApp::draw()
         ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate(), 0) + "fps (r11)", nextline);
         nextline += ofPoint(0, 20);
         ofDrawBitmapStringHighlight("[d]ebug view", nextline);
+        nextline += ofPoint(0, 20);
+        ofDrawBitmapStringHighlight("config: " + configpath, nextline);
         nextline += ofPoint(0, 20);
         ofDrawBitmapStringHighlight("here: " + rgb_here_source_string, nextline);
         nextline += ofPoint(0, 20);

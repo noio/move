@@ -61,6 +61,7 @@ public:
     void updateFlowHist();
     void createRifts();
 
+    std::string configpath;
     ofxJSONElement config;
 
     ofPtr<ofxDS::SkeletonFeed> skeletonfeed;
@@ -95,7 +96,7 @@ public:
     bool draw_debug = true;
     bool disable_local_rgb = false;
     DebugOverlay debug_overlay = DEBUGOVERLAY_NONE;
-    
+
     bool trigger_remove_all = false;
 
     float create_rifts_time = 2.0f;
