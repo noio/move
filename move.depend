@@ -2645,7 +2645,7 @@
 	"ofMain.h"
 	<deque>
 
-1411033704 c:\users\tom\projects\openframeworks\apps\myapps\move\src\rift.h
+1411223082 c:\users\tom\projects\openframeworks\apps\myapps\move\src\rift.h
 	"ofxDropstuff.h"
 	"ofMain.h"
 	"ofxCv.h"
@@ -2680,7 +2680,7 @@
 	"videofeed.h"
 	"utilities.h"
 
-1411033994 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\rift.cpp
+1411223148 source:c:\users\tom\projects\openframeworks\apps\myapps\move\src\rift.cpp
 	"rift.h"
 	"lights.h"
 	"utilities.h"

@@ -44,6 +44,7 @@ public:
     static float fade_in_time;
     static float fade_out_time;
     static float open_time;
+    static float max_age;
     static float resample_time;
     static float max_point_dist;
     static float grow_min_flow_squared;

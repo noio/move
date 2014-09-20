@@ -171,6 +171,7 @@ void ofApp::setupUI()
     RUI_SHARE_PARAM(Rift::fade_out_time, 5.0, 50);
     RUI_SHARE_PARAM(Rift::fade_in_time, 0.1, 5.0);
     RUI_SHARE_PARAM(Rift::open_time, 1, 10);
+    RUI_SHARE_PARAM(Rift::max_age, 5, 180);
     RUI_SHARE_PARAM(Rift::resample_time, 2, 60.0);
     RUI_SHARE_PARAM(Rift::max_point_dist, 10, 100);
     RUI_SHARE_PARAM(Rift::allow_grow);
@@ -421,7 +422,7 @@ void ofApp::draw()
         ofRect(0, 0, ofGetWidth(), ofGetHeight());
         ofDisableAlphaBlending();
     }
-    
+
     if (draw_debug)
     {
         ofSetColor(255, 255);

@@ -8,6 +8,7 @@ using namespace ofxDS;
 float Rift::inner_light_strength = 1000;
 float Rift::fade_max_area = 300;
 float Rift::open_time = 1.0f;
+float Rift::max_age = 60.0f;
 float Rift::fade_in_time = 1.0f;
 float Rift::fade_out_time = 10.0f;
 float Rift::resample_time = 20.0f;
@@ -176,9 +177,10 @@ void Rift::updateSize(const FlowCam& flowcam_a, const FlowCam& flowcam_b)
         if (flowcam_b.hasData()) {
             flow_b = flowcam_b.getFlowAtUnitPos(p);
         }
-        if (allow_grow && (
-            (flow_a.lengthSquared() > grow_min_flow_squared && (!grow_directional || flow_a.dot(normal) > 0)) ||
-            (flow_b.lengthSquared() > grow_min_flow_squared && (!grow_directional || flow_b.dot(normal) > 0))))
+        if (allow_grow &&
+            age < max_age &&
+            ((flow_a.lengthSquared() > grow_min_flow_squared && (!grow_directional || flow_a.dot(normal) > 0)) ||
+             (flow_b.lengthSquared() > grow_min_flow_squared && (!grow_directional || flow_b.dot(normal) > 0))))
         {
             float gs = grow_speed;
             ofLogVerbose("Rift") << "grow " << i << " by " << gs;
